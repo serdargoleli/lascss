@@ -1,0 +1,14 @@
+@use "../variables" as var;
+@use "sass:meta";
+
+@each $key, $value in var.$z-index {
+  .z-#{$key} {
+    z-index: $value;
+  }
+
+  @if meta.type-of($value) == "number" and $value != 0 {
+    .-z-#{$key} {
+      z-index: -$value;
+    }
+  }
+}

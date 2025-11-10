@@ -1,0 +1,31 @@
+$positions: (
+        static: static,
+        relative: relative,
+        absolute: absolute,
+        fixed: fixed,
+        sticky: sticky
+);
+
+$position-combos: (
+  // Fixed
+        "fixed-top": (position: fixed, top: 0),
+        "fixed-bottom": (position: fixed, bottom: 0),
+        "fixed-left": (position: fixed, left: 0),
+        "fixed-right": (position: fixed, right: 0),
+        "fixed-top-left": (position: fixed, top: 0, left: 0),
+        "fixed-top-right": (position: fixed, top: 0, right: 0),
+        "fixed-bottom-left": (position: fixed, bottom: 0, left: 0),
+        "fixed-bottom-right": (position: fixed, bottom: 0, right: 0),
+  // Sticky
+        "sticky-top": (position: sticky, top: 0),
+        "sticky-bottom": (position: sticky, bottom: 0),
+  // Absolute
+        "absolute-top": (position: absolute, top: 0),
+        "absolute-bottom": (position: absolute, bottom: 0),
+        "absolute-left": (position: absolute, left: 0),
+        "absolute-right": (position: absolute, right: 0),
+        "absolute-top-left": (position: absolute, top: 0, left: 0),
+        "absolute-top-right": (position: absolute, top: 0, right: 0),
+        "absolute-bottom-left": (position: absolute, bottom: 0, left: 0),
+        "absolute-bottom-right": (position: absolute, bottom: 0, right: 0)
+)!default;;

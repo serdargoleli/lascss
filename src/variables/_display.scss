@@ -1,0 +1,18 @@
+$display-types: (
+        block: block,
+        inline: inline,
+        'inline-block': inline-block,
+        flex: flex,
+        'inline-flex': inline-flex,
+        grid: grid,
+        'inline-grid': inline-grid,
+        table: table,
+        'table-row': table-row,
+        'table-cell': table-cell,
+        hidden: none
+) !default;
+
+$visibility-types: (
+        visible: visible,
+        invisible: hidden
+) !default;

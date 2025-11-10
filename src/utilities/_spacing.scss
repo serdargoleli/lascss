@@ -1,0 +1,57 @@
+@use '../variables' as var;
+@use '../core/functions' as func;
+@use '../core/mixins' as mixins;
+
+
+@each $keyName, $value in var.$spacing {
+  $key: func.escape-dot($keyName);
+
+  // Margin
+  @include mixins.spacing-directional('m', 'margin', $value, $key);
+
+  // Padding
+  @include mixins.spacing-directional('p', 'padding', $value, $key);
+
+  // Negative margin
+  @if $value != 0 {
+    @include mixins.spacing-directional('-m', 'margin', -$value, $key);
+  }
+}
+
+.m-auto {
+  margin: auto;
+}
+
+.mt-auto {
+  margin-top: auto;
+}
+
+.mr-auto {
+  margin-right: auto;
+}
+
+.mb-auto {
+  margin-bottom: auto;
+}
+
+.ml-auto {
+  margin-left: auto;
+}
+
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.my-auto {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.ms-auto {
+  margin-inline-start: auto;
+}
+
+.me-auto {
+  margin-inline-end: auto;
+}

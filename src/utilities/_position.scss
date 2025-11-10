@@ -1,0 +1,50 @@
+@use "../variables/position" as var;
+@use "../variables/sizing" as sizing;
+@use "../core/functions" as func;
+
+@each $key, $value in var.$positions {
+  .position-#{$key} {
+    position: $value;
+  }
+}
+
+@each $combo-name, $props in var.$position-combos {
+  .#{$combo-name} {
+    @each $prop-name, $prop-value in $props {
+      #{$prop-name}: #{$prop-value};
+    }
+  }
+}
+
+@each $keyName, $value in sizing.$sizing {
+  $key: func.escape-dot($keyName);
+
+  .top-#{$key} {
+    top: $value;
+  }
+  .right-#{$key} {
+    right: $value;
+  }
+  .bottom-#{$key} {
+    bottom: $value;
+  }
+  .left-#{$key} {
+    left: $value;
+  }
+}
+
+@each $keyName, $value in sizing.$fractions {
+  $key: func.escape-fraction($keyName); // fraction escape
+  .top-#{$key} {
+    top: $value;
+  }
+  .right-#{$key} {
+    right: $value;
+  }
+  .bottom-#{$key} {
+    bottom: $value;
+  }
+  .left-#{$key} {
+    left: $value;
+  }
+}

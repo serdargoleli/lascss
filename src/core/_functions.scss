@@ -1,0 +1,37 @@
+@use "sass:color";
+@use 'sass:string';
+@use "../variables/typography" as typography;
+
+
+/// Rengi opacity ile harmanlar (örnek: rgba(#ff0000, 0.5))
+/// @param {Color} $color - Base renk
+/// @param {Number} $opacity - 0–1 arası opacity değeri
+/// @return {Color} rgba rengi döndürür
+@function color-with-opacity($color, $opacity) {
+  @return rgba(
+                  color.channel($color, "red", $space: rgb),
+                  color.channel($color, "green", $space: rgb),
+                  color.channel($color, "blue", $space: rgb),
+                  $opacity
+  );
+}
+
+@function str-replace($string, $search, $replace: "") {
+  $index: string.index($string, $search);
+  @if $index {
+    @return string.slice($string, 1, $index - 1) + $replace + str-replace(string.slice($string, $index + string.length($search)), $search, $replace);
+  }
+  @return $string;
+}
+
+@function escape-dot($str) {
+  @return str-replace($str, ".", "\\.");
+}
+
+@function escape-fraction($str) {
+  @return str-replace($str, "/", "\\/");
+}
+
+@function line-height-multiplier($size, $multiplier: 1.5) {
+  @return $size * $multiplier;
+}

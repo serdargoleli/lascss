@@ -1,0 +1,15 @@
+@use "../variables/display" as var;
+
+// DISPLAY
+@each $key, $value in var.$display-types {
+  .#{$key} {
+    display: #{$value};
+  }
+}
+
+// VISIBILITY
+@each $key, $value in var.$visibility-types {
+  .#{$key} {
+    visibility: #{$value};
+  }
+}

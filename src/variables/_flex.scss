@@ -1,0 +1,57 @@
+$flex-directions: (
+        row: row,
+        row-reverse: row-reverse,
+        column: column,
+        column-reverse: column-reverse
+) !default;
+
+$flex-wraps: (
+        nowrap: nowrap,
+        wrap: wrap,
+        wrap-reverse: wrap-reverse
+) !default;
+
+$flex-grow: (
+        0: 0,
+        1: 1
+) !default;
+
+$flex-shrink: (
+        0: 0,
+        1: 1
+) !default;
+
+$justify-content: (
+        start: flex-start,
+        end: flex-end,
+        center: center,
+        between: space-between,
+        around: space-around,
+        evenly: space-evenly
+) !default;
+
+$align-items: (
+        start: flex-start,
+        end: flex-end,
+        center: center,
+        baseline: baseline,
+        stretch: stretch
+) !default;
+
+$align-self: (
+        auto: auto,
+        start: flex-start,
+        end: flex-end,
+        center: center,
+        baseline: baseline,
+        stretch: stretch
+) !default;
+
+$align-content: (
+        start: flex-start,
+        end: flex-end,
+        center: center,
+        between: space-between,
+        around: space-around,
+        stretch: stretch
+) !default;
