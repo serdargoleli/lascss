@@ -1,8 +1,11 @@
-@forward 'colors';
-@forward 'spacing';
-@forward 'opacity';
-@forward 'border';
-@forward 'z-index';
-@forward 'typography';
-@forward 'sizing';
-@forward 'flex';
+@forward "breakpoint";
+@forward "sizing";
+@forward "variant";
+@forward "display";
+
+//
+@forward "aspect";
+@forward "flex";
+
+
+

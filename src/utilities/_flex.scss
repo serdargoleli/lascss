@@ -1,60 +1,6 @@
+@use "../mixins" as mix;
 @use "../variables" as var;
-@use "../core/functions" as func;
 
-@each $key, $value in var.$flex-directions {
-  .flex-#{$key} {
-    flex-direction: $value;
-  }
-}
-
-@each $key, $value in var.$flex-wraps {
-  .flex-#{$key} {
-    flex-wrap: $value;
-  }
-}
-
-@each $key, $value in var.$justify-content {
-  .justify-#{$key} {
-    justify-content: $value;
-  }
-}
-
-@each $key, $value in var.$align-items {
-  .items-#{$key} {
-    align-items: $value;
-  }
-}
-
-@each $key, $value in var.$align-self {
-  .self-#{$key} {
-    align-self: $value;
-  }
-}
-
-@each $key, $value in var.$align-content {
-  .content-#{$key} {
-    align-content: $value;
-  }
-}
-
-@each $key, $value in var.$flex-grow {
-  .grow-#{$key} {
-    flex-grow: $value;
-  }
-}
-
-@each $key, $value in var.$flex-shrink {
-  .shrink-#{$key} {
-    flex-shrink: $value;
-  }
-}
-
-@each $keyName, $value in var.$sizing {
-  $key: func.escape-dot($keyName);
-  .basis-#{$key} { flex-basis: $value; }
-}
-
-@each $keyName, $value in var.$fractions {
-  $key: func.escape-fraction($keyName);
-  .basis-#{$key} { flex-basis: $value; }
-}
+@include mix.generate-utility("justify-content", "justify", var.$justify-content-values);
+@include mix.generate-utility("justify-items", "justify-items", var.$justify-items-values);
+@include mix.generate-utility("justify-self", "justify-self", var.$justify-self-values);

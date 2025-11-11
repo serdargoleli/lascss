@@ -1,21 +1,39 @@
 {
-  "name": "lasui",
+  "name": "las-css",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "build:css": "sass src/main.scss dist/lasui.css",
-    "build:css:min": "sass src/main.scss dist/lasui.css && postcss dist/lasui.css -o dist/lasui.min.css"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "description": "LAS CSS – Lightweight, modern, utility-first CSS framework built with SCSS for fast, responsive, and maintainable web design.",
+  "main": "dist/styles.css",
   "type": "commonjs",
+  "scripts": {
+    "build": "sass src/main.scss dist/styles.css --style compressed",
+    "watch": "sass --watch src/main.scss dist/styles.css --style expanded",
+    "dev": "sass  src/main.scss dist/styles.css --style expanded"
+  },
+  "keywords": [
+    "css",
+    "scss",
+    "utility-first",
+    "responsive",
+    "modern-css",
+    "web-design",
+    "frontend-framework",
+    "lightweight-css",
+    "modular-css",
+    "maintainable-css",
+    "flexbox",
+    "grid",
+    "tailwind-alternative"
+  ],
+  "author": "Serdar GOLELI",
+  "license": "MIT",
   "devDependencies": {
-    "autoprefixer": "^10.4.21",
-    "cssnano": "^7.1.2",
-    "postcss": "^8.5.6",
-    "postcss-cli": "^11.0.1",
-    "sass": "^1.93.3"
+    "sass": "^1.94.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/serdargoleli/las-ui.git"
+  },
+  "bugs": {
+    "url": "https://github.com/serdargoleli/las-ui/issues"
   }
 }

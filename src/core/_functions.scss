@@ -1,22 +1,8 @@
-@use "sass:color";
-@use 'sass:string';
-@use "../variables/typography" as typography;
-
-
-/// Rengi opacity ile harmanlar (örnek: rgba(#ff0000, 0.5))
-/// @param {Color} $color - Base renk
-/// @param {Number} $opacity - 0–1 arası opacity değeri
-/// @return {Color} rgba rengi döndürür
-@function color-with-opacity($color, $opacity) {
-  @return rgba(
-                  color.channel($color, "red", $space: rgb),
-                  color.channel($color, "green", $space: rgb),
-                  color.channel($color, "blue", $space: rgb),
-                  $opacity
-  );
-}
+@use "sass:string";
+@use "sass:meta";
 
 @function str-replace($string, $search, $replace: "") {
+  $string: convert-string($string);
   $index: string.index($string, $search);
   @if $index {
     @return string.slice($string, 1, $index - 1) + $replace + str-replace(string.slice($string, $index + string.length($search)), $search, $replace);
@@ -24,14 +10,33 @@
   @return $string;
 }
 
-@function escape-dot($str) {
+
+// 1.5 gibi durumları escape eder m-1\.4 gibi
+@function escape-dots($str) {
   @return str-replace($str, ".", "\\.");
 }
 
-@function escape-fraction($str) {
-  @return str-replace($str, "/", "\\/");
+//convert eder
+@function convert-string($value) {
+  @if meta.type-of($value)=='number' {
+    @return #{$value};
+  } @else if meta.type-of($value)=='string' {
+    @return $value;
+  } @else {
+    @error 'Input #{$value} is no number or string';
+  }
 }
 
-@function line-height-multiplier($size, $multiplier: 1.5) {
-  @return $size * $multiplier;
+// sayı ile başlayan 3xl 2xl gibi class isimlerini escape eder
+@function escape-start-number($str) {
+  $str: escape-dots($str);
+  $first: string.slice($str, 1, 1);
+  $rest: string.slice($str, 2);
+
+  // Eğer ilk karakter sayıysa, CSS escape (\3 + karakter)
+  @if string.index("0123456789", $first) {
+    @return "\\3#{$first} #{$rest}";
+  }
+
+  @return $str;
 }

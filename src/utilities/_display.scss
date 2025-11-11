@@ -1,15 +1,4 @@
-@use "../variables/display" as var;
+@use "../variables" as var;
+@use "../mixins" as mix;
 
-// DISPLAY
-@each $key, $value in var.$display-types {
-  .#{$key} {
-    display: #{$value};
-  }
-}
-
-// VISIBILITY
-@each $key, $value in var.$visibility-types {
-  .#{$key} {
-    visibility: #{$value};
-  }
-}
+@include mix.generate-utility(display, null, var.$display-values);
