@@ -8,7 +8,6 @@ $justify-content-values: (
         "around": space-around,
         "evenly": space-evenly,
         "stretch": stretch,
-        "baseline": baseline,
         "normal": normal
 );
 
@@ -30,3 +29,109 @@ $justify-self-values: (
         "center-safe": safe center,
         "end-safe": safe end
 );
+
+$align-content-values: (
+        "normal": normal,
+        "center": center,
+        "start": flex-start,
+        "end": flex-end,
+        "between": space-between,
+        "around": space-around,
+        "evenly": space-evenly,
+        "baseline": baseline,
+        "stretch": stretch
+);
+
+$align-items-values: (
+        "start": flex-start,
+        "end": flex-end,
+        "end-safe": safe flex-end,
+        "center": center,
+        "center-safe": safe center,
+        "baseline": baseline,
+        "baseline-last": last baseline,
+        "stretch": stretch
+);
+
+$align-self-values: (
+        "auto": auto,
+        "start": flex-start,
+        "end": flex-end,
+        "end-safe": safe flex-end,
+        "center": center,
+        "center-safe": safe center,
+        "stretch": stretch,
+        "baseline": baseline,
+        "baseline-last": last baseline
+);
+
+$place-content-values: (
+        "center": center,
+        "center-safe": safe center,
+        "start": start,
+        "end": end,
+        "end-safe": safe end,
+        "between": space-between,
+        "around": space-around,
+        "evenly": space-evenly,
+        "baseline": baseline,
+        "stretch": stretch
+);
+$place-items-values: (
+        "start": start,
+        "end": end,
+        "end-safe": safe end,
+        "center": center,
+        "center-safe": safe center,
+        "baseline": baseline,
+        "stretch": stretch
+);
+$place-self-values: (
+        "auto": auto,
+        "start": start,
+        "end": end,
+        "end-safe": safe end,
+        "center": center,
+        "center-safe": safe center,
+        "stretch": stretch
+);
+
+$flex-direction-values: (
+        "row": row,
+        "row-reverse": row-reverse,
+        "col": column,
+        "col-reverse": column-reverse
+);
+
+$flex-wrap-values: (
+        "nowrap": nowrap,
+        "wrap": wrap,
+        "wrap-reverse": wrap-reverse
+);
+
+$flex-values: (
+        "auto": auto,
+        "initial": 0 auto,
+        "none": none
+);
+
+$flex-values-sizing: (
+        "": 1,
+        0: 0
+) !default;
+
+$order-values: (
+        "first": -9999,
+        "last": 9999,
+        "none": 0,
+        0: 0,
+        1: 1,
+        2: 2,
+        3: 3,
+        4: 4,
+        5: 5,
+        6: 6,
+        7: 7,
+        8: 8,
+        9: 9
+) !default;

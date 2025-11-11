@@ -1,5 +1,8 @@
 @use "sass:string";
 @use "sass:meta";
+@use "sass:map";
+@use "sass:math";
+
 
 @function str-replace($string, $search, $replace: "") {
   $string: convert-string($string);
@@ -16,6 +19,10 @@
   @return str-replace($str, ".", "\\.");
 }
 
+@function escape-slash($str) {
+  @return str-replace($str, "/", "\\/");
+}
+
 //convert eder
 @function convert-string($value) {
   @if meta.type-of($value)=='number' {
@@ -30,6 +37,7 @@
 // sayı ile başlayan 3xl 2xl gibi class isimlerini escape eder
 @function escape-start-number($str) {
   $str: escape-dots($str);
+  $str: escape-slash($str);
   $first: string.slice($str, 1, 1);
   $rest: string.slice($str, 2);
 

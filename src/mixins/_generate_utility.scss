@@ -1,3 +1,5 @@
+@use "sass:meta";
+@use "sass:string";
 @use "../variables" as var;
 @use "../mixins/responsive" as *;
 @use "../core/functions" as func;
@@ -23,7 +25,19 @@
 
 @mixin _generate-utility-classes-for-scope($property, $class-prefix, $values, $responsive-prefix: null) {
   @each $key, $value in $values {
-    $cls-name: if($class-prefix == null, $key, "#{$class-prefix}-#{$key}");
+    $cls-name: "";
+    $key-str: if(meta.type-of($key) == 'number', "#{$key}", $key);
+
+    @if $key == "" {
+      $cls-name: if($class-prefix == null, "", $class-prefix) ;
+    } @else if string.slice($key-str, 1, 1) == "-"  and $class-prefix != null {
+      $cls-name: "-#{$class-prefix}-#{string.slice($key-str, 2)}";
+    } @else if string.slice($key-str, 1, 1) == "-" {
+      $cls-name: $key;
+    } @else {
+      $cls-name: if($class-prefix == null, $key, "#{$class-prefix}-#{$key}");
+    }
+
     $cls: func.escape-start-number($cls-name);
     @include _generate-variants($cls, $property, $value, $responsive-prefix);
   }
@@ -37,6 +51,16 @@
       $escaped-bp: func.escape-start-number($bp);
 
       @include _generate-utility-classes-for-scope($property, $class-prefix, $values, $escaped-bp);
+    }
+  }
+}
+
+@mixin generate-negative-utilities($property, $class-prefix, $values) {
+  @each $key, $value in $values {
+    @if meta.type-of($value) == "number" and $value > 0 {
+      $neg-key: "-#{$key}";
+      $neg-value: $value * -1;
+      @include generate-utility($property, $class-prefix, ($neg-key: $neg-value));
     }
   }
 }

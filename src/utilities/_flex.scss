@@ -1,6 +1,27 @@
 @use "../mixins" as mix;
+@use "../core/functions" as func;
 @use "../variables" as var;
 
 @include mix.generate-utility("justify-content", "justify", var.$justify-content-values);
 @include mix.generate-utility("justify-items", "justify-items", var.$justify-items-values);
 @include mix.generate-utility("justify-self", "justify-self", var.$justify-self-values);
+
+@include mix.generate-utility("align-content", "content", var.$align-content-values);
+@include mix.generate-utility("align-items", "items", var.$align-items-values);
+@include mix.generate-utility("align-self", "self", var.$align-self-values);
+
+@include mix.generate-utility("place-content", "place-content", var.$place-content-values);
+@include mix.generate-utility("place-items", "place-items", var.$place-items-values);
+@include mix.generate-utility("place-self", "place-self", var.$place-self-values);
+
+@include mix.generate-utility("flex-direction", "flex", var.$flex-direction-values);
+@include mix.generate-utility("flex-wrap", "flex-wrap", var.$flex-wrap-values);
+
+@include mix.generate-utility("flex", "flex", var.$flex-values);
+@include mix.generate-utility("flex", "flex", var.$sizing);
+@include mix.generate-utility("flex", "flex", var.$fractions);
+
+@include mix.generate-utility("flex-grow", "grow", var.$flex-values-sizing);
+@include mix.generate-utility("flex-shrink", "shrink", var.$flex-values-sizing);
+@include mix.generate-utility("order", "order", var.$order-values);
+@include mix.generate-negative-utilities("order", "order", var.$order-values);
