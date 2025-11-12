@@ -44,13 +44,13 @@
     @include _generate-rules($property-or-list, $value);
   }
 
-  // Variant'lar (hover, focus vs.)
-  @each $variant, $selector in var.$variants {
-    $variant-cls: if($responsive-prefix != null, "#{$responsive-prefix}\\:#{$variant}\\:#{$cls}", "#{$variant}\\:#{$cls}");
-    .#{$variant-cls}#{$selector} {
-      @include _generate-rules($property-or-list, $value);
-    }
-  }
+  // Variant'lar (hover, focus vs.) daha sonra aç
+  //@each $variant, $selector in var.$variants {
+  //  $variant-cls: if($responsive-prefix != null, "#{$responsive-prefix}\\:#{$variant}\\:#{$cls}", "#{$variant}\\:#{$cls}");
+  //  .#{$variant-cls}#{$selector} {
+  //    @include _generate-rules($property-or-list, $value);
+  //  }
+  //}
 }
 
 // Ana utility generator (hem single hem multi property için)

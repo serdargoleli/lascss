@@ -1,0 +1,33 @@
+$font-families: (
+        sans: "ui-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'",
+        serif: "ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif",
+        mono: "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace"
+) !default;
+
+$font-sizes: (
+        xs: (font-size: 0.75rem, line-height: calc(1 / 0.75)),
+        sm: (font-size: 0.875rem, line-height: calc(1.25 / 0.875)),
+        base: (font-size: 1rem, line-height: calc(1.5 / 1)),
+        lg: (font-size: 1.125rem, line-height: calc(1.75 / 1.125)),
+        xl: (font-size: 1.25rem, line-height: calc(1.75 / 1.25)),
+        "2xl": (font-size: 1.5rem, line-height: calc(2 / 1.5)),
+        "3xl": (font-size: 1.875rem, line-height: calc(2.25 / 1.875)),
+        "4xl": (font-size: 2.25rem, line-height: calc(2.5 / 2.25)),
+        "5xl": (font-size: 3rem, line-height: 1),
+        "6xl": (font-size: 3.75rem, line-height: 1),
+        "7xl": (font-size: 4.5rem, line-height: 1),
+        "8xl": (font-size: 6rem, line-height: 1),
+        "9xl": (font-size: 8rem, line-height: 1)
+) !default;
+
+$font-weights: (
+        thin: 100,
+        extralight: 200,
+        light: 300,
+        normal: 400,
+        medium: 500,
+        semibold: 600,
+        bold: 700,
+        extrabold: 800,
+        "black": 900
+) !default;

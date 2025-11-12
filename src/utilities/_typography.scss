@@ -1,0 +1,6 @@
+@use "../variables" as var;
+@use "../mixins" as mix;
+
+@include mix.generate-utility(font-family, font, var.$font-families);
+
+@include mix.generate-multi-utility((font-size line-height), text, var.$font-sizes);
