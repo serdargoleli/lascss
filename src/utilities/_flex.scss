@@ -10,10 +10,6 @@
 @include mix.generate-utility("align-items", "items", var.$align-items-values);
 @include mix.generate-utility("align-self", "self", var.$align-self-values);
 
-@include mix.generate-utility("place-content", "place-content", var.$place-content-values);
-@include mix.generate-utility("place-items", "place-items", var.$place-items-values);
-@include mix.generate-utility("place-self", "place-self", var.$place-self-values);
-
 @include mix.generate-utility("flex-direction", "flex", var.$flex-direction-values);
 @include mix.generate-utility("flex-wrap", "flex-wrap", var.$flex-wrap-values);
 

@@ -77,31 +77,6 @@ $place-content-values: (
         "baseline": baseline,
         "stretch": stretch
 );
-$place-items-values: (
-        "start": start,
-        "end": end,
-        "end-safe": safe end,
-        "center": center,
-        "center-safe": safe center,
-        "baseline": baseline,
-        "stretch": stretch
-);
-$place-self-values: (
-        "auto": auto,
-        "start": start,
-        "end": end,
-        "end-safe": safe end,
-        "center": center,
-        "center-safe": safe center,
-        "stretch": stretch
-);
-
-$flex-direction-values: (
-        "row": row,
-        "row-reverse": row-reverse,
-        "col": column,
-        "col-reverse": column-reverse
-);
 
 $flex-wrap-values: (
         "nowrap": nowrap,

@@ -1,11 +1,19 @@
+//base
 @forward "breakpoint";
 @forward "sizing";
 @forward "variant";
+
 @forward "display";
 
-//
-@forward "aspect";
+//layout
 @forward "flex";
+@forward "grid";
+
+//spacing
+@forward "spacing";
+
+//other
+@forward "aspect";
 
 
 

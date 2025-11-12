@@ -48,3 +48,28 @@
 
   @return $str;
 }
+
+
+@function generate-grid-span($numbers) {
+  $span: (
+          full: math.div(1, -1)
+  );
+  @each $key, $value in $numbers {
+    @if $key != auto {
+      $span: map.merge($span, ($key: span #{$value} / span #{$value}));
+    }
+  }
+  @return $span;
+}
+
+@function merge-maps($maps...) {
+  $result: ();
+
+  @each $map in $maps {
+    @if meta.type-of($map) == "map" {
+      $result: map.merge($result, $map);
+    }
+  }
+
+  @return $result;
+}

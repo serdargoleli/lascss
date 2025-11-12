@@ -1,0 +1,37 @@
+$padding-directions: (
+        "": padding,
+        "x": padding-inline,
+        "y": padding-block,
+        "t": padding-top,
+        "r": padding-right,
+        "b": padding-bottom,
+        "l": padding-left,
+        "s": padding-inline-start,
+        "e": padding-inline-end
+) !default;
+
+
+$margin-directions: (
+        "": margin,
+        "x": margin-inline,
+        "y": margin-block,
+        "t": margin-top,
+        "r": margin-right,
+        "b": margin-bottom,
+        "l": margin-left,
+        "s": margin-inline-start,
+        "e": margin-inline-end
+) !default;
+
+$gap-directions: (
+        "": gap,
+        "x": column-gap,
+        "y": row-gap
+) !default;
+
+$inset-directions: (
+        "t": top,
+        "r": right,
+        "b": bottom,
+        "l": left
+) !default;

@@ -4,67 +4,95 @@
 @use "../mixins/responsive" as *;
 @use "../core/functions" as func;
 
-@mixin _generate-single-rule($property, $value) {
-  #{$property}: $value;
+// CSS kurallarını oluşturur (tek veya çoklu property)
+@mixin _generate-rules($property-or-list, $value) {
+  @if meta.type-of($property-or-list) == 'list' {
+    // Çoklu property (width, height) -> her biri için kural oluştur
+    @each $property in $property-or-list {
+      #{$property}: $value;
+    }
+  } @else {
+    // Tek property -> direkt kural oluştur
+    #{$property-or-list}: $value;
+  }
 }
 
-@mixin _generate-variants($cls, $property, $value, $responsive-prefix: null) {
-  $base-cls-name: if($responsive-prefix != null, "#{$responsive-prefix}\\:#{$cls}", $cls);
+// Class adını oluşturur
+@function _build-class-name($key, $class-prefix) {
+  $key-str: if(meta.type-of($key) == 'number', "#{$key}", $key);
 
-  .#{$base-cls-name} {
-    @include _generate-single-rule($property, $value);
+  // Boş key -> sadece prefix
+  @if $key == "" {
+    @return if($class-prefix == null, "", $class-prefix);
+  }
+    // Negatif değer (örn: "-1") -> -order-1
+  @else if string.slice($key-str, 1, 1) == "-" and $class-prefix != null {
+    @return "-#{$class-prefix}-#{string.slice($key-str, 2)}";
+  }
+    // Normal durum -> order-1, m-4 vs.
+  @else {
+    @return if($class-prefix == null, $key, "#{$class-prefix}-#{$key}");
+  }
+}
+
+// Variant ve responsive class'ları oluşturur
+@mixin _generate-classes($cls, $property-or-list, $value, $responsive-prefix: null) {
+  $base-cls: if($responsive-prefix != null, "#{$responsive-prefix}\\:#{$cls}", $cls);
+
+  // Base class
+  .#{$base-cls} {
+    @include _generate-rules($property-or-list, $value);
   }
 
+  // Variant'lar (hover, focus vs.)
   @each $variant, $selector in var.$variants {
-    $variant-cls-name: if($responsive-prefix != null, "#{$responsive-prefix}\\:#{$variant}\\:#{$cls}", "#{$variant}\\:#{$cls}");
-    .#{$variant-cls-name}#{$selector} {
-      @include _generate-single-rule($property, $value);
+    $variant-cls: if($responsive-prefix != null, "#{$responsive-prefix}\\:#{$variant}\\:#{$cls}", "#{$variant}\\:#{$cls}");
+    .#{$variant-cls}#{$selector} {
+      @include _generate-rules($property-or-list, $value);
     }
   }
 }
 
-// classbane oluşturucu fonksyion DRY'a uygun olması için
-@mixin _generate-utility-classes-for-scope($property, $class-prefix, $values, $responsive-prefix: null) {
+// Ana utility generator (hem single hem multi property için)
+@mixin _generate-utility-scope($property-or-list, $class-prefix, $values, $responsive-prefix: null) {
   @each $key, $value in $values {
-    $cls-name: "";
-    $key-str: if(meta.type-of($key) == 'number', "#{$key}", $key);
-
-    // grow-1 yerine grow yazması için variableda key "" ise direkt kendi adını basar // display-flex yerine, flex yazması için
-    @if $key == "" {
-      $cls-name: if($class-prefix == null, "", $class-prefix);
-    }
-      // Eğer key - ile başlıyorsa (örnek: "-1") ve prefix varsa (order), -order-1 şeklinde class adı oluşturur.
-    @else if string.slice($key-str, 1, 1) == "-"  and $class-prefix != null {
-      $cls-name: "-#{$class-prefix}-#{string.slice($key-str, 2)}";
-    }
-      // En standart durum: shrink-1, order-2, m-4 gibi class adlarını üretir.
-    @else {
-      $cls-name: if($class-prefix == null, $key, "#{$class-prefix}-#{$key}");
-    }
-
+    $cls-name: _build-class-name($key, $class-prefix);
     $cls: func.escape-start-number($cls-name);
-    @include _generate-variants($cls, $property, $value, $responsive-prefix);
+    @include _generate-classes($cls, $property-or-list, $value, $responsive-prefix);
   }
 }
 
+// Public API: Tek property için utility oluşturur
 @mixin generate-utility($property, $class-prefix, $values) {
-  @include _generate-utility-classes-for-scope($property, $class-prefix, $values);
+  @include _generate-utility-scope($property, $class-prefix, $values);
 
   @each $bp, $size in var.$breakpoints {
     @include responsive($bp) {
       $escaped-bp: func.escape-start-number($bp);
-
-      @include _generate-utility-classes-for-scope($property, $class-prefix, $values, $escaped-bp);
+      @include _generate-utility-scope($property, $class-prefix, $values, $escaped-bp);
     }
   }
 }
 
+// Public API: Negatif değerler için utility oluşturur
 @mixin generate-negative-utilities($property, $class-prefix, $values) {
   @each $key, $value in $values {
     @if meta.type-of($value) == "number" and $value > 0 {
       $neg-key: "-#{$key}";
       $neg-value: $value * -1;
       @include generate-utility($property, $class-prefix, ($neg-key: $neg-value));
+    }
+  }
+}
+
+// Public API: Çoklu property için utility oluşturur (width + height = size)
+@mixin generate-multi-utility($properties, $class-prefix, $values) {
+  @include _generate-utility-scope($properties, $class-prefix, $values);
+
+  @each $bp, $size in var.$breakpoints {
+    @include responsive($bp) {
+      $escaped-bp: func.escape-start-number($bp);
+      @include _generate-utility-scope($properties, $class-prefix, $values, $escaped-bp);
     }
   }
 }

@@ -34,8 +34,7 @@ $sizing: (
         72: 18rem,
         80: 20rem,
         96: 24rem,
-)!default;
-
+) !default;
 
 $fractions: (
         '1/2': 50%,
@@ -65,3 +64,44 @@ $fractions: (
         '10/12': 83.333333%,
         '11/12': 91.666667%,
 ) !default;
+
+
+$size-shared-values: (
+        auto: auto,
+        full: 100%,
+        min: min-content,
+        max: max-content,
+        fit: fit-content,
+        dvw: 100dvw,
+        dvh: 100dvh,
+        lvw: 100lvw,
+        lvh: 100lvh,
+        svw: 100svw,
+        svh: 100svh,
+) !default;
+
+$width-special-values: (
+        screen: 100vw,
+) !default;
+
+$height-special-values: (
+        screen: 100vh,
+        lh: 1lh
+) !default;
+
+
+$container-sizes: (
+        "3xs": 16rem,
+        "2xs": 18rem,
+        xs: 20rem,
+        sm: 24rem,
+        md: 28rem,
+        lg: 32rem,
+        xl: 36rem,
+        "2xl": 42rem,
+        "3xl": 48rem,
+        "4xl": 56rem,
+        "5xl": 64rem,
+        "6xl": 72rem,
+        "7xl": 80rem
+);
