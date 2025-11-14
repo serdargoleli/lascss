@@ -1,0 +1,17 @@
+@use "sass:map";
+@use "../variables" as var;
+@use "../mixins" as mix;
+
+@each $key, $val in var.$border-width {
+  $outline-values: (
+          $key: (
+                  "outline-width": if($val == 0, 0, $val),
+                  "outline-style": if($val == 0, none, solid)
+          )
+  );
+
+  @include mix.generate-multi-utility(null, "outline", $outline-values);
+}
+
+
+@include mix.generate-utility(outline-offset, outline-offset, var.$border-width);
