@@ -1,0 +1,10 @@
+@use "../mixins" as mix;
+@use "../variables" as var;
+
+@include mix.generate-utility("mask-clip", "mask-clip", var.$mask-clip-scale);
+@include mix.generate-utility("mask-composite", "mask", var.$mask-composite-scale);
+@include mix.generate-utility("mask-origin", "mask-origin", var.$mask-origin-scale);
+@include mix.generate-utility("mask-position", "mask", var.$mask-position-scale);
+@include mix.generate-utility("mask-repeat", "mask-repeat", var.$mask-repeat-scale);
+@include mix.generate-utility("mask-size", "mask", var.$mask-size-scale);
+@include mix.generate-utility("mask-type", "mask-type", var.$mask-type-scale);
