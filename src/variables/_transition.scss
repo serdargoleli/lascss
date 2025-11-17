@@ -1,0 +1,57 @@
+$transition-scale: (
+        "all": (
+                "transition-property": all,
+                "transition-timing-function": cubic-bezier(0.4, 0, 0.2, 1),
+                "transition-duration": 150ms
+        ),
+        "colors": (
+                "transition-property": "color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, gradient-from, gradient-via, gradient-to",
+                "transition-timing-function": cubic-bezier(0.4, 0, 0.2, 1),
+                "transition-duration": 150ms
+        ),
+        "opacity": (
+                "transition-property": opacity,
+                "transition-timing-function": cubic-bezier(0.4, 0, 0.2, 1),
+                "transition-duration": 150ms
+        ),
+        "shadow": (
+                "transition-property": box-shadow,
+                "transition-timing-function": cubic-bezier(0.4, 0, 0.2, 1),
+                "transition-duration": 150ms
+        ),
+        "transform": (
+                "transition-property": "transform, translate, scale, rotate",
+                "transition-timing-function": cubic-bezier(0.4, 0, 0.2, 1),
+                "transition-duration": 150ms
+        ),
+        "none": (
+                "transition-property": none,
+                "transition-timing-function": cubic-bezier(0.4, 0, 0.2, 1),
+                "transition-duration": 150ms
+        )
+);
+
+$transition-behavior-scale: (
+        "normal": normal,
+        "discrete": allow-discrete
+) !default;
+
+$transition-duration-scale: (
+        "75":75ms,
+        "100":100ms,
+        "150":150ms,
+        "200": 200ms,
+        "300": 300ms,
+        "500": 500ms,
+        "700": 700ms,
+        "1000": 1000ms,
+        "initial": initial
+) !default;
+
+$transition-ease-scale: (
+        "linear": linear,
+        "in": cubic-bezier(0.4, 0, 1, 1),
+        "out": cubic-bezier(0, 0, 0.2, 1),
+        "in-out": cubic-bezier(0.4, 0, 0.2, 1),
+        "initial": initial
+) !default;
