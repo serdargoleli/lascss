@@ -1,0 +1,40 @@
+@mixin generate-color-vars($scale, $name) {
+  :root {
+    @each $level, $val in $scale {
+      --las-#{$name}-#{$level}: #{$val};
+    }
+  }
+}
+
+@mixin generate-color-utilities($scale, $name) {
+  @each $level, $val in $scale {
+    .bg-#{$name}-#{$level} {
+      background-color: var(--las-#{$name}-#{$level});
+    }
+    .text-#{$name}-#{$level} {
+      color: var(--las-#{$name}-#{$level});
+    }
+    .border-#{$name}-#{$level} {
+      border-color: var(--las-#{$name}-#{$level});
+    }
+    .outline-#{$name}-#{$level} {
+      outline-color: var(--las-#{$name}-#{$level});
+    }
+    .decoration-#{$name}-#{$level} {
+      text-decoration-color: var(--las-#{$name}-#{$level});
+    }
+    .caret-#{$name}-#{$level} {
+      caret-color: var(--las-#{$name}-#{$level});
+    }
+    .fill-#{$name}-#{$level} {
+      fill: var(--las-#{$name}-#{$level});
+    }
+    .stroke-#{$name}-#{$level} {
+      stroke: var(--las-#{$name}-#{$level});
+    }
+    .shadow-#{$name}-#{$level} {
+      --las-shadow-color: var(--las-#{$name}-#{$level});
+    }
+  }
+}
+
