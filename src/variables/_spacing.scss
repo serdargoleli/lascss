@@ -35,3 +35,27 @@ $inset-directions: (
         "bottom": bottom,
         "left": left
 ) !default;
+
+$scroll-margin-directions: (
+        "": scroll-margin,
+        "t": scroll-margin-top,
+        "r": scroll-margin-right,
+        "b": scroll-margin-bottom,
+        "l": scroll-margin-left,
+        "x": scroll-margin-inline,
+        "y": scroll-margin-block,
+        "s": scroll-margin-inline-start,
+        "e": scroll-margin-inline-end
+);
+
+$scroll-padding-directions: (
+        "": scroll-padding,
+        "t": scroll-padding-top,
+        "r": scroll-padding-right,
+        "b": scroll-padding-bottom,
+        "l": scroll-padding-left,
+        "x": scroll-padding-inline,
+        "y": scroll-padding-block,
+        "s": scroll-padding-inline-start,
+        "e": scroll-padding-inline-end
+);

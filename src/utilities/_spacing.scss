@@ -25,3 +25,21 @@
   @include mix.generate-utility($property, $class-prefix, var.$fractions);
   @include mix.generate-negative-utilities($property, $class-prefix, var.$fractions);
 }
+
+@each $dir, $property in var.$scroll-margin-directions {
+  $class-prefix: if($dir == "", "scroll-m", "scroll-m#{$dir}");
+
+  @include mix.generate-utility($property, $class-prefix, var.$sizing);
+  @include mix.generate-negative-utilities($property, $class-prefix, var.$sizing);
+  @include mix.generate-utility($property, $class-prefix, var.$fractions);
+  @include mix.generate-negative-utilities($property, $class-prefix, var.$fractions);
+}
+
+@each $dir, $property in var.$scroll-padding-directions {
+  $class-prefix: if($dir == "", "scroll-p", "scroll-p#{$dir}");
+
+  @include mix.generate-utility($property, $class-prefix, var.$sizing);
+  @include mix.generate-negative-utilities($property, $class-prefix, var.$sizing);
+  @include mix.generate-utility($property, $class-prefix, var.$fractions);
+  @include mix.generate-negative-utilities($property, $class-prefix, var.$fractions);
+}
