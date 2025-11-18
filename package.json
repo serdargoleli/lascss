@@ -1,20 +1,25 @@
 {
   "name": "las-css",
   "version": "1.0.0",
-  "description": "LAS CSS – Lightweight, modern, utility-first CSS framework built with SCSS for fast, responsive, and maintainable web design.",
+  "description": "LAS CSS – Lightweight, modern, utility-first CSS framework built with SCSS for fast, responsive, and maintainable web design. Ideal for building responsive layouts without JavaScript.",
   "main": "dist/styles.css",
+  "sass": "dist/styles.scss",
+  "files": [
+    "dist",
+    "src"
+  ],
   "type": "commonjs",
   "scripts": {
-    "build": "sass src/main.scss dist/styles.css --style compressed",
+    "build": "sass src/main.scss dist/styles.css --style compressed && cp -r src/* dist/",
     "watch": "sass --watch src/main.scss dist/styles.css --style expanded",
-    "dev": "sass  src/main.scss dist/styles.css --style compressed"
+    "dev": "sass src/main.scss dist/styles.css --style compressed"
   },
   "keywords": [
     "css",
     "scss",
     "utility-first",
     "responsive",
-    "modern-css",
+    "modern-css-framework",
     "web-design",
     "frontend-framework",
     "lightweight-css",
@@ -22,18 +27,23 @@
     "maintainable-css",
     "flexbox",
     "grid",
-    "tailwind-alternative"
+    "las-css"
   ],
   "author": "Serdar GOLELI",
   "license": "MIT",
   "devDependencies": {
     "sass": "^1.94.0"
   },
+  "homepage": "https://github.com/serdargoleli/las-ui#readme",
   "repository": {
     "type": "git",
     "url": "https://github.com/serdargoleli/las-ui.git"
   },
   "bugs": {
     "url": "https://github.com/serdargoleli/las-ui/issues"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
   }
 }

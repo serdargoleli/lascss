@@ -1,8 +1,2 @@
-@use "../src/core/reset";
-@use "utilities";
-
-
-body {
-  background: #1e1e1e;
-  color: #fff;
-}
+@use "./core/reset";
+@use "./utilities";
