@@ -1,18 +1,42 @@
 {
   "name": "las-css",
-  "version": "1.0.4",
-  "description": "LAS CSS – Lightweight, modern, utility-first CSS framework built with SCSS for fast, responsive, and maintainable web design. Ideal for building responsive layouts without JavaScript.",
-  "main": "dist/styles.css",
-  "sass": "dist/styles.scss",
+  "version": "1.0.5",
+  "description": "LAS CSS, Lightweight, modern, utility-first CSS framework built with SCSS for fast, responsive, and maintainable web design. Ideal for building responsive layouts without JavaScript.",
+  "main": "dist/style.css",
+  "style": "dist/style.css",
+  "types": "index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./dist/style.css",
+      "require": "./dist/style.css",
+      "default": "./dist/style.css"
+    },
+    "./style.min.css": "./dist/style.min.css",
+    "./src/*": "./src/*",
+    "./dist/*": "./dist/*",
+    "./package.json": "./package.json"
+  },
   "files": [
     "dist",
-    "src"
+    "src",
+    "index.d.ts",
+    "README.md",
+    "LICENSE"
   ],
   "type": "commonjs",
+  "sideEffects": [
+    "**/*.css",
+    "**/*.scss"
+  ],
   "scripts": {
-    "build": "rm -rf dist && mkdir dist && sass src/main.scss dist/styles.css --style compressed && cp -r src/* dist/ && cp README.md dist/",
-    "watch": "sass --watch src/main.scss dist/styles.css --style expanded",
-    "dev": "sass src/main.scss dist/styles.css --style compressed"
+    "build": "npm run clean && npm run build:css && npm run build:minify && npm run copy:assets",
+    "build:css": "sass src/main.scss dist/style.css --style expanded --no-source-map",
+    "build:minify": "sass src/main.scss dist/style.min.css --style compressed --no-source-map",
+    "copy:assets": "cp README.md dist/ && cp LICENSE dist/",
+    "clean": "rm -rf dist && mkdir -p dist",
+    "watch": "sass --watch src/main.scss dist/style.css --style expanded",
+    "dev": "npm run watch"
   },
   "keywords": [
     "css",

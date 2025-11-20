@@ -8,52 +8,70 @@ Kendi tasarım sistemini oluşturmak isteyenler için minimal, hızlı ve özell
 
 ## 🚀 Özellikler
 
-- ⚡ Hafif ve hızlı: Sadece ihtiyaç duyulan utility sınıfları üretilir.  
-- 🎨 SCSS ile tam kontrol: Tüm utility’ler map ve fonksiyonlarla yönetilir.  
-- 🧩 Modüler yapı: Border, spacing, color scale, typography vb. modüller halinde gelir.  
-- 🛠️ Extend edilebilir: Kendi utility’lerini veya scale’lerini kolayca ekleyebilirsin.  
-- 🎯 Utility-first tasarım: HTML üzerinde hızlı prototip ve final ürün geliştirme.
+- ⚡ **Hafif ve hızlı:** Sadece ihtiyaç duyulan utility sınıfları üretilir.
+- 🎨 **SCSS ile tam kontrol:** Tüm utility’ler map ve fonksiyonlarla yönetilir.
+- 🧩 **Modüler yapı:** Border, spacing, color scale, typography vb. modüller halinde gelir.
+- 🛠️ **Extend edilebilir:** Kendi utility’lerini veya scale’lerini kolayca ekleyebilirsin.
+- 🎯 **Utility-first tasarım:** HTML üzerinde hızlı prototip ve final ürün geliştirme.
 
 ---
 
 ## 📥 Kurulum
 
 ```bash
-   npm install las-css
+npm install las-css
 ```
 
 Veya pnpm için:
 
 ```bash
-   pnpm add las-css
-```
-
-CDN (jsDelivr) ile kullanmak için:
-
-```html
-
-<link href="https://cdn.jsdelivr.net/npm/las-css/dist/styles.css" rel="stylesheet">
+pnpm add las-css
 ```
 
 ---
 
 ## 🔧 Kullanım
 
-SCSS projesinde import edin:
+### 1. React / Vite / Webpack (Önerilen)
 
-```scss
-// Eğer Sass load-path kullanıyorsan:
-@use "las-css/dist/main" as las;
+Projenizin ana giriş dosyasına (örneğin `main.jsx`, `App.tsx` veya `index.js`) import edin:
+
+```javascript
+import "las-css";
 ```
 
-HTML’de utility sınıflarını kullanın:
+Veya minified versiyonu için:
+
+```javascript
+import "las-css/style.min.css";
+```
+
+### 2. CDN (Tarayıcı)
+
+Paketi indirmeden doğrudan HTML içinde kullanmak için:
 
 ```html
-<div class="p-4 bg-primary-500 text-white rounded-md">
-  Merhaba LAS CSS!
-</div>
+<!-- Style (Normal) -->
+<link href="https://cdn.jsdelivr.net/npm/las-css@latest/dist/style.css" rel="stylesheet">
+
+<!-- Style (Minified) -->
+<link href="https://cdn.jsdelivr.net/npm/las-css@latest/dist/style.min.css" rel="stylesheet">
 ```
 
+---
+
+## 💡 İpucu: IntelliSense (Otomatik Tamamlama)
+
+VS Code kullanıyorsanız, sınıfları otomatik tamamlamak için **"IntelliSense for CSS class names in HTML"** eklentisini kurmanızı öneririz.
+
+Kurulumdan sonra `.vscode/settings.json` dosyanıza şunu ekleyin:
+
+```json
+{
+  "html-css-class-completion.includeGlobPattern": "**/*.{css,html,jsx,tsx}",
+  "html-css-class-completion.enableEmmetSupport": true
+}
+```
 
 ---
 
@@ -75,10 +93,8 @@ HTML’de utility sınıflarını kullanın:
 ```
 
 ### Color scale (500 → base value)
-```scss
-.my-text {
-  color: var(--color-primary-500);
-}
+```html
+<div class="text-primary-500 bg-gray-100">...</div>
 ```
 
 ---
@@ -92,7 +108,7 @@ npm install
 npm run build
 ```
 
-SCSS kaynakları `src/` klasöründe, çıkış dosyası `dist/las.css` altındadır.
+SCSS kaynakları `src/` klasöründe, çıkış dosyaları `dist/` altındadır.
 
 ---
 

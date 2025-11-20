@@ -4,6 +4,25 @@ Projedeki tüm önemli değişiklikler bu dosyada belgelenecektir.
 
 Format [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) standardına dayanır ve proje [Semantic Versioning](https://semver.org/spec/v2.0.0.html) kurallarını takip eder.
 
+## [1.0.5] - 2025-11-20
+
+### 🚀 Önemli Değişiklikler
+
+#### Paket Yapısı Sadeleştirildi
+- **CSS Odaklı Kullanım**: Paket artık tamamen CSS dağıtımı üzerine odaklanmıştır. Karmaşıklığı önlemek için SCSS export'ları kaldırıldı.
+- **Direkt Import**: React, Vite, Webpack projelerinde `import "las-css"` diyerek doğrudan kullanım sağlandı.
+- **Minified Import**: Sıkıştırılmış versiyon için `import "las-css/style.min.css"` desteği eklendi.
+
+#### Temizlik ve Optimizasyon
+- **Kök Dizin Temizliği**: `index.scss` ve diğer ara dosyalar kaldırılarak paket yapısı sadeleştirildi.
+- **CDN Linkleri**: jsDelivr linkleri güncellendi ve standartlaştırıldı.
+
+### 📦 Nasıl Güncellenir?
+- `npm install las-css@latest` komutu ile son sürüme geçebilirsiniz.
+- Eğer `@use "las-css"` kullanıyorsanız, lütfen `import "las-css"` (JS import) yöntemine geçin.
+
+---
+
 ## [1.0.4] - 2025-11-20
 
 ### ✨ Yeni Özellikler
