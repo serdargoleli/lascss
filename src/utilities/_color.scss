@@ -2,10 +2,12 @@
 @use "../core/functions" as func;
 @use "../mixins" as mix;
 
-
 @each $name, $value in var.$colors {
-  $scale: func.generate-color-scale($value);
-
-  @include mix.generate-color-vars($scale, $name);
+  $scale: ();
+  @if $name == "white" or $name == "black" or $name == "transparent" {
+    $scale: ("": $value);
+  } @else {
+    $scale: func.generate-color-scale($value);
+  }
   @include mix.generate-color-utilities($scale, $name);
 }

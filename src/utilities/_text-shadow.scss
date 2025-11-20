@@ -1,0 +1,4 @@
+@use "../variables" as var;
+@use "../mixins" as mix;
+
+@include mix.generate-utility(text-shadow, text-shadow, var.$text-shadows);

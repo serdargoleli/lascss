@@ -1,40 +1,90 @@
+@use "../core/functions" as func;
+@use "../variables/opacity" as *;
+
 @mixin generate-color-vars($scale, $name) {
-  :root {
-    @each $level, $val in $scale {
-      --las-#{$name}-#{$level}: #{$val};
-    }
+  @each $level, $val in $scale {
+    $var-name: if($level == "", "--las-#{$name}", "--las-#{$name}-#{$level}");
+    #{$var-name}: #{func.to-rgb($val)};
   }
 }
 
 @mixin generate-color-utilities($scale, $name) {
   @each $level, $val in $scale {
-    .bg-#{$name}-#{$level} {
-      background-color: var(--las-#{$name}-#{$level});
+    $suffix: if($level == "", "", "-#{$level}");
+    $var-name: if($level == "", "--las-#{$name}", "--las-#{$name}-#{$level}");
+
+    .bg-#{$name}#{$suffix} {
+      --las-bg-opacity: 1;
+      background-color: rgb(var(#{$var-name}) / var(--las-bg-opacity));
     }
-    .text-#{$name}-#{$level} {
-      color: var(--las-#{$name}-#{$level});
+    .text-#{$name}#{$suffix} {
+      --las-text-opacity: 1;
+      color: rgb(var(#{$var-name}) / var(--las-text-opacity));
     }
-    .border-#{$name}-#{$level} {
-      border-color: var(--las-#{$name}-#{$level});
+    .border-#{$name}#{$suffix} {
+      --las-border-opacity: 1;
+      border-color: rgb(var(#{$var-name}) / var(--las-border-opacity));
     }
-    .outline-#{$name}-#{$level} {
-      outline-color: var(--las-#{$name}-#{$level});
+    .outline-#{$name}#{$suffix} {
+      --las-outline-opacity: 1;
+      outline-color: rgb(var(#{$var-name}) / var(--las-outline-opacity));
     }
-    .decoration-#{$name}-#{$level} {
-      text-decoration-color: var(--las-#{$name}-#{$level});
+    .decoration-#{$name}#{$suffix} {
+      --las-decoration-opacity: 1;
+      text-decoration-color: rgb(var(#{$var-name}) / var(--las-decoration-opacity));
     }
-    .caret-#{$name}-#{$level} {
-      caret-color: var(--las-#{$name}-#{$level});
+    .caret-#{$name}#{$suffix} {
+      --las-caret-opacity: 1;
+      caret-color: rgb(var(#{$var-name}) / var(--las-caret-opacity));
     }
-    .fill-#{$name}-#{$level} {
-      fill: var(--las-#{$name}-#{$level});
+    .fill-#{$name}#{$suffix} {
+      --las-fill-opacity: 1;
+      fill: rgb(var(#{$var-name}) / var(--las-fill-opacity));
     }
-    .stroke-#{$name}-#{$level} {
-      stroke: var(--las-#{$name}-#{$level});
+    .stroke-#{$name}#{$suffix} {
+      --las-stroke-opacity: 1;
+      stroke: rgb(var(#{$var-name}) / var(--las-stroke-opacity));
     }
-    .shadow-#{$name}-#{$level} {
-      --las-shadow-color: var(--las-#{$name}-#{$level});
+    .shadow-#{$name}#{$suffix} {
+      --las-shadow-color: rgb(var(#{$var-name}) / 1);
+    }
+    .text-shadow-#{$name}#{$suffix} {
+      --las-text-shadow-color: rgb(var(#{$var-name}) / 1);
+    }
+
+    @each $key, $value in $opacity-scale {
+      .bg-#{$name}#{$suffix}\/#{$key} {
+        @extend .bg-#{$name}#{$suffix};
+        --las-bg-opacity: #{$value};
+      }
+      .text-#{$name}#{$suffix}\/#{$key} {
+        @extend .text-#{$name}#{$suffix};
+        --las-text-opacity: #{$value};
+      }
+      .border-#{$name}#{$suffix}\/#{$key} {
+        @extend .border-#{$name}#{$suffix};
+        --las-border-opacity: #{$value};
+      }
+      .outline-#{$name}#{$suffix}\/#{$key} {
+        @extend .outline-#{$name}#{$suffix};
+        --las-outline-opacity: #{$value};
+      }
+      .decoration-#{$name}#{$suffix}\/#{$key} {
+        @extend .decoration-#{$name}#{$suffix};
+        --las-decoration-opacity: #{$value};
+      }
+      .caret-#{$name}#{$suffix}\/#{$key} {
+        @extend .caret-#{$name}#{$suffix};
+        --las-caret-opacity: #{$value};
+      }
+      .fill-#{$name}#{$suffix}\/#{$key} {
+        @extend .fill-#{$name}#{$suffix};
+        --las-fill-opacity: #{$value};
+      }
+      .stroke-#{$name}#{$suffix}\/#{$key} {
+        @extend .stroke-#{$name}#{$suffix};
+        --las-stroke-opacity: #{$value};
+      }
     }
   }
 }
-
