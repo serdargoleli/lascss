@@ -29,8 +29,11 @@
     "**/*.scss"
   ],
   "scripts": {
-    "build": "npm run clean && npm run build:minify && npm run copy:assets",
-    "build:minify": "sass src/main.scss dist/style.min.css --style compressed --no-source-map",
+    "build": "npm run clean && npm run build:base && npm run build:utility && npm run build:meta && npm run build:main && npm run copy:assets",
+    "build:base": "sass src/base.scss dist/base.min.css --style compressed --no-source-map",
+    "build:meta": "sass src/meta.scss dist/meta.min.css --style compressed --no-source-map",
+    "build:main": "sass src/main.scss dist/style.min.css --style compressed --no-source-map",
+    "build:utility": "sass src/utility.scss dist/utility.min.css --style compressed --no-source-map",
     "copy:assets": "cp README.md dist/ && cp LICENSE dist/",
     "clean": "rm -rf dist && mkdir -p dist",
     "watch": "sass --watch src/main.scss dist/style.min.css --style compressed",
@@ -54,7 +57,9 @@
   "author": "Serdar GOLELI",
   "license": "MIT",
   "devDependencies": {
-    "sass": "^1.94.0"
+    "sass": "^1.94.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.2"
   },
   "homepage": "https://github.com/serdargoleli/las-ui#readme",
   "repository": {

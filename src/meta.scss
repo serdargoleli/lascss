@@ -1,0 +1,14 @@
+@use "variables/breakpoint" as bp;
+@use "variables/variant" as variant;
+
+:root {
+  /* Breakpoints */
+  @each $name, $value in bp.$breakpoints {
+    --las-breakpoint-#{$name}: #{$value};
+  }
+
+  /* Variants */
+  @each $name, $value in variant.$variants {
+    --las-variant-#{$name}: #{$value};
+  }
+}
