@@ -37,7 +37,8 @@
     "copy:assets": "cp README.md dist/ && cp LICENSE dist/",
     "clean": "rm -rf dist && mkdir -p dist",
     "watch": "sass --watch src/main.scss dist/style.min.css --style compressed",
-    "dev": "npm run watch"
+    "dev": "npm run watch",
+    "jit": "ts-node engine/build/lasgine.ts"
   },
   "keywords": [
     "css",
@@ -57,6 +58,8 @@
   "author": "Serdar GOLELI",
   "license": "MIT",
   "devDependencies": {
+    "@types/chokidar": "^1.7.5",
+    "chokidar": "^5.0.0",
     "sass": "^1.94.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.7.2"

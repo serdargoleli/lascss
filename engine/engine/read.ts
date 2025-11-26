@@ -45,6 +45,3 @@ ${reset}`);
     return fs.readFileSync(metaPath, 'utf-8');
 
 }
-
-
-console.log(readBaseCSS())

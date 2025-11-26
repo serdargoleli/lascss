@@ -1,3 +1,4 @@
+
 /**
  * CSS String'ini analiz edip Class -> Style eşleşmesi çıkaran fonksiyon.
  * Örnek Girdi: ".text-center{text-align:center}"
