@@ -1,17 +1,12 @@
 /* LAS JIT - Auto-generated CSS */
 
-.p-2\.5 { padding:.625rem }
-.bg-red-500\/10 { background-color: rgba(239, 68, 68, 0.1); }
-.rounded-lg { border-radius:.5rem }
-@media (min-width: 40rem) {
-  .sm\:bg-red-500\/20 { background-color: rgba(239, 68, 68, 0.2); }
-}
-@media (min-width: 48rem) {
-  .md\:bg-red-500\/30 { background-color: rgba(239, 68, 68, 0.3); }
-}
-@media (min-width: 64rem) {
-  .lg\:bg-red-500\/40 { background-color: rgba(239, 68, 68, 0.4); }
-}
-@media (min-width: 80rem) {
-  .xl\:bg-red-500\/50 { background-color: rgba(239, 68, 68, 0.5); }
+.text-2xl { font-size:1.5rem;line-height:1.3333333333 }
+.text-\[\#ffffff\] { color: #ffffff }
+.pt-3\.5 { padding-top:.875rem }
+.ps-1\.5 { padding-inline-start:.375rem }
+.m-1\.5 { margin:.375rem }
+.bg-\[\#1e1e1e\] { background-color: #1e1e1e }
+.text-xl { font-size:1.25rem;line-height:1.4 }
+@media (min-width: 96rem) {
+  .\32 xl\:text-right { text-align:right }
 }

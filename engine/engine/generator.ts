@@ -1,5 +1,6 @@
 import { generateColor } from "./color";
 import { IConfigProps } from "./config";
+import { generateArbitrary } from "./arbitrary";
 
 /**
  * JIT Generator - Dinamik CSS Üretici
@@ -16,12 +17,19 @@ export function generateCss(className: string, cssMap: Map<string, string>, conf
     const baseClass = parts[parts.length - 1];
     let baseCss = cssMap.get(baseClass);
     if (!baseCss) {
-        // Eğer cssMap'te yoksa, renk utility'si mi diye kontrol et
-        const colorCss = generateColor(baseClass, config);
-        if (colorCss) {
-            baseCss = colorCss;
-        } else {
-            return null;
+        // 1. Önce arbitrary value kontrolü (bg-[#123], p-[20px])
+        const arbitraryCss = generateArbitrary(baseClass);
+        if (arbitraryCss) {
+            baseCss = arbitraryCss;
+        }
+        // 2. Sonra renk utility kontrolü
+        else {
+            const colorCss = generateColor(baseClass, config);
+            if (colorCss) {
+                baseCss = colorCss;
+            } else {
+                return null;
+            }
         }
     }
 
@@ -51,5 +59,9 @@ export function generateCss(className: string, cssMap: Map<string, string>, conf
  * Örnek: "md:text-center" -> "md\\:text-center"
  */
 function escapeClassName(className: string): string {
-    return className.replace(/[:/.]/g, '\\$&');
+    let escaped = className.replace(/[^a-zA-Z0-9_-]/g, '\\$&');
+    if (/^-?\d/.test(escaped)) {
+        escaped = `\\3${escaped[0]} ${escaped.slice(1)}`;
+    }
+    return escaped;
 }
