@@ -1,26 +1,17 @@
 /* LAS JIT - Auto-generated CSS */
 
-.border { border-width:1px;border-style:solid }
-.p-4 { padding:1rem }
+.p-2\.5 { padding:.625rem }
+.bg-red-500\/10 { background-color: rgba(239, 68, 68, 0.1); }
 .rounded-lg { border-radius:.5rem }
-.shadow-md { box-shadow:0 4px 6px -1px var(--las-shadow-color, rgba(0, 0, 0, 0.1)),0 2px 4px -2px var(--las-shadow-color, rgba(0, 0, 0, 0.1)) }
-.shadow-black { --las-shadow-color: rgb(0 0 0); }
-.bg-white { background-color: #ffffff; }
 @media (min-width: 40rem) {
-  .sm\:border-solid { border-style:solid }
+  .sm\:bg-red-500\/20 { background-color: rgba(239, 68, 68, 0.2); }
 }
 @media (min-width: 48rem) {
-  .md\:text-center { text-align:center }
-}
-@media (min-width: 48rem) {
-  .md\:border-dashed { border-style:dashed }
+  .md\:bg-red-500\/30 { background-color: rgba(239, 68, 68, 0.3); }
 }
 @media (min-width: 64rem) {
-  .lg\:text-blue-500 { color: #3b82f6; }
-}
-@media (min-width: 64rem) {
-  .lg\:border-dotted { border-style:dotted }
+  .lg\:bg-red-500\/40 { background-color: rgba(239, 68, 68, 0.4); }
 }
 @media (min-width: 80rem) {
-  .xl\:border-dashed { border-style:dashed }
+  .xl\:bg-red-500\/50 { background-color: rgba(239, 68, 68, 0.5); }
 }

@@ -12,12 +12,25 @@ export const colorPropertyMap: Record<string, string> = {
     "shadow": "--las-shadow-color", // CSS variable for shadow
     "text-shadow": "--las-text-shadow-color" // CSS variable for text-shadow
 };
-
-// Shadow properties that should use CSS variables instead of direct colors
 const SHADOW_PROPERTIES = new Set(["shadow", "text-shadow"]);
 const ALLOWED_SHADES = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950];
 
 export function generateColor(className: string, config: IConfigProps): string | null {
+    let opacity: number | null = null;
+
+    // Opacity kontrolü (bg-red-500/10)
+    if (className.includes('/')) {
+        const [name, opacityPart] = className.split('/');
+        className = name; // Class ismini güncelle (bg-red-500 olarak kalsın)
+
+        // Config'den opacity değerini al
+        if (config.opacities && config.opacities[opacityPart]) {
+            opacity = parseFloat(config.opacities[opacityPart]);
+        }
+        // Config'de yoksa ve sayıysa (örn: /33 -> 0.33)
+
+    }
+
     const parts = className.split('-');
     //en az 2 parçalı olmalı bg-red-500 veya bg-white gibi
     if (parts.length < 2) return null;
@@ -43,9 +56,27 @@ export function generateColor(className: string, config: IConfigProps): string |
 
             // shadow veya text-shadow ise burada class değil değişken tanımlanır ve rgb olarak tanımlar 
             if (SHADOW_PROPERTIES.has(prefix)) {
+                // Shadow için opacity desteği şu anlık yok veya farklı işleyebilir
+                // Ancak shadow color variable olduğu için, belki variable'ı güncelleyebiliriz?
+                // Şimdilik shadow için opacity'i es geçelim veya rgbValue'ya uygulayalım.
+                // Shadow genellikle --las-shadow-color: rgb(0 0 0) şeklinde.
+                // Opacity varsa rgba(0, 0, 0, 0.1) gibi olmalı.
+
+                if (opacity !== null) {
+                    const rgbaValue = hexToRgba(hexColor, opacity);
+                    return `${cssProperty}: ${rgbaValue};`;
+                }
+
                 const rgbValue = hexToRgbString(hexColor);
                 return `${cssProperty}: ${rgbValue};`;
             }
+
+            // Normal renkler
+            if (opacity !== null) {
+                const rgbaValue = hexToRgba(hexColor, opacity);
+                return `${cssProperty}: ${rgbaValue};`;
+            }
+
             // SHADOW_PROPERTIES dışında kalan propertyleri hex olarak üretür
             return `${cssProperty}: ${hexColor};`;
         }
@@ -92,6 +123,11 @@ export function generateColor(className: string, config: IConfigProps): string |
     // Rengi hesapla
     const finalColor = calculateColor(hexColor, shade);
 
+    if (opacity !== null) {
+        const rgbaValue = hexToRgba(finalColor, opacity);
+        return `${cssProperty}: ${rgbaValue};`;
+    }
+
     return `${cssProperty}: ${finalColor};`;
 
 }
@@ -112,6 +148,15 @@ function hexToRgbString(hex: string): string {
     if (!rgb) return hex;
 
     return `rgb(${rgb.r} ${rgb.g} ${rgb.b})`;
+}
+
+function hexToRgba(hex: string, alpha: number): string {
+    if (hex === 'transparent' || hex === 'currentColor') return hex;
+
+    const rgb = hexToRgb(hex);
+    if (!rgb) return hex;
+
+    return `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${alpha})`;
 }
 
 /**

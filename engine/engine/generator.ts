@@ -51,5 +51,5 @@ export function generateCss(className: string, cssMap: Map<string, string>, conf
  * Örnek: "md:text-center" -> "md\\:text-center"
  */
 function escapeClassName(className: string): string {
-    return className.replace(/:/g, '\\:');
+    return className.replace(/[:/.]/g, '\\$&');
 }

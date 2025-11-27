@@ -6,6 +6,7 @@ export interface IConfigProps {
     colors: Record<string, string>;
     colorPrefix: Record<string, boolean>;
     singleColors: Record<string, string>;
+    opacities: Record<string, string>;
 }
 
 export function loadConfig(): IConfigProps {
@@ -17,6 +18,7 @@ export function loadConfig(): IConfigProps {
     const colors: Record<string, string> = {};
     const colorPrefix: Record<string, boolean> = {};
     const singleColors: Record<string, string> = {};
+    const opacities: Record<string, string> = {};
 
 
     // Regex ile değişkenleri yakalar
@@ -24,7 +26,8 @@ export function loadConfig(): IConfigProps {
     // --las-variant-hover: ...
     // --las-color-red: ...
     // --las-config-color-bg: true
-    const regex = /--las-(breakpoint|variant|color|config-color|single-color)-([a-z0-9-]+):\s*([^;]+);/g;
+    // --las-opacity-50: 0.5
+    const regex = /--las-(breakpoint|variant|color|config-color|single-color|opacity)-([a-z0-9-]+):\s*([^;]+);/g;
 
     let match;
     while ((match = regex.exec(cssContent)) !== null) {
@@ -42,8 +45,10 @@ export function loadConfig(): IConfigProps {
             colorPrefix[name] = value === 'true';
         } else if (type === 'single-color') {
             singleColors[name] = value;
+        } else if (type === 'opacity') {
+            opacities[name] = value;
         }
     }
 
-    return { screens, variants, colors, colorPrefix, singleColors };
+    return { screens, variants, colors, colorPrefix, singleColors, opacities };
 }
