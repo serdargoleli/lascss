@@ -1,5 +1,5 @@
 {
-  "name": "@las/engine",
+  "name": "@las/lasgine",
   "version": "1.0.0",
   "description": "LAS Engine – JIT class generator for LAS CSS",
   "private": false,
@@ -30,5 +30,8 @@
     "ts-node-dev": "^2.0.0",
     "tsup": "^8.0.0",
     "typescript": "^5.7.2"
+  },
+  "dependencies": {
+    "chokidar": "^5.0.0"
   }
 }

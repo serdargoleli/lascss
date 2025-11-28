@@ -1,5 +1,5 @@
-import type { Plugin, ResolvedConfig } from "vite";
-import { LasEngine } from "@las/engine";
+import type { Plugin, ResolvedConfig, HmrContext } from "vite";
+import { LasEngine } from "@las/lasgine";
 import * as path from "path";
 
 interface LasViteOptions {
@@ -46,7 +46,8 @@ export default function lascss(options: LasViteOptions): Plugin {
     configureServer(server) {
       scanProject(server.config.root);
     },
-    handleHotUpdate({ file, server }: any) {
+    handleHotUpdate(ctx: HmrContext) {
+      const { file, server } = ctx;
       const hasChanges = engine.updateFile(file);
       if (hasChanges) {
         const mod = server.moduleGraph.getModuleById(resolvedVirtualModuleId);

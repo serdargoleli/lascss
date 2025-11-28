@@ -12,5 +12,7 @@
     "sourceMap": true,
     "outDir": "dist"
   },
-  "include": ["packages/**/*"]
+  "include": [
+    "packages/**/*"
+  ]
 }
