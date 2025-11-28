@@ -10,7 +10,8 @@
     "resolveJsonModule": true,
     "declaration": true,
     "sourceMap": true,
-    "outDir": "dist"
+    "outDir": "dist",
+    "types": ["node"]
   },
   "include": [
     "packages/**/*"

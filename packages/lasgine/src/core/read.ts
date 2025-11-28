@@ -1,64 +1,37 @@
-import path from "path";
 import fs from "fs";
+import path from "path";
+import { createRequire } from "module";
+
+const require = createRequire(import.meta.url);
 
 const red = "\x1b[31m";
 const reset = "\x1b[0m";
 
-export function readUtilityCSS() {
-  // Production
-  let cssPath = path.resolve(__dirname, "../utility.min.css");
-
-  if (!fs.existsSync(cssPath)) {
-    cssPath = path.resolve(__dirname, "../dist/utility.min.css");
-  }
-  if (!fs.existsSync(cssPath)) {
+function resolveLascssFile(relative: string) {
+  try {
+    const pkgPath = require.resolve("lascss/package.json");
+    const pkgDir = path.dirname(pkgPath);
+    return path.join(pkgDir, relative);
+  } catch {
     console.error(`${red}
-❌ utility.min.css dosyası bulunamadı!
-
-Aranan dosya yolu: ${cssPath}
-
-Lütfen dosyanın mevcut olduğunu ve yolu doğru yazdığınızı kontrol edin.
+❌ lascss paketi bulunamadı!
+Lütfen 'npm i lascss' çalıştırdığınızdan emin olun.
 ${reset}`);
     process.exit(1);
   }
+}
 
+export function readUtilityCSS() {
+  const cssPath = resolveLascssFile("dist/utility.min.css");
   return fs.readFileSync(cssPath, "utf-8");
 }
 
 export function readMetaCSS() {
-  let metaPath = path.resolve(__dirname, "../meta.min.css");
-  if (!fs.existsSync(metaPath)) {
-    metaPath = path.resolve(__dirname, "../dist/meta.min.css");
-  }
-  if (!fs.existsSync(metaPath)) {
-    console.error(`${red}
-❌ meta.min.css dosyası bulunamadı!
-
-Aranan dosya yolu: ${metaPath}
-
-Lütfen dosyanın mevcut olduğunu ve yolu doğru yazdığınızı kontrol edin.
-${reset}`);
-    process.exit(1);
-  }
+  const metaPath = resolveLascssFile("dist/meta.min.css");
   return fs.readFileSync(metaPath, "utf-8");
 }
 
 export function readBaseCSS() {
-  let cssPath = path.resolve(__dirname, "../base.min.css");
-
-  if (!fs.existsSync(cssPath)) {
-    cssPath = path.resolve(__dirname, "../dist/base.min.css");
-  }
-  if (!fs.existsSync(cssPath)) {
-    console.error(`${red}
-❌ base.min.css dosyası bulunamadı!
-
-Aranan dosya yolu: ${cssPath}
-
-Lütfen dosyanın mevcut olduğunu ve yolu doğru yazdığınızı kontrol edin.
-${reset}`);
-    process.exit(1);
-  }
-
+  const cssPath = resolveLascssFile("dist/base.min.css");
   return fs.readFileSync(cssPath, "utf-8");
 }
