@@ -1,26 +1,19 @@
 {
-    "$schema": "https://turbo.build/schema.json",
-    "tasks": {
-        "dev": {
-            "cache": false,
-            "persistent": true,
-            "dependsOn": [
-                "^dev"
-            ]
-        },
-        "build": {
-            "dependsOn": [
-                "^build"
-            ],
-            "outputs": [
-                "dist/**",
-                "build/**"
-            ]
-        },
-        "clean": {
-            "cache": false
-        },
-        "lint": {},
-        "format": {}
-    }
+  "$schema": "https://turbo.build/schema.json",
+  "tasks": {
+    "dev": {
+      "cache": false,
+      "persistent": true,
+      "dependsOn": ["^dev"]
+    },
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**", "build/**"]
+    },
+    "clean": {
+      "cache": false
+    },
+    "lint": {},
+    "format": {}
+  }
 }
