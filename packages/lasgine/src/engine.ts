@@ -77,7 +77,6 @@ export class LasEngine {
       this.cssMap,
       this.config
     );
-    const baseCSS = this.baseCSS;
-    return baseCSS + "\n" + generated;
+    return this.baseCSS + "\n" + generated;
   }
 }

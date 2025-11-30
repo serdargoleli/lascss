@@ -11,7 +11,8 @@ interface LasViteOptions {
 export default function lascss(options: LasViteOptions): Plugin {
   const virtualModuleId = "virtual:las.css";
   const resolvedVirtualModuleId = "\0" + virtualModuleId;
-  const engine = new LasEngine();
+
+  const engine = new LasEngine(options.extensions);
   let config: ResolvedConfig;
 
   function scanProject(root: string) {
@@ -28,16 +29,33 @@ export default function lascss(options: LasViteOptions): Plugin {
       config = resolvedConfig;
     },
 
+    // Build sırasında projeyi tara ki CSS üretilsin
+    buildStart() {
+      if (config?.command === "build") {
+        scanProject(config.root);
+      }
+    },
+
     // 1. Sanal modülü tanıt
     resolveId(id) {
       if (id === virtualModuleId) {
-        return resolvedVirtualModuleId;
+        // Build'te rollup'ın link eklemesini engellemek için side-effect'i kapat
+        const moduleSideEffects = config?.command !== "build";
+        return {
+          id: resolvedVirtualModuleId,
+          moduleSideEffects
+        };
       }
     },
 
     // 2. Sanal modülün içeriğini yükle (CSS)
     load(id) {
       if (id === resolvedVirtualModuleId) {
+        // Build'te inline edeceğimiz için burada boş dönüp asset üretimini önlüyoruz
+        if (config?.command === "build") {
+          return "";
+        }
+
         return engine.getCSS();
       }
     },
@@ -46,26 +64,42 @@ export default function lascss(options: LasViteOptions): Plugin {
     configureServer(server) {
       scanProject(server.config.root);
     },
+
     handleHotUpdate(ctx: HmrContext) {
       const { file, server } = ctx;
       const hasChanges = engine.updateFile(file);
-      if (hasChanges) {
-        const mod = server.moduleGraph.getModuleById(resolvedVirtualModuleId);
-        if (mod) {
-          server.moduleGraph.invalidateModule(mod);
-          server.ws.send({
-            type: "update",
-            updates: [
-              {
-                type: "js-update",
-                path: virtualModuleId,
-                acceptedPath: virtualModuleId,
-                timestamp: Date.now()
-              }
-            ]
-          });
+      if (!hasChanges) return;
+
+      const mod = server.moduleGraph.getModuleById(resolvedVirtualModuleId);
+      if (!mod) return;
+
+      server.moduleGraph.invalidateModule(mod);
+
+      return [...ctx.modules, mod];
+    },
+
+    // Build çıktısında head içine LASCSS'i inline et (Güvenli Yöntem + Minifikasyon)
+    transformIndexHtml(html) {
+      if (config?.command !== "build") return html;
+
+      // Basit CSS Minifikasyonu: Gereksiz boşlukları ve yeni satırları sil
+      const css = engine
+        .getCSS()
+        .replace(/\s+/g, " ")
+        .replace(/\s*([{}:;,])\s*/g, "$1")
+        .trim();
+
+      const kb = (css.length / 1024).toFixed(2);
+      console.log(`\n✨ LasCSS Generated: ${kb} kB (inlined)`);
+
+      return [
+        {
+          tag: "style",
+          attrs: { "data-lascss": "" },
+          children: css,
+          injectTo: "head"
         }
-      }
+      ];
     }
   };
 }

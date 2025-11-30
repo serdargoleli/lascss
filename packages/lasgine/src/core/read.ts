@@ -1,14 +1,14 @@
 import fs from "fs";
 import path from "path";
-import { createRequire } from "module";
-
-const require = createRequire(import.meta.url);
-
 const red = "\x1b[31m";
 const reset = "\x1b[0m";
 
 function resolveLascssFile(relative: string) {
   try {
+    // Node ortamında lascss paketinin kökünü bul
+    // require burada CJS build için doğal olarak mevcut olacak,
+    // ESM build'de ise bundler uygun şekilde dönüştürecek.
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
     const pkgPath = require.resolve("lascss/package.json");
     const pkgDir = path.dirname(pkgPath);
     return path.join(pkgDir, relative);
