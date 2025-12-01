@@ -89,6 +89,11 @@ export class LasEngine {
       this.cssMap,
       this.config
     );
-    return this.baseCSS + "\n" + generated;
+    //minify et
+    const resulCss = this.baseCSS + "\n" + generated;
+    return resulCss
+      .replace(/\s+/g, "")
+      .replace(/\s*([{}:;,])\s*/g, "$1")
+      .trim();
   }
 }

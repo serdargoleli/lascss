@@ -32,6 +32,6 @@
     "typescript": "^5.7.2"
   },
   "dependencies": {
-    "chokidar": "^5.0.0"
+    "lascss": "workspace:*"
   }
 }

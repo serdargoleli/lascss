@@ -4,10 +4,9 @@ import "./style.css";
 
 function App() {
   return (
-    <h1 className="bg-blue-900 text-red-100">
-      asds + Weasdasdsadsaasdsasadbpack + Resadsadact asds +
-      Weasdasdsadsaasdsasadbpack + Raesadsadactasds + Weasdasdsadsaasdsasadbpack
-      + Resadsada pack
+    <h1 className="bg-blue-100 text-red-100 text-center">
+      asds + Weasdaasdasdk +asdsaasdasdaasdsadsdasdd Resadsadact asds +
+      Weasdasdsadsack + Resadsada pack
     </h1>
   );
 }

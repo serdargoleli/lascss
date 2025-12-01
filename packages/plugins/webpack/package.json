@@ -1,38 +1,41 @@
 {
-    "name": "@las/webpack",
-    "version": "1.0.0",
-    "description": "LASCSS JIT Webpack plugin",
-    "type": "module",
-    "main": "dist/cjs/index.cjs",
-    "module": "dist/esm/index.js",
-    "types": "dist/esm/index.d.ts",
-    "exports": {
-        ".": {
-            "types": "./dist/esm/index.d.ts",
-            "import": "./dist/esm/index.js",
-            "require": "./dist/cjs/index.cjs"
-        }
-    },
-    "files": [
-        "dist"
-    ],
-    "scripts": {
-        "clean": "rimraf dist",
-        "build": "pnpm clean && ts-node build.ts",
-        "dev": "tsc -w -p tsconfig.json"
-    },
-    "dependencies": {
-        "@las/lasgine": "workspace:*"
-    },
-    "peerDependencies": {
-        "webpack": "^5.0.0"
-    },
-    "devDependencies": {
-        "@types/node": "^20.0.0",
-        "@types/webpack": "^5.28.5",
-        "typescript": "^5.7.2",
-        "rimraf": "^6.1.2",
-        "ts-node": "^10.9.2"
-    },
-    "sideEffects": false
+  "name": "@las/webpack",
+  "version": "1.0.0",
+  "description": "LASCSS JIT Webpack plugin",
+  "type": "module",
+  "main": "dist/cjs/index.cjs",
+  "module": "dist/esm/index.js",
+  "types": "dist/esm/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/esm/index.d.ts",
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.cjs"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "clean": "rimraf dist",
+    "build": "pnpm clean && ts-node build.ts",
+    "dev": "nodemon --watch src --ext ts --exec 'ts-node build.ts'"
+  },
+  "dependencies": {
+    "@las/lasgine": "workspace:*"
+  },
+  "peerDependencies": {
+    "webpack": "^5.0.0"
+  },
+  "devDependencies": {
+    "@types/html-webpack-plugin": "^3.2.9",
+    "@types/node": "^20.0.0",
+    "@types/webpack": "^5.28.5",
+    "html-webpack-plugin": "^5.6.5",
+    "nodemon": "^3.1.11",
+    "rimraf": "^6.1.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.2"
+  },
+  "sideEffects": false
 }

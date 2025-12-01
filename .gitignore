@@ -15,3 +15,5 @@ dist/
 # PNPM
 pnpm-lock.yaml
 .pnpm-debug.log
+
+.turbo
