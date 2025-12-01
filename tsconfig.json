@@ -11,9 +11,14 @@
     "declaration": true,
     "sourceMap": true,
     "outDir": "dist",
-    "types": ["node"]
+    "types": [
+      "node"
+    ]
   },
   "include": [
     "packages/**/*"
+  ],
+  "exclude": [
+    "node_modules"
   ]
 }

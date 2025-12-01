@@ -6,6 +6,13 @@ import { generateCSSContent } from "./core/writer";
 import path from "path";
 import fs from "fs";
 
+export interface LasEngineOptions {
+  scanDirs?: string[];
+  extensions?: string[];
+  output?: string;
+  outputType?: "inline" | "file";
+}
+
 export class LasEngine {
   private usedClasses: Set<string>;
   private cssMap: Map<string, string>;
@@ -14,11 +21,16 @@ export class LasEngine {
   private extensions: string[];
   private baseCSS: string;
 
-  constructor(
-    extensions: string[] = [".html", ".js", ".jsx", ".ts", ".tsx", ".vue"]
-  ) {
+  constructor(options: LasEngineOptions = {}) {
     this.usedClasses = new Set();
-    this.extensions = extensions;
+    this.extensions = options.extensions || [
+      ".html",
+      ".js",
+      ".jsx",
+      ".ts",
+      ".tsx",
+      ".vue"
+    ];
     this.baseCSS = readBaseCSS();
     // Başlangıç verilerini yükle
     this.cssContent = readUtilityCSS();

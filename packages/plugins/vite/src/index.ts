@@ -12,7 +12,7 @@ export default function lascss(options: LasViteOptions): Plugin {
   const virtualModuleId = "virtual:las.css";
   const resolvedVirtualModuleId = "\0" + virtualModuleId;
 
-  const engine = new LasEngine(options.extensions);
+  const engine = new LasEngine(options);
   let config: ResolvedConfig;
 
   function scanProject(root: string) {

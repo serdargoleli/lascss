@@ -1,5 +1,5 @@
 {
-  "name": "lascss",
+  "name": "lascss-repo",
   "private": true,
   "description": "LAS CSS Monorepo",
   "engines": {
@@ -11,7 +11,7 @@
     "dev": "turbo run dev --parallel",
     "build": "turbo run build",
     "clean": "turbo run clean",
-    "clean:all": "pnpm -r exec rm -rf node_modules",
+    "clean-all": "pnpm -r exec rm -rf node_modules",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
     "release": "lerna publish",
     "version": "lerna version"
