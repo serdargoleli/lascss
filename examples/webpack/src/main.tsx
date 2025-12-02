@@ -3,11 +3,15 @@ import ReactDOM from "react-dom/client";
 import "./style.css";
 
 function App() {
+  const [count, setCount] = React.useState(0);
   return (
-    <h1 className="bg-blue-100 text-red-100 text-center">
-      asds + Weasdaasdasdk +asdsaasdasdaasdsadsdasdd Resadsadact asds +
-      Weasdasdsadsack + Resadsada pack
-    </h1>
+    <>
+      <h1 className="bg-red-900 text-white text-right py-5 md:bg-blue-500">
+        asds + Weasdaasdasdk +asdsaasadsdasdaasdsadsdasdd Resadsadact asds +
+        Weasdasdsadsack + Resadasdassada pack
+      </h1>
+      <button onClick={() => setCount(count + 1)}>Count: {count}</button>
+    </>
   );
 }
 

@@ -4,6 +4,7 @@ import path from "path";
 import type { Compiler } from "webpack";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 
+const PLUGIN_NAME = "LasCss";
 export default class LasCss {
   private options: LasEngineOptions;
   private engine: LasEngine;
@@ -25,34 +26,35 @@ export default class LasCss {
 
   apply(compiler: Compiler) {
     // 1. Production Build için (run mode)
-    compiler.hooks.beforeRun.tap("LasCss", (compiler) => {
+    // projeyi bi rkere tara var olan classları bul ve yaz
+    compiler.hooks.beforeRun.tap(PLUGIN_NAME, (compiler) => {
       this.scanProject(compiler.context);
     });
 
     // 2. Watch modunda (serve mode)
-    compiler.hooks.watchRun.tap("LasCss", (compiler) => {
+    // dev ortamında ilkkez ayağa kalktığında bir kere tara var olan classları bul ve yaz
+    // sonra dosya değişiklikleri olursa sadece o dosyayı tara ve yaz
+    compiler.hooks.watchRun.tap(PLUGIN_NAME, (compiler) => {
       // İlk çalıştırmada projeyi tara
       if (!this.isInitialized) {
         this.scanProject(compiler.context);
       }
 
-      const changedFiles = compiler.modifiedFiles;
+      const changedFiles = compiler.modifiedFiles; // değişiklik yapılan dosya yollarını döndürür
       if (changedFiles) {
-        let hasChanges = false;
         for (const file of changedFiles) {
-          if (this.engine.updateFile(file)) {
-            hasChanges = true;
-          }
+          this.engine.updateFile(file);
         }
       }
     });
 
-    // 3. HTML'e CSS Inject et
-    compiler.hooks.compilation.tap("LasCss", (compilation) => {
-      // Build modu: HtmlWebpackPlugin ile inject et (Production için en iyisi)
+    // 3. HTML'e CSS Inject et (derleme aşamasında)
+    compiler.hooks.compilation.tap(PLUGIN_NAME, (compilation) => {
+      // Build modu: HtmlWebpackPlugin ile inject et
       if (compiler.options.mode === "production") {
         const hooks = HtmlWebpackPlugin.getHooks(compilation);
-        hooks.beforeEmit.tapAsync("LasCss", (data, cb) => {
+        // html oluşturuldı ancak daha dosyay yazmadık @sg
+        hooks.beforeEmit.tapAsync(PLUGIN_NAME, (data, cb) => {
           const minifiedCss = this.engine.getCSS();
 
           if (data.html.includes("</head>")) {
@@ -70,7 +72,7 @@ export default class LasCss {
 
     // 4. Development Modu: CSS Injection (HMR desteği için)
     if (compiler.options.mode === "development") {
-      compiler.hooks.emit.tapAsync("LasCss", (compilation, callback) => {
+      compiler.hooks.emit.tapAsync(PLUGIN_NAME, (compilation, callback) => {
         const css = this.engine.getCSS();
         const scriptContent = `
           (function() {
@@ -98,9 +100,9 @@ export default class LasCss {
       });
 
       // Oluşturulan scripti HTML'e ekle
-      compiler.hooks.compilation.tap("LasCss", (compilation) => {
+      compiler.hooks.compilation.tap(PLUGIN_NAME, (compilation) => {
         HtmlWebpackPlugin.getHooks(compilation).beforeEmit.tapAsync(
-          "LasCss",
+          PLUGIN_NAME,
           (data, cb) => {
             // Script'i body sonuna ekle
             data.html = data.html.replace(

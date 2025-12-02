@@ -90,10 +90,10 @@ export class LasEngine {
       this.config
     );
     //minify et
-    const resulCss = this.baseCSS + "\n" + generated;
-    return resulCss
-      .replace(/\s+/g, "")
+    const combined = `${this.baseCSS}\n${generated}`;
+    return combined
       .replace(/\s*([{}:;,])\s*/g, "$1")
+      .replace(/\s+/g, "")
       .trim();
   }
 }
