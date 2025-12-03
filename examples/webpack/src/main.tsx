@@ -3,14 +3,11 @@ import ReactDOM from "react-dom/client";
 import "./style.css";
 
 function App() {
-  const [count, setCount] = React.useState(0);
   return (
     <>
-      <h1 className="bg-red-900 text-white text-right py-5 md:bg-blue-500">
-        asds + Weasdaasdasdk +asdsaasadsdasdaasdsadsdasdd Resadsadact asds +
-        Weasdasdsadsack + Resadasdassada pack
+      <h1 className="text-white outline-2 outline-red-500 outline-offset-3 text-center m-5 p-5 rounded-lg  shadow-black bg-red-400">
+        LAS CSS / WEBPACK PLUGIN
       </h1>
-      <button onClick={() => setCount(count + 1)}>Count: {count}</button>
     </>
   );
 }
