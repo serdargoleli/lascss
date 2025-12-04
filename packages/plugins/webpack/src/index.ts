@@ -1,137 +1,91 @@
-import { LasEngine } from "@las/lasgine";
-import type { LasEngineOptions } from "@las/lasgine";
+import type { Compiler } from "webpack";
 import path from "path";
-import { sources, type Compiler, Compilation } from "webpack";
-import HtmlWebpackPlugin from "html-webpack-plugin";
+import VirtualModulesPlugin from "webpack-virtual-modules";
+import webpack from "webpack";
+import { LasEngine, LasEngineOptions } from "@las/lasgine";
 
 const PLUGIN_NAME = "LasCss";
+const VIRTUAL_ID_PATH = "node_modules/.virtual/las.css";
 
 export default class LasCss {
+  private vm!: VirtualModulesPlugin;
+  private vmPath!: string;
   private engine: LasEngine;
-  private isInitialized = false;
+  private options: LasEngineOptions;
+  private initialized = false;
 
-  constructor(private options: LasEngineOptions = {}) {
+  constructor(options: LasEngineOptions = {}) {
+    this.options = options;
     this.engine = new LasEngine(options);
   }
 
-  apply(compiler: Compiler) {
-    this.setupProductionBuild(compiler);
-    this.setupWatchMode(compiler);
-    this.setupCSSInjection(compiler);
-  }
+  /**
+   * @description
+   * Proje ilk defa ayağa kalktığında tüm dosyalar taranır sonrasında sadece değişen dosyalar taranır
+   * */
 
-  // Production Build: Projeyi bir kere tara
-  private setupProductionBuild(compiler: Compiler) {
-    compiler.hooks.beforeRun.tap(PLUGIN_NAME, () => {
-      this.scanProject(compiler.context);
-    });
-  }
-
-  // Watch Mode: İlk tarama + değişen dosyaları güncelle
-  private setupWatchMode(compiler: Compiler) {
-    compiler.hooks.watchRun.tap(PLUGIN_NAME, () => {
-      if (!this.isInitialized) {
-        this.scanProject(compiler.context);
-      }
-
-      this.handleFileChanges(compiler);
-    });
-  }
-
-  // CSS Injection: Production ve Development için farklı stratejiler
-  private setupCSSInjection(compiler: Compiler) {
-    const isProduction = compiler.options.mode === "production";
-
-    if (isProduction) {
-      this.setupProductionCSSInjection(compiler);
-    } else {
-      this.setupDevelopmentCSSInjection(compiler);
-    }
-  }
-
-  // Production: HTML'e direkt style tag ekle
-  private setupProductionCSSInjection(compiler: Compiler) {
-    compiler.hooks.compilation.tap(PLUGIN_NAME, (compilation) => {
-      const hooks = HtmlWebpackPlugin.getHooks(compilation);
-
-      hooks.beforeEmit.tapAsync(PLUGIN_NAME, (data, cb) => {
-        const css = this.engine.getCSS();
-        const styleTag = `<style data-lascss>${css}</style>`;
-
-        data.html = this.injectStyleTag(data.html, styleTag);
-        cb(null, data);
-      });
-    });
-  }
-
-  // Development: HMR desteği ile dinamik CSS güncelleme
-  private setupDevelopmentCSSInjection(compiler: Compiler) {
-    // CSS update script'ini asset olarak ekle
-    compiler.hooks.emit.tapAsync(PLUGIN_NAME, (compilation, callback) => {
-      const css = this.engine.getCSS();
-      const scriptContent = this.generateUpdateScript(css);
-
-      compilation.assets["las-update.js"] = new sources.RawSource(
-        scriptContent
-      );
-      callback();
-    });
-
-    // Script'i HTML'e ekle
-    compiler.hooks.compilation.tap(PLUGIN_NAME, (compilation) => {
-      const hooks = HtmlWebpackPlugin.getHooks(compilation);
-
-      hooks.beforeEmit.tapAsync(PLUGIN_NAME, (data, cb) => {
-        data.html = data.html.replace(
-          "</body>",
-          '<script src="las-update.js"></script></body>'
-        );
-        cb(null, data);
-      });
-    });
-  }
-
-  // Helper Methods
-  private scanProject(contextPath: string) {
-    if (this.isInitialized) return;
-
+  private scanProject(root: string) {
     const dirsToScan = this.options.scanDirs || ["src"];
-    const scanDirs = dirsToScan.map((dir) => path.join(contextPath, dir));
-
+    const scanDirs = dirsToScan.map((dir) => path.resolve(root, dir));
     this.engine.init(scanDirs);
-    this.isInitialized = true;
+    this.initialized = true;
+    this.updateVirtualModule();
   }
 
-  private handleFileChanges(compiler: Compiler) {
-    const changedFiles = compiler.modifiedFiles;
+  /**
+   * @description Sanal modülü günceller
+   * @returns void
+   */
+  private updateVirtualModule() {
+    const css = this.engine.getCSS(); // Motorun ürettiği son CSS'i al
+    this.vm.writeModule(this.vmPath, css); // Sanal dosyaya yaz
+  }
 
-    if (changedFiles) {
-      for (const file of changedFiles) {
-        this.engine.updateFile(file);
+  apply(compiler: Compiler) {
+    //#region  Sanal modül oluşturma ve çözümleme
+    const context =
+      compiler.options.context || compiler.context || process.cwd();
+
+    this.vmPath = path.resolve(context, VIRTUAL_ID_PATH);
+
+    this.vm = new VirtualModulesPlugin({
+      [this.vmPath]: ""
+    });
+
+    this.vm.apply(compiler);
+
+    // las.css isteğini yakalayıp virtual module pathi ile  değiştir
+    new webpack.NormalModuleReplacementPlugin(/^las\.css$/, this.vmPath).apply(
+      compiler
+    );
+    //#endregion
+
+    //#region  Build sırasında projeyi tarayıp CSS üretilsin
+    compiler.hooks.beforeRun.tap(PLUGIN_NAME, () => {
+      this.scanProject(context);
+    });
+    //#endregion
+
+    //#region Watch sırasında projeyi tarayıp CSS üretilsin
+    compiler.hooks.watchRun.tap(PLUGIN_NAME, (watcher) => {
+      if (!this.initialized) {
+        this.scanProject(context);
       }
-    }
-  }
 
-  private injectStyleTag(html: string, styleTag: string): string {
-    if (html.includes("</head>")) {
-      return html.replace("</head>", `${styleTag}</head>`);
-    }
-    return html + styleTag;
-  }
+      let hasChanged = false;
+      const changedFiles = watcher.modifiedFiles;
+      if (changedFiles) {
+        hasChanged = true;
 
-  //development için anlık css güncelleme scripti
-  private generateUpdateScript(css: string): string {
-    return `
-(function() {
-  var style = document.querySelector('style[data-lascss]');
-  if (!style) {
-    style = document.createElement('style');
-    style.setAttribute('data-lascss', '');
-    document.head.appendChild(style);
-  }
-  style.textContent = ${JSON.stringify(css)};
-  console.log('[LasCSS] Updated');
-})();
-    `.trim();
+        for (const file of changedFiles) {
+          this.engine.updateFile(file);
+        }
+      }
+
+      if (hasChanged) {
+        this.updateVirtualModule();
+      }
+    });
+    //#endregion
   }
 }
