@@ -5,7 +5,6 @@ const LasCssModule = require("../../packages/plugins/webpack/dist/cjs/index.cjs"
 const LasCss = LasCssModule.default || LasCssModule;
 
 module.exports = {
-  mode: "development",
   entry: "./src/main.tsx",
   output: {
     filename: "bundle.js",

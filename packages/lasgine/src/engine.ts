@@ -10,9 +10,13 @@ export interface LasEngineOptions {
   scanDirs?: string[];
   extensions?: string[];
   output?: string;
-  outputType?: "inline" | "file";
 }
 
+/**
+ * @description
+ * LasEngine, belirtilen dizinlerdeki dosyaları tarar ve kullanımdaki class'ları tespit eder.
+    output belirtilmişse belirlenen dizine css dosyası üretir.
+ */
 export class LasEngine {
   private usedClasses: Set<string>;
   private cssMap: Map<string, string>;
