@@ -11,6 +11,7 @@ export function scanFile(filePath: string) {
   return extractClasses(content);
 }
 
+//TODO: buraya daha sonra applyextrac da eklmesi de yapıalcka
 export function scanDirectory(
   dirPath: string,
   extensions: string[] = [".html", ".jsx", ".tsx", ".js", ".ts", ".vue"] // TODO: burayı configden oku
@@ -71,4 +72,46 @@ export function extractClasses(content: string): Set<string> {
   }
 
   return classes;
+}
+
+/**
+ * Dizindeki tüm CSS dosyalarını recursive olarak bulur
+ *
+ * @param dirPath - Taranacak dizin
+ * @param cssExtensions - CSS dosya uzantıları
+ * @returns Bulunan CSS dosya yolları
+ */
+export function findCSSFiles(
+  dirPath: string,
+  cssExtensions: string[] = [".css", ".scss", ".sass", ".less", ".pcss"]
+): string[] {
+  const cssFiles: string[] = [];
+
+  function walk(dir: string) {
+    if (!fs.existsSync(dir)) return;
+
+    const files = fs.readdirSync(dir, { withFileTypes: true });
+
+    for (const file of files) {
+      const filePath = path.join(dir, file.name);
+
+      if (file.isDirectory()) {
+        // node_modules, dist, .git gibi klasörleri atla
+        if (
+          !file.name.startsWith(".") &&
+          !["node_modules", "dist", "build"].includes(file.name)
+        ) {
+          walk(filePath);
+        }
+      } else if (file.isFile()) {
+        // CSS uzantılarını kontrol et
+        if (cssExtensions.some((ext) => file.name.endsWith(ext))) {
+          cssFiles.push(filePath);
+        }
+      }
+    }
+  }
+
+  walk(dirPath);
+  return cssFiles;
 }

@@ -1,10 +1,11 @@
-import { scanDirectory, scanFile } from "./core/scanner";
+import { scanDirectory, scanFile, findCSSFiles } from "./core/scanner";
 import { readBaseCSS, readUtilityCSS } from "./core/read";
 import { parserCSS } from "./core/parser";
 import { loadConfig } from "./core/config";
 import { generateCSSContent } from "./core/writer";
 import path from "path";
 import fs from "fs";
+import { extractApplyClasses } from "./core/apply";
 
 export interface LasEngineOptions {
   scanDirs?: string[];
@@ -19,21 +20,26 @@ export interface LasEngineOptions {
  */
 export class LasEngine {
   private usedClasses: Set<string>;
+  /** utility classlar */
   private cssMap: Map<string, string>;
   private config: any;
   private cssContent: string;
   private extensions: string[];
   private baseCSS: string;
+  private cssExtensions: string[];
+  private processedCSSFiles: Map<string, string> = new Map();
 
   constructor(options: LasEngineOptions = {}) {
     this.usedClasses = new Set();
+    this.cssExtensions = [".css", ".scss", ".sass", ".less", ".pcss"];
     this.extensions = options.extensions || [
       ".html",
       ".js",
       ".jsx",
       ".ts",
       ".tsx",
-      ".vue"
+      ".vue",
+      ...this.cssExtensions
     ];
     this.baseCSS = readBaseCSS();
     // Başlangıç verilerini yükle
@@ -48,8 +54,17 @@ export class LasEngine {
   public init(scanDirs: string[]) {
     scanDirs.forEach((dir) => {
       if (fs.existsSync(dir)) {
+        // Class tarama
         const foundClasses = scanDirectory(dir, this.extensions);
         foundClasses.forEach((cls) => this.usedClasses.add(cls));
+
+        // CSS dosyalarını bul ve @apply işle
+        const cssFiles = findCSSFiles(dir, this.cssExtensions);
+        cssFiles.forEach((file) => {
+          const result = extractApplyClasses(file, this.cssMap, this.config);
+          const processedCSS = result.toString();
+          this.processedCSSFiles.set(file, processedCSS);
+        });
       }
     });
     console.log(
@@ -63,6 +78,15 @@ export class LasEngine {
   public updateFile(filePath: string): boolean {
     // Sadece desteklenen uzantıları tara
     if (!this.extensions.some((ext) => filePath.endsWith(ext))) return false;
+
+    // CSS dosyaları için özel işlem
+    if (this.cssExtensions.some((ext) => filePath.endsWith(ext))) {
+      const result = extractApplyClasses(filePath, this.cssMap, this.config);
+      const processedCSS = result.toString();
+      this.processedCSSFiles.set(filePath, processedCSS);
+      // CSS dosyaları her zaman HMR tetiklemeli
+      return true;
+    }
 
     const newClasses = scanFile(filePath);
     let addedCount = 0;
@@ -93,8 +117,12 @@ export class LasEngine {
       this.cssMap,
       this.config
     );
+    let processedCSS = "";
+    this.processedCSSFiles.forEach((css) => {
+      processedCSS += css + "\n";
+    });
     //minify et
-    const combined = `${this.baseCSS}\n${generated}`;
+    const combined = `${this.baseCSS}\n${generated}\n${processedCSS}`;
     return combined
       .replace(/\s*([{}:;,])\s*/g, "$1")
       .replace(/\s+/g, "")

@@ -1,15 +1,16 @@
 import { useState } from "react";
-
 function App() {
   const [deneme, setDeneme] = useState(1);
 
   return (
-    <>
-      <div className="bg-blue-900 text-red-100 ">
-        @lssaddsas/vite psadsadluginsdssadssdsdsad
+    <div className="p-3">
+      <div className="bg-green-500 text-center text-white  mb-3 p-4 rounded-lg">
+        denem
       </div>
-      <button onClick={() => setDeneme(deneme + 1)}>{deneme}</button>
-    </>
+      <button className="btn-primary" onClick={() => setDeneme(deneme + 1)}>
+        LAS primary Button
+      </button>
+    </div>
   );
 }
 
