@@ -8,20 +8,47 @@ import fs from "fs";
 import { extractApplyClasses } from "./core/apply";
 import {
   DEFAULT_EXTENSIONS,
-  DEFAULT_CSS_EXTENSIONS
+  DEFAULT_CSS_EXTENSIONS,
+  DEFAULT_IGNORE_DIRS
 } from "./constant/constants";
 
 export interface LasEngineOptions {
+  /**
+   * Taranacak dizinlerin listesi.
+   * Genellikle kaynak kodunuzun bulunduğu klasörlerdir (örn: ["./src", "./components"]).
+   */
   scanDirs?: string[];
+
+  /**
+   * Taranacak dosya uzantıları (HTML, JS, JSX vb.).
+   * Varsayılan uzantılarla (html, js, ts, vue, svelte vb.) birleştirilir.
+   * @example [".php", ".blade.php"]
+   */
   extensions?: string[];
+
+  /**
+   * Taranacak ve @apply directive'lerinin aranacağı CSS dosya uzantıları.
+   * Varsayılan uzantılarla (css, scss, sass, less vb.) birleştirilir.
+   */
   cssExtensions?: string[];
+
+  /**
+   * Taranmayacak ve yok sayılacak klasör isimleri.
+   * Varsayılan ignore listesiyle (node_modules, .git, dist vb.) birleştirilir.
+   */
+  ignoreDirs?: string[];
+
+  /**
+   * Üretilen CSS dosyasının yazılacağı dosya yolu.
+   * Belirtilmezse CSS dosyaya yazılmaz, sadece bellekte tutulur veya getCSS() ile alınır.
+   */
   output?: string;
 }
 
 /**
- * @description
- * LasEngine, belirtilen dizinlerdeki dosyaları tarar ve kullanımdaki class'ları tespit eder.
-    output belirtilmişse belirlenen dizine css dosyası üretir.
+ * LasEngine, projenizdeki dosyaları tarayarak kullanılan CSS 'utility' sınıflarını tespit eder
+ * ve sadece kullanılan stilleri içeren optimize edilmiş bir CSS çıktısı (Just-In-Time) üretir.
+ * Ayrıca CSS dosyalarındaki @apply directive'lerini de işler.
  */
 export class LasEngine {
   private usedClasses: Set<string>;
@@ -32,6 +59,7 @@ export class LasEngine {
   private extensions: string[];
   private baseCSS: string;
   private cssExtensions: string[];
+  private ignoreDirs: string[];
   private processedCSSFiles: Map<string, string> = new Map();
 
   constructor(options: LasEngineOptions = {}) {
@@ -52,6 +80,11 @@ export class LasEngine {
       ])
     );
 
+    // Ignore listesini birleştir
+    this.ignoreDirs = Array.from(
+      new Set([...DEFAULT_IGNORE_DIRS, ...(options.ignoreDirs || [])])
+    );
+
     this.baseCSS = readBaseCSS();
     // Başlangıç verilerini yükle
     this.cssContent = readUtilityCSS();
@@ -70,11 +103,15 @@ export class LasEngine {
         const nonCssExtensions = this.extensions.filter(
           (ext) => !this.cssExtensions.includes(ext)
         );
-        const foundClasses = scanDirectory(dir, nonCssExtensions);
+        const foundClasses = scanDirectory(
+          dir,
+          nonCssExtensions,
+          this.ignoreDirs
+        );
         foundClasses.forEach((cls) => this.usedClasses.add(cls));
 
         // CSS dosyalarını bul ve @apply işle
-        const cssFiles = findCSSFiles(dir, this.cssExtensions);
+        const cssFiles = findCSSFiles(dir, this.cssExtensions, this.ignoreDirs);
         cssFiles.forEach((file) => {
           const result = extractApplyClasses(file, this.cssMap, this.config);
           const processedCSS = result.toString();

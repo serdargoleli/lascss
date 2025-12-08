@@ -16,3 +16,13 @@ export const DEFAULT_CSS_EXTENSIONS = [
   ".styl",
   ".stylus"
 ];
+
+export const DEFAULT_IGNORE_DIRS = [
+  "node_modules",
+  "dist",
+  ".git",
+  "build",
+  ".next",
+  ".nuxt",
+  "coverage"
+];

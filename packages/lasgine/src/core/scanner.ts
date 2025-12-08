@@ -2,7 +2,8 @@ import fs from "fs";
 import path from "path";
 import {
   DEFAULT_EXTENSIONS,
-  DEFAULT_CSS_EXTENSIONS
+  DEFAULT_CSS_EXTENSIONS,
+  DEFAULT_IGNORE_DIRS
 } from "../constant/constants";
 /**
  * HTML/JSX dosyalarını tarayıp class isimlerini çıkarır
@@ -18,7 +19,8 @@ export function scanFile(filePath: string) {
 //TODO: buraya daha sonra applyextrac da eklmesi de yapıalcka
 export function scanDirectory(
   dirPath: string,
-  extensions: string[] = DEFAULT_EXTENSIONS
+  extensions: string[] = DEFAULT_EXTENSIONS,
+  ignoreDirs: string[] = DEFAULT_IGNORE_DIRS
 ): Set<string> {
   const allClasses = new Set<string>();
 
@@ -31,7 +33,7 @@ export function scanDirectory(
       if (stat.isDirectory()) {
         // bu klasörmu?
         // node_modules, dist, .git gibi klasörleri atla
-        if (!["node_modules", "dist", ".git", "build"].includes(file)) {
+        if (!ignoreDirs.includes(file)) {
           walk(filePath);
         }
       } else if (extensions.some((ext) => file.endsWith(ext))) {
@@ -87,7 +89,8 @@ export function extractClasses(content: string): Set<string> {
  */
 export function findCSSFiles(
   dirPath: string,
-  cssExtensions: string[] = DEFAULT_CSS_EXTENSIONS
+  cssExtensions: string[] = DEFAULT_CSS_EXTENSIONS,
+  ignoreDirs: string[] = DEFAULT_IGNORE_DIRS
 ): string[] {
   const cssFiles: string[] = [];
 
@@ -101,10 +104,7 @@ export function findCSSFiles(
 
       if (file.isDirectory()) {
         // node_modules, dist, .git gibi klasörleri atla
-        if (
-          !file.name.startsWith(".") &&
-          !["node_modules", "dist", "build"].includes(file.name)
-        ) {
+        if (!file.name.startsWith(".") && !ignoreDirs.includes(file.name)) {
           walk(filePath);
         }
       } else if (file.isFile()) {

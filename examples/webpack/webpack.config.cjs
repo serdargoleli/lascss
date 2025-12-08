@@ -1,7 +1,7 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 // Development'ta build edilmiş dist kullanıyoruz (turbo watch ile otomatik build)
-const LasCss = require("@las/webpack").default;
+const lascss = require("@las/webpack").default;
 //const LasCssModule = require("../../packages/plugins/webpack/dist/cjs/index.cjs");
 //const LasCss = LasCssModule.default || LasCssModule;
 
@@ -23,7 +23,7 @@ module.exports = {
   stats: "errors-warnings",
   plugins: [
     new HtmlWebpackPlugin({ template: "public/index.html" }),
-    new LasCss({
+    new lascss({
       output: "style/las.css" // -> bu şekilde path varsa prodcution ortamında dist/style/las.css oluşur ve external olarak ekler yoksa inline olarak ekler
     })
   ],

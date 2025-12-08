@@ -8,7 +8,29 @@ import { LasEngine, LasEngineOptions } from "@las/lasgine";
 const PLUGIN_NAME = "LasCss";
 const VIRTUAL_ID_PATH = "node_modules/.virtual/las.css";
 
-export default class LasCss {
+/**
+ * @name lascss
+ *
+ * @description
+ * Projenizdeki dosyaları tarar, kullanılan stilleri tespit eder ve
+ * sadece gerekli CSS'i üretir (Just-In-Time).
+ * @param options.scanDirs @default ["src"] - Taranacak dizinlerin listesi.
+ * @param options.extensions @default [".html", ".js", ".ts", ".jsx", ".tsx", ".vue", ".svelte"] - Taranacak dosya uzantıları.
+ * @param options.cssExtensions @default [".css", ".scss", ".sass", ".less", ".pcss", ".styl", ".stylus"] - Taranacak CSS dosya uzantıları.
+ * @param options.ignoreDirs @default ["node_modules", ".git", "dist"] - Taranmayacak ve yok sayılacak klasör isimleri.
+ * @param options.output - Üretilen CSS dosyasının yazılacağı dosya yolu.
+ *
+ *
+ * @example
+ * new lascss({
+ *   scanDirs: ["src"],
+ *   output: "css/style.css", // Eğer path varsa Production'da dosyaya yazar yoksa inline olarak yazar, Development'ta her zaman inline yapar.
+ *   extensions: [".html", ".js", ".ts", ".jsx", ".tsx", ".vue", ".svelte"],
+ *   cssExtensions: [".css", ".scss", ".sass", ".less", ".pcss", ".styl", ".stylus"],
+ *   ignoreDirs: ["node_modules", ".git", "dist"],
+ * })
+ */
+export default class lascss {
   private vm!: VirtualModulesPlugin;
   private vmPath!: string;
   private engine: LasEngine;
