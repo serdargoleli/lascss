@@ -1,7 +1,7 @@
 import path from "path";
 import webpack, { sources } from "webpack";
 import VirtualModulesPlugin from "webpack-virtual-modules";
-import type { Compiler } from "webpack";
+import type { Compiler, Compilation } from "webpack";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import { LasEngine, LasEngineOptions } from "@las/lasgine";
 
@@ -15,6 +15,7 @@ export default class LasCss {
   private options: LasEngineOptions;
   private initialized = false;
   private isProduction = false;
+  private scanDirs: string[] = [];
 
   constructor(options: LasEngineOptions = {}) {
     this.options = options;
@@ -26,10 +27,8 @@ export default class LasCss {
    * Proje ilk defa ayağa kalktığında tüm dosyalar taranır sonrasında sadece değişen dosyalar taranır
    * */
 
-  private scanProject(root: string) {
-    const dirsToScan = this.options.scanDirs || ["src"];
-    const scanDirs = dirsToScan.map((dir) => path.resolve(root, dir));
-    this.engine.init(scanDirs);
+  private scanProject() {
+    this.engine.init(this.scanDirs);
     this.initialized = true;
     this.updateVirtualModule();
   }
@@ -52,6 +51,8 @@ export default class LasCss {
     this.isProduction = compiler.options.mode === "production";
     const context =
       compiler.options.context || compiler.context || process.cwd();
+    const dirsToScan = this.options.scanDirs || ["src"];
+    this.scanDirs = dirsToScan.map((dir) => path.resolve(context, dir));
 
     this.vmPath = path.resolve(context, VIRTUAL_ID_PATH);
 
@@ -71,14 +72,14 @@ export default class LasCss {
 
     //#region  Build sırasında projeyi tarayıp CSS üretilsin
     compiler.hooks.beforeRun.tap(PLUGIN_NAME, () => {
-      this.scanProject(context);
+      this.scanProject();
     });
     //#endregion
 
     //#region Watch sırasında projeyi tarayıp CSS üretilsin
     compiler.hooks.watchRun.tap(PLUGIN_NAME, (watcher) => {
       if (!this.initialized) {
-        this.scanProject(context);
+        this.scanProject();
       }
 
       let hasChanged = false;
@@ -99,6 +100,7 @@ export default class LasCss {
 
     //#region Dosya yazma biçimi
     compiler.hooks.thisCompilation.tap(PLUGIN_NAME, (compilation) => {
+      this.addWatchDependencies(compilation);
       //sadece build aşamasında outputPath'e göre inline veya external olarka eklmesini sağlar
 
       const css = this.engine.getCSS();
@@ -136,5 +138,16 @@ export default class LasCss {
       }
     });
     //#endregion
+  }
+
+  private addWatchDependencies(compilation: Compilation) {
+    // Değişikliklerden haberdar olmak için dizinleri ve css dosyalarını watch listesine ekle
+    this.scanDirs.forEach((dir) => {
+      // import edilmezse bile izle
+      compilation.contextDependencies.add(dir);
+    });
+    this.engine.getWatchedCSSFiles().forEach((file) => {
+      compilation.fileDependencies.add(file);
+    });
   }
 }

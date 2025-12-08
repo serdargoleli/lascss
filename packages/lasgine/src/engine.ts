@@ -28,6 +28,7 @@ export class LasEngine {
   private baseCSS: string;
   private cssExtensions: string[];
   private processedCSSFiles: Map<string, string> = new Map();
+  private watchedCSSFiles: Set<string> = new Set();
 
   constructor(options: LasEngineOptions = {}) {
     this.usedClasses = new Set();
@@ -61,6 +62,7 @@ export class LasEngine {
         // CSS dosyalarını bul ve @apply işle
         const cssFiles = findCSSFiles(dir, this.cssExtensions);
         cssFiles.forEach((file) => {
+          this.watchedCSSFiles.add(file);
           const result = extractApplyClasses(file, this.cssMap, this.config);
           const processedCSS = result.toString();
           this.processedCSSFiles.set(file, processedCSS);
@@ -81,6 +83,7 @@ export class LasEngine {
 
     // CSS dosyaları için özel işlem
     if (this.cssExtensions.some((ext) => filePath.endsWith(ext))) {
+      this.watchedCSSFiles.add(filePath);
       const result = extractApplyClasses(filePath, this.cssMap, this.config);
       const processedCSS = result.toString();
       this.processedCSSFiles.set(filePath, processedCSS);
@@ -127,5 +130,12 @@ export class LasEngine {
       .replace(/\s*([{}:;,])\s*/g, "$1")
       .replace(/\s+/g, "")
       .trim();
+  }
+
+  /**
+   * HMR için izlenen CSS dosyaları
+   */
+  public getWatchedCSSFiles(): string[] {
+    return Array.from(this.watchedCSSFiles);
   }
 }

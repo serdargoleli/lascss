@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "las.css";
-import "./style.css";
 
 import { App } from "./App";
 
