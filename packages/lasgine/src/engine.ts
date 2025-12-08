@@ -6,10 +6,15 @@ import { generateCSSContent } from "./core/writer";
 import path from "path";
 import fs from "fs";
 import { extractApplyClasses } from "./core/apply";
+import {
+  DEFAULT_EXTENSIONS,
+  DEFAULT_CSS_EXTENSIONS
+} from "./constant/constants";
 
 export interface LasEngineOptions {
   scanDirs?: string[];
   extensions?: string[];
+  cssExtensions?: string[];
   output?: string;
 }
 
@@ -31,16 +36,22 @@ export class LasEngine {
 
   constructor(options: LasEngineOptions = {}) {
     this.usedClasses = new Set();
-    this.cssExtensions = [".css", ".scss", ".sass", ".less", ".pcss"];
-    this.extensions = options.extensions || [
-      ".html",
-      ".js",
-      ".jsx",
-      ".ts",
-      ".tsx",
-      ".vue",
-      ...this.cssExtensions
-    ];
+
+    // Kullanıcının sağladığı CSS extension'ları varsayılanlarla birleştir
+    this.cssExtensions = Array.from(
+      new Set([...DEFAULT_CSS_EXTENSIONS, ...(options.cssExtensions || [])])
+    );
+
+    // Kullanıcının sağladığı extension'ları varsayılanlarla birleştir
+    // Set kullanarak duplicate'leri önle
+    this.extensions = Array.from(
+      new Set([
+        ...DEFAULT_EXTENSIONS,
+        ...this.cssExtensions,
+        ...(options.extensions || [])
+      ])
+    );
+
     this.baseCSS = readBaseCSS();
     // Başlangıç verilerini yükle
     this.cssContent = readUtilityCSS();
@@ -54,8 +65,12 @@ export class LasEngine {
   public init(scanDirs: string[]) {
     scanDirs.forEach((dir) => {
       if (fs.existsSync(dir)) {
-        // Class tarama
-        const foundClasses = scanDirectory(dir, this.extensions);
+        // Class tarama (sadece non-CSS dosyaları)
+        // CSS dosyaları class attribute'u içermez, @apply directive'leri içerir
+        const nonCssExtensions = this.extensions.filter(
+          (ext) => !this.cssExtensions.includes(ext)
+        );
+        const foundClasses = scanDirectory(dir, nonCssExtensions);
         foundClasses.forEach((cls) => this.usedClasses.add(cls));
 
         // CSS dosyalarını bul ve @apply işle
@@ -84,7 +99,7 @@ export class LasEngine {
       const result = extractApplyClasses(filePath, this.cssMap, this.config);
       const processedCSS = result.toString();
       this.processedCSSFiles.set(filePath, processedCSS);
-      // CSS dosyaları her zaman HMR tetiklemeli
+      // CSS dosyaları her zaman HMR tetiklemeli oyüzden true dönüyouz
       return true;
     }
 

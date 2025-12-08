@@ -1,5 +1,9 @@
 import fs from "fs";
 import path from "path";
+import {
+  DEFAULT_EXTENSIONS,
+  DEFAULT_CSS_EXTENSIONS
+} from "../constant/constants";
 /**
  * HTML/JSX dosyalarını tarayıp class isimlerini çıkarır
  *
@@ -14,7 +18,7 @@ export function scanFile(filePath: string) {
 //TODO: buraya daha sonra applyextrac da eklmesi de yapıalcka
 export function scanDirectory(
   dirPath: string,
-  extensions: string[] = [".html", ".jsx", ".tsx", ".js", ".ts", ".vue"] // TODO: burayı configden oku
+  extensions: string[] = DEFAULT_EXTENSIONS
 ): Set<string> {
   const allClasses = new Set<string>();
 
@@ -83,7 +87,7 @@ export function extractClasses(content: string): Set<string> {
  */
 export function findCSSFiles(
   dirPath: string,
-  cssExtensions: string[] = [".css", ".scss", ".sass", ".less", ".pcss"]
+  cssExtensions: string[] = DEFAULT_CSS_EXTENSIONS
 ): string[] {
   const cssFiles: string[] = [];
 
