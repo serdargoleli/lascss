@@ -14,10 +14,10 @@
   "license": "ISC",
   "packageManager": "pnpm@10.24.0",
   "dependencies": {
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
+    "@las/webpack": "workspace:*",
     "lascss": "workspace:*",
-    "@las/webpack": "workspace:*"
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
   },
   "devDependencies": {
     "@types/react": "^18.3.27",

@@ -3,10 +3,9 @@ import { useState } from "react";
 export function App() {
   const [count, setCount] = useState(0);
   return (
-    <div className="flex bg-red-500 p-3 ">
-      <h1 className="text-white">LAS CSS : {count}</h1>
-      <button className="" onClick={() => setCount(count + 1)}>
-        count increment ++
+    <div className=" ">
+      <button className="btn-primary" onClick={() => setCount(count + 1)}>
+        <span className="btn-primary-text">count</span>
       </button>
     </div>
   );

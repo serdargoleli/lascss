@@ -22,7 +22,8 @@
     "dev": "nodemon --watch src --ext ts --exec 'ts-node build.ts'"
   },
   "dependencies": {
-    "@las/lasgine": "workspace:*"
+    "@las/lasgine": "workspace:*",
+    "webpack-virtual-modules": "^0.6.2"
   },
   "peerDependencies": {
     "webpack": "^5.0.0"
