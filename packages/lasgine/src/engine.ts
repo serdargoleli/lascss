@@ -11,6 +11,7 @@ import {
   DEFAULT_EXTENSIONS,
   DEFAULT_IGNORE_DIRS
 } from "./constants";
+import { purgeUnusedCss } from "./core/purge";
 
 export interface LasEngineOptions {
   /**
@@ -105,9 +106,8 @@ export class LasEngine {
         });
       }
     });
-    console.log(
-      `✅ LasEngine Başlatıldı: ${this.usedClasses.size} class yüklendi.`
-    );
+
+    console.log("\x1b[95m\x1b[1m🚀 LasEngine başarıyla başlatıldı! 🚀 \x1b[0m");
   }
 
   /**
@@ -160,7 +160,10 @@ export class LasEngine {
     this.processedCSSFiles.forEach((css) => {
       processedCSS += css + "\n";
     });
-    const combined = `${this.baseCSS}\n${generated}\n${processedCSS}`;
+    // Kullanıcı CSS'inden kullanılmayan class'ları temizle (base ve JIT üretilenlere dokunma)
+    const purgedUserCSS = purgeUnusedCss(processedCSS, this.usedClasses);
+
+    const combined = `${this.baseCSS}\n${generated}\n${purgedUserCSS}`;
     return (
       combined
         // Remove only the spaces around punctuation to keep value spacing intact (box-shadow, etc.)

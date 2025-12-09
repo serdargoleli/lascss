@@ -1,7 +1,8 @@
 .btn {
-  @apply bg-red-100;
-}
-
-.text {
-  @apply text-red-100;
+  @apply md:bg-red-100;
+  &-p {
+    &-t {
+      @apply md:hover:bg-blue-900;
+    }
+  }
 }
