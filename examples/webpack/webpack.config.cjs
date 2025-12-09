@@ -2,8 +2,6 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 // Development'ta build edilmiş dist kullanıyoruz (turbo watch ile otomatik build)
 const LasCss = require("@las/webpack").default;
-//const LasCssModule = require("../../packages/plugins/webpack/dist/cjs/index.cjs");
-//const LasCss = LasCssModule.default || LasCssModule;
 
 module.exports = {
   entry: "./src/main.tsx",
