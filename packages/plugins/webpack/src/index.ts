@@ -1,8 +1,8 @@
 import path from "path";
+import fs from "fs";
 import webpack, { sources } from "webpack";
 import VirtualModulesPlugin from "webpack-virtual-modules";
 import type { Compiler, Compilation } from "webpack";
-import type HtmlWebpackPlugin from "html-webpack-plugin";
 import { LasEngine, LasEngineOptions } from "@las/lasgine";
 
 const PLUGIN_NAME = "lascss";
@@ -49,7 +49,10 @@ export default class lascss {
    * Proje ilk defa ayağa kalktığında tüm dosyalar taranır sonrasında sadece değişen dosyalar taranır
    * */
 
-  private scanProject() {
+  private scanProject(reset = false) {
+    if (reset) {
+      this.engine.reset();
+    }
     this.engine.init(this.scanDirs);
     this.initialized = true;
     this.updateVirtualModule();
@@ -100,19 +103,36 @@ export default class lascss {
     //#endregion
 
     //#region Watch sırasında projeyi tarayıp CSS üretilsin
-    compiler.hooks.watchRun.tap(PLUGIN_NAME, (watcher) => {
+    compiler.hooks.watchRun.tap(PLUGIN_NAME, (comp) => {
       if (!this.initialized) {
         this.scanProject();
       }
 
       let hasChanged = false;
-      const changedFiles = watcher.modifiedFiles as Set<string> | undefined;
-      if (changedFiles) {
-        hasChanged = true;
+      const changedFiles = comp.modifiedFiles as Set<string> | undefined;
+      const removedFiles = (comp as any).removedFiles as
+        | Set<string>
+        | undefined;
 
-        for (const file of changedFiles) {
-          this.engine.updateFile(file);
+      // Silme varsa veya değişiklik listesi gelmediyse tam tarama yap
+      if (
+        (removedFiles && removedFiles.size > 0) ||
+        !changedFiles ||
+        changedFiles.size === 0
+      ) {
+        this.scanProject(true);
+        return;
+      }
+
+      for (const file of changedFiles) {
+        // Watcher bazen dosya yerine klasör bildirir; klasör değişiminde tam tarama yap
+        // yeni dosya flan ekleendiğide klasör yolu verşyor
+        if (!fs.existsSync(file) || fs.statSync(file).isDirectory()) {
+          this.scanProject(true);
+          return;
         }
+        const updated = this.engine.updateFile(file);
+        if (updated) hasChanged = true;
       }
 
       if (hasChanged) {

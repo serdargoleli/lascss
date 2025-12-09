@@ -13,7 +13,7 @@
     "build:webpack": "turbo run build --filter=@las/webpack --filter=las-webpack-example --parallel",
     "build": "turbo run build",
     "clean": "turbo run clean",
-    "clean-all": "pnpm -r exec rm -rf node_modules",
+    "clean-all": "pnpm -r exec rm -rf node_modules .turbo dist",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
     "release": "lerna publish",
     "version": "lerna version"

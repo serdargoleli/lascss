@@ -174,4 +174,14 @@ export class LasEngine {
   public getWatchedCSSFiles(): string[] {
     return Array.from(this.watchedCSSFiles);
   }
+
+  /**
+   * İç durumu sıfırla (watch-list ve işlenmiş CSS'ler temizlenir).
+   * Varsayılan config ve utility CSS korunur.
+   */
+  public reset() {
+    this.usedClasses.clear();
+    this.processedCSSFiles.clear();
+    this.watchedCSSFiles.clear();
+  }
 }
