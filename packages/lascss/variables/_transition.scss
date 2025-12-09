@@ -5,7 +5,7 @@ $transition-scale: (
                 "transition-duration": 150ms
         ),
         "colors": (
-                "transition-property": "color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, gradient-from, gradient-via, gradient-to",
+                "transition-property": (color, background-color, border-color, outline-color, text-decoration-color, fill, stroke),
                 "transition-timing-function": cubic-bezier(0.4, 0, 0.2, 1),
                 "transition-duration": 150ms
         ),
@@ -20,7 +20,7 @@ $transition-scale: (
                 "transition-duration": 150ms
         ),
         "transform": (
-                "transition-property": "transform, translate, scale, rotate",
+                "transition-property": transform,
                 "transition-timing-function": cubic-bezier(0.4, 0, 0.2, 1),
                 "transition-duration": 150ms
         ),
@@ -55,4 +55,3 @@ $transition-ease-scale: (
         "in-out": cubic-bezier(0.4, 0, 0.2, 1),
         "initial": initial
 ) !default;
-

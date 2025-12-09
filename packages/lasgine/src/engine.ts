@@ -80,6 +80,8 @@ export class LasEngine {
     this.cssContent = readUtilityCSS();
     this.cssMap = parserCSS(this.cssContent);
     this.config = loadConfig();
+
+    console.log("\x1b[95m\x1b[1m🚀 LasEngine başarıyla başlatıldı! 🚀 \x1b[0m");
   }
 
   /**
@@ -106,8 +108,6 @@ export class LasEngine {
         });
       }
     });
-
-    console.log("\x1b[95m\x1b[1m🚀 LasEngine başarıyla başlatıldı! 🚀 \x1b[0m");
   }
 
   /**

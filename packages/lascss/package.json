@@ -5,8 +5,6 @@
   "author": "Serdar Göleli",
   "license": "MIT",
   "private": false,
-  "main": "dist/style.min.css",
-  "style": "dist/style.min.css",
   "files": [
     "dist",
     "README.md",
@@ -21,8 +19,7 @@
     "build:base": "sass base.scss dist/base.min.css --style=compressed --no-source-map",
     "build:meta": "sass meta.scss dist/meta.min.css --style=compressed --no-source-map",
     "build:utility": "sass utility.scss dist/utility.min.css --style=compressed --no-source-map",
-    "build:main": "sass main.scss dist/style.min.css --style=compressed --no-source-map",
-    "build": "pnpm run clean && pnpm run build:base && pnpm run build:meta && pnpm run build:utility && pnpm run build:main",
+    "build": "pnpm run clean && pnpm run build:base && pnpm run build:meta && pnpm run build:utility",
     "dev": "sass --watch main.scss dist/style.min.css --style=compressed"
   },
   "exports": {

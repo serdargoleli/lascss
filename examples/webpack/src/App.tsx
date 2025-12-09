@@ -1,6 +1,10 @@
 import { useState } from "react";
+import Button from "./components/button";
 
 export function App() {
-  const [count, setCount] = useState(0);
-  return <div className="btn-p-t ">button</div>;
+  return (
+    <div className="container">
+      <Button />
+    </div>
+  );
 }
