@@ -148,6 +148,15 @@ export default class lascss {
       //sadece build aşamasında outputPath'e göre inline veya external olarka eklmesini sağlar
 
       const css = this.engine.getCSS();
+      const sizeLabel = this.engine.getCssFileInfo(css);
+
+      if (this.isProduction) {
+        console.log("\n================ LAS CSS ================");
+        console.log(
+          `\x1b[32m✨ Generated File Size :\x1b[33m ${sizeLabel}\x1b[0m`
+        );
+        console.log("=========================================\n");
+      }
 
       // Output belirtilmişse ve production ise external CSS dosyası oluştur
       if (this.isProduction && this.options.output) {

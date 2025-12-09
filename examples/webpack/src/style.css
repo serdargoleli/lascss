@@ -1,3 +1,7 @@
-.btn-primary {
-  @apply bg-blue-600 hover:bg-blue-900 text-white transition-all p-2 rounded  hover:text-white;
+.btn {
+  @apply bg-red-100;
+}
+
+.text {
+  @apply text-red-100;
 }

@@ -1,10 +1,10 @@
+import path from "path";
+import fs from "fs";
 import { scanDirectory, scanFile, findCSSFiles } from "./core/scanner";
 import { readBaseCSS, readUtilityCSS } from "./core/read";
 import { parserCSS } from "./core/parser";
 import { loadConfig } from "./core/config";
 import { generateCSSContent } from "./core/writer";
-import path from "path";
-import fs from "fs";
 import { extractApplyClasses } from "./core/apply";
 import {
   DEFAULT_CSS_EXTENSIONS,
@@ -148,7 +148,7 @@ export class LasEngine {
   }
 
   /**
-   * Güncel CSS içeriğini döner.
+   * Güncel CSS içeriğini döner (hızlı, sync). Dev/HMR için kullan.
    */
   public getCSS(): string {
     const generated = generateCSSContent(
@@ -160,12 +160,31 @@ export class LasEngine {
     this.processedCSSFiles.forEach((css) => {
       processedCSS += css + "\n";
     });
-    //minify et
     const combined = `${this.baseCSS}\n${generated}\n${processedCSS}`;
-    return combined
-      .replace(/\s*([{}:;,])\s*/g, "$1")
-      .replace(/\s+/g, "")
-      .trim();
+    return (
+      combined
+        // Remove only the spaces around punctuation to keep value spacing intact (box-shadow, etc.)
+        .replace(/\s*([{}:;,])\s*/g, "$1")
+        // Collapse newlines into a single space so multi-line values don't lose spacing
+        .replace(/\n+/g, " ")
+        // Collapse duplicate spaces but keep single spaces that are required for CSS values
+        .replace(/\s{2,}/g, " ")
+        .trim()
+    );
+  }
+
+  /**
+   * CSS dosyasının boyut bilgisini döner.
+   * @param css CSS içeriği
+   * @returns Boyut bilgisi (MB veya kB)
+   */
+  public getCssFileInfo(css: string) {
+    const bytes = Buffer.byteLength(css, "utf8");
+    const result =
+      bytes >= 1024 * 1024
+        ? `${(bytes / (1024 * 1024)).toFixed(2)} MB`
+        : `${(bytes / 1024).toFixed(2)} kB`;
+    return result;
   }
 
   /**
