@@ -1,14 +1,30 @@
 import type { Plugin, ResolvedConfig, HmrContext } from "vite";
-import { LasEngine } from "@las/lasgine";
+import { LasEngine, LasEngineOptions } from "@las/lasgine";
 import * as path from "path";
 
-interface LasViteOptions {
-  scanDirs?: string[];
-  extensions?: string[];
-  output?: string;
-}
-
-export default function lascss(options: LasViteOptions): Plugin {
+/**
+ * @name lascss
+ *
+ * @description
+ * Projenizdeki dosyaları tarar, kullanılan stilleri tespit eder ve
+ * sadece gerekli CSS'i üretir (Just-In-Time).
+ * @param options.scanDirs @default ["src"] - Taranacak dizinlerin listesi.
+ * @param options.extensions @default [".html", ".js", ".ts", ".jsx", ".tsx", ".vue", ".svelte"] - Taranacak dosya uzantıları (varsayılanla birleştirilir).
+ * @param options.cssExtensions @default [".css", ".scss", ".sass", ".less", ".pcss", ".styl", ".stylus"] - Taranacak CSS dosya uzantıları (varsayılanla birleştirilir).
+ * @param options.ignoreDirs @default ["node_modules", "dist", ".git", "build", ".next", ".nuxt", "coverage"] - Taranmayacak ve yok sayılacak klasör isimleri (varsayılanla birleştirilir).
+ * @param options.output - Üretilen CSS dosyasının yazılacağı dosya yolu.
+ *
+ *
+ * @example
+ * new lascss({
+ *   scanDirs: ["src"],
+ *   output: "css/style.css", // Eğer path varsa Production'da dosyaya yazar yoksa inline olarak yazar, Development'ta her zaman inline yapar.
+ *   extensions: [".html", ".js", ".ts", ".jsx", ".tsx", ".vue", ".svelte"], // varsayılanlarla birleşir
+ *   cssExtensions: [".css", ".scss", ".sass", ".less", ".pcss", ".styl", ".stylus"], // varsayılanlarla birleşir
+ *   ignoreDirs: ["node_modules", "dist", ".git"], // varsayılanlarla birleşir
+ * })
+ */
+export default function lascss(options: LasEngineOptions): Plugin {
   const virtualModuleId = "virtual:las.css";
   const resolvedVirtualModuleId = "\0" + virtualModuleId;
 

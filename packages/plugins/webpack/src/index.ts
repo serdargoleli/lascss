@@ -2,13 +2,35 @@ import path from "path";
 import webpack, { sources } from "webpack";
 import VirtualModulesPlugin from "webpack-virtual-modules";
 import type { Compiler, Compilation } from "webpack";
-import HtmlWebpackPlugin from "html-webpack-plugin";
+import type HtmlWebpackPlugin from "html-webpack-plugin";
 import { LasEngine, LasEngineOptions } from "@las/lasgine";
 
-const PLUGIN_NAME = "LasCss";
+const PLUGIN_NAME = "lascss";
 const VIRTUAL_ID_PATH = "node_modules/.virtual/las.css";
 
-export default class LasCss {
+/**
+ * @name lascss
+ *
+ * @description
+ * Projenizdeki dosyaları tarar, kullanılan stilleri tespit eder ve
+ * sadece gerekli CSS'i üretir (Just-In-Time).
+ * @param options.scanDirs @default ["src"] - Taranacak dizinlerin listesi.
+ * @param options.extensions @default [".html", ".js", ".ts", ".jsx", ".tsx", ".vue", ".svelte"] - Taranacak dosya uzantıları (varsayılanla birleştirilir).
+ * @param options.cssExtensions @default [".css", ".scss", ".sass", ".less", ".pcss", ".styl", ".stylus"] - Taranacak CSS dosya uzantıları (varsayılanla birleştirilir).
+ * @param options.ignoreDirs @default ["node_modules", "dist", ".git", "build", ".next", ".nuxt", "coverage"] - Taranmayacak ve yok sayılacak klasör isimleri (varsayılanla birleştirilir).
+ * @param options.output - Üretilen CSS dosyasının yazılacağı dosya yolu.
+ *
+ *
+ * @example
+ * new lascss({
+ *   scanDirs: ["src"],
+ *   output: "css/style.css", // Eğer path varsa Production'da dosyaya yazar yoksa inline olarak yazar, Development'ta her zaman inline yapar.
+ *   extensions: [".html", ".js", ".ts", ".jsx", ".tsx", ".vue", ".svelte"], // varsayılanlarla birleşir
+ *   cssExtensions: [".css", ".scss", ".sass", ".less", ".pcss", ".styl", ".stylus"], // varsayılanlarla birleşir
+ *   ignoreDirs: ["node_modules", "dist", ".git"], // varsayılanlarla birleşir
+ * })
+ */
+export default class lascss {
   private vm!: VirtualModulesPlugin;
   private vmPath!: string;
   private engine: LasEngine;
@@ -49,6 +71,7 @@ export default class LasCss {
 
   apply(compiler: Compiler) {
     this.isProduction = compiler.options.mode === "production";
+
     const context =
       compiler.options.context || compiler.context || process.cwd();
     const dirsToScan = this.options.scanDirs || ["src"];
@@ -99,15 +122,12 @@ export default class LasCss {
     //#endregion
 
     //#region Dosya yazma biçimi
+
     compiler.hooks.thisCompilation.tap(PLUGIN_NAME, (compilation) => {
       this.addWatchDependencies(compilation);
       //sadece build aşamasında outputPath'e göre inline veya external olarka eklmesini sağlar
 
       const css = this.engine.getCSS();
-      // tip koruması
-      const hasHtmlPlugin =
-        "getHooks" in HtmlWebpackPlugin &&
-        (HtmlWebpackPlugin as any).getHooks(compilation);
 
       // Output belirtilmişse ve production ise external CSS dosyası oluştur
       if (this.isProduction && this.options.output) {
@@ -117,9 +137,29 @@ export default class LasCss {
 
         compilation.emitAsset(fileName, new sources.RawSource(css));
 
+        // HtmlWebpackPlugin sınıfını, compiler.options.plugins içinden dinamik olarak bul
+        // tsup buildde import dosyaını da alıp dosyay ekliyordu böylece porjede kullanılan ile bneim importladığım
+        // ayrı dosyalar oluyordu bu yüzden prod aşamasında style link eklemiyordu
+        // burada projenin içindeki pluginden bul ve onun üzeirnden yazalım dedik
+        //özet: Kendi içindekini veya node_modules'dakini boşver, Webpack'in elinde halihazırda çalışan CANLI örneği bul ve onu kullan
+        const htmlPluginInstance = compiler.options.plugins.find(
+          (plugin) =>
+            plugin &&
+            plugin.constructor &&
+            plugin.constructor.name === "HtmlWebpackPlugin"
+        );
+
+        const HtmlWebpackPluginClass = htmlPluginInstance
+          ? htmlPluginInstance.constructor
+          : null;
+
+        const hasHtmlPlugin =
+          HtmlWebpackPluginClass &&
+          typeof (HtmlWebpackPluginClass as any).getHooks === "function";
+
         if (hasHtmlPlugin) {
-          const hook = HtmlWebpackPlugin.getHooks(compilation);
-          hook.alterAssetTags.tap(PLUGIN_NAME, (data) => {
+          const hook = (HtmlWebpackPluginClass as any).getHooks(compilation);
+          hook.alterAssetTags.tapPromise(PLUGIN_NAME, async (data: any) => {
             data.assetTags.styles.push({
               tagName: "link",
               voidTag: true,
