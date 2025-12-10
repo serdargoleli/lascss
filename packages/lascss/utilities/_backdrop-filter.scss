@@ -1,7 +1,6 @@
 @use "../variables" as var;
 @use "../mixins" as mix;
 
-
 @each $name, $values in var.$backdrop-filter {
-    @include mix.generate-utility("backdrop-filter", "backdrop-#{$name}", $values);
+  @include mix.generate-utility("backdrop-filter", "backdrop-#{$name}", $values);
 }

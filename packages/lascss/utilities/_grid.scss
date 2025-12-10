@@ -2,7 +2,6 @@
 @use "../variables" as var;
 @use "../core/functions" as func;
 
-
 //____________ COLUMNS ____________//
 // GRID TEMPLATE COLUMNS
 @include mix.generate-utility(grid-template-columns, grid-cols, var.$grid);
@@ -22,7 +21,6 @@
 // COL-SPAN
 @include mix.generate-utility(grid-column, col-span, var.$generate-span);
 @include mix.generate-negative-utilities(grid-column, col-span, var.$generate-span);
-
 
 //____________ ROWS ____________//
 
@@ -52,7 +50,6 @@
 // GRID AUTO COLUMNS
 @include mix.generate-utility(grid-auto-columns, auto-cols, var.$grid-auto);
 @include mix.generate-utility(grid-auto-rows, auto-rows, var.$grid-auto);
-
 
 // Grid Alignmnet
 @include mix.generate-utility("place-content", "place-content", var.$place-content-values);

@@ -5,17 +5,13 @@ import { IConfigProps } from "./config";
 
 const AT_RULE = "apply";
 
-export function extractApplyClasses(
-  filepath: string,
-  cssMap: Map<string, string>,
-  config: IConfigProps
-) {
+export function extractApplyClasses(filepath: string, cssMap: Map<string, string>, config: IConfigProps) {
   // gele filepat içeriğini al
   const content = fs.readFileSync(filepath, "utf-8");
   // içeriği parse ederek AST oluştur
   const root = postcss.parse(content);
 
-  root.walkAtRules(AT_RULE, (atRule) => {
+  root.walkAtRules(AT_RULE, atRule => {
     const clasess = atRule.params.split(/\s+/).filter(Boolean); // @apply ile sonrasındaki classları al
     const parent = atRule.parent; // content içinde parent classları alır
 
@@ -57,10 +53,7 @@ export function extractApplyClasses(
           const lastColonIndex = generatedRule.selector.lastIndexOf(":");
 
           // Eğer : varsa ve escaped değilse (öncesinde \ yok)
-          if (
-            lastColonIndex > 0 &&
-            generatedRule.selector[lastColonIndex - 1] !== "\\"
-          ) {
+          if (lastColonIndex > 0 && generatedRule.selector[lastColonIndex - 1] !== "\\") {
             const pseudoPart = generatedRule.selector.substring(lastColonIndex);
             generatedRule.selector = resolvedSelector + pseudoPart;
           } else {
@@ -107,22 +100,15 @@ function resolveSelector(rule: Rule): string {
  * Normal rule'ları işler (modifier olmayan class'lar)
  * Declaration'ları @apply'ın yerine ekler
  */
-function handleNormalRule(
-  generatedRule: Rule,
-  atRule: AtRule,
-  existingProps: Map<string, Declaration>,
-  root?: Root,
-  config?: IConfigProps
-) {
+function handleNormalRule(generatedRule: Rule, atRule: AtRule, existingProps: Map<string, Declaration>, root?: Root, config?: IConfigProps) {
   // Config'den pseudo-selector kontrolü
-  const hasPseudo =
-    config && checkIfPseudoSelector(generatedRule.selector, config);
+  const hasPseudo = config && checkIfPseudoSelector(generatedRule.selector, config);
 
   if (hasPseudo && root) {
     // Aynı selector'lı rule var mı kontrol et
     let existingPseudoRule: Rule | undefined;
 
-    root.walkRules((rule) => {
+    root.walkRules(rule => {
       if (rule.selector === generatedRule.selector) {
         existingPseudoRule = rule;
       }
@@ -130,7 +116,7 @@ function handleNormalRule(
 
     if (existingPseudoRule) {
       // Var olan rule'a declaration'ları ekle
-      generatedRule.each((node) => {
+      generatedRule.each(node => {
         if (node.type === "decl") {
           existingPseudoRule!.append(node.clone());
         }
@@ -141,7 +127,7 @@ function handleNormalRule(
     }
   } else {
     // Normal class, declaration'ları inline ekle
-    generatedRule.each((node) => {
+    generatedRule.each(node => {
       if (node.type === "decl") {
         const decl = node as Declaration;
 
@@ -159,7 +145,7 @@ function handleNormalRule(
 }
 
 function handleAtRule(atRule: AtRule, targetSelector: string, root: Root) {
-  atRule.walkRules((innerRule) => {
+  atRule.walkRules(innerRule => {
     // Media query içindeki selector'ı da düzelt (pseudo-selector'ı koru)
     const lastColonIndex = innerRule.selector.lastIndexOf(":");
 
@@ -179,10 +165,7 @@ function handleAtRule(atRule: AtRule, targetSelector: string, root: Root) {
  * @param config - Config objesi (variants içerir)
  * @returns Pseudo-selector varsa true
  */
-function checkIfPseudoSelector(
-  selector: string,
-  config: IConfigProps
-): boolean {
+function checkIfPseudoSelector(selector: string, config: IConfigProps): boolean {
   // Selector'dan pseudo kısmını al (:hover, :focus, vs.)
   const pseudoMatch = selector.match(/:([a-z-]+)(?:\([^)]*\))?$/);
   if (!pseudoMatch) return false;

@@ -1,106 +1,105 @@
 $cursor-values: (
-        "auto": auto,
-        "default": default,
-        "pointer": pointer,
-        "wait": wait,
-        "text": text,
-        "move": move,
-        "help": help,
-        "not-allowed": not-allowed,
-        "none": none,
-        "context-menu": context-menu,
-        "progress": progress,
-        "cell": cell,
-        "crosshair": crosshair,
-        "vertical-text": vertical-text,
-        "alias": alias,
-        "copy": copy,
-        "no-drop": no-drop,
-        "grab": grab,
-        "grabbing": grabbing,
-        "all-scroll": all-scroll,
-        "col-resize": col-resize,
-        "row-resize": row-resize,
-        "n-resize": n-resize,
-        "e-resize": e-resize,
-        "s-resize": s-resize,
-        "w-resize": w-resize,
-        "ne-resize": ne-resize,
-        "nw-resize": nw-resize,
-        "se-resize": se-resize,
-        "sw-resize": sw-resize,
-        "ew-resize": ew-resize,
-        "ns-resize": ns-resize,
-        "nesw-resize": nesw-resize,
-        "nwse-resize": nwse-resize,
-        "zoom-in": zoom-in,
-        "zoom-out": zoom-out
+  "auto": auto,
+  "default": default,
+  "pointer": pointer,
+  "wait": wait,
+  "text": text,
+  "move": move,
+  "help": help,
+  "not-allowed": not-allowed,
+  "none": none,
+  "context-menu": context-menu,
+  "progress": progress,
+  "cell": cell,
+  "crosshair": crosshair,
+  "vertical-text": vertical-text,
+  "alias": alias,
+  "copy": copy,
+  "no-drop": no-drop,
+  "grab": grab,
+  "grabbing": grabbing,
+  "all-scroll": all-scroll,
+  "col-resize": col-resize,
+  "row-resize": row-resize,
+  "n-resize": n-resize,
+  "e-resize": e-resize,
+  "s-resize": s-resize,
+  "w-resize": w-resize,
+  "ne-resize": ne-resize,
+  "nw-resize": nw-resize,
+  "se-resize": se-resize,
+  "sw-resize": sw-resize,
+  "ew-resize": ew-resize,
+  "ns-resize": ns-resize,
+  "nesw-resize": nesw-resize,
+  "nwse-resize": nwse-resize,
+  "zoom-in": zoom-in,
+  "zoom-out": zoom-out,
 );
 
 //textarea içine metin girdikçe uzunluğu arttırı
 $field-sizing-values: (
-        "fixed": fixed,
-        "content": content
+  "fixed": fixed,
+  "content": content,
 );
 
 $pointer-events-values: (
-        "auto": auto,
-        "none": none
+  "auto": auto,
+  "none": none,
 );
 $resize-values: (
-        "none": none,
-        "": both,
-        "y": vertical,
-        "x": horizontal
+  "none": none,
+  "": both,
+  "y": vertical,
+  "x": horizontal,
 );
 $scroll-values: (
-        "auto": auto,
-        "smooth": smooth
+  "auto": auto,
+  "smooth": smooth,
 );
 $scroll-snap-align-values: (
-        "start": start,
-        "end": end,
-        "center": center,
-        "none": none
+  "start": start,
+  "end": end,
+  "center": center,
+  "none": none,
 );
 $scroll-snap-stop-values: (
-        "normal": normal,
-        "always": always
+  "normal": normal,
+  "always": always,
 );
 $scroll-snap-type-values: (
-        "none": none,
-        "x": x var(--las-scroll-snap-strictness),
-        "y": y var(--las-scroll-snap-strictness),
-        "both": both var(--las-scroll-snap-strictness)
+  "none": none,
+  "x": x var(--las-scroll-snap-strictness),
+  "y": y var(--las-scroll-snap-strictness),
+  "both": both var(--las-scroll-snap-strictness),
 );
 
 $scroll-snap-strictness-values: (
-        "mandatory": mandatory,
-        "proximity": proximity
+  "mandatory": mandatory,
+  "proximity": proximity,
 );
-
 
 $touch-action-values: (
-        "auto": auto,
-        "none": none,
-        "pan-x": pan-x,
-        "pan-left": pan-left,
-        "pan-right": pan-right,
-        "pan-y": pan-y,
-        "pan-up": pan-up,
-        "pan-down": pan-down,
-        "pinch-zoom": pinch-zoom,
-        "manipulation": manipulation
+  "auto": auto,
+  "none": none,
+  "pan-x": pan-x,
+  "pan-left": pan-left,
+  "pan-right": pan-right,
+  "pan-y": pan-y,
+  "pan-up": pan-up,
+  "pan-down": pan-down,
+  "pinch-zoom": pinch-zoom,
+  "manipulation": manipulation,
 );
 $user-select-values: (
-        "none": none,
-        "text": text,
-        "all": all,
-        "auto": auto
+  "none": none,
+  "text": text,
+  "all": all,
+  "auto": auto,
 );
 $will-change-values: (
-        "auto": auto,
-        "scroll": scroll-position,
-        "contents": contents,
-        "transform": transform
+  "auto": auto,
+  "scroll": scroll-position,
+  "contents": contents,
+  "transform": transform,
 );

@@ -6,4 +6,3 @@
 @include mix.generate-utility(transition-duration, transition-duration, var.$transition-duration-scale);
 @include mix.generate-utility(transition-timing-function, "ease", var.$transition-ease-scale);
 @include mix.generate-utility(transition-delay, transition-delay, var.$transition-duration-scale);
-

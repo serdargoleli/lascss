@@ -1,10 +1,6 @@
 import fs from "fs";
 import path from "path";
-import {
-  DEFAULT_CSS_EXTENSIONS,
-  DEFAULT_EXTENSIONS,
-  DEFAULT_IGNORE_DIRS
-} from "../constants";
+import { DEFAULT_CSS_EXTENSIONS, DEFAULT_EXTENSIONS, DEFAULT_IGNORE_DIRS } from "../constants";
 /**
  * HTML/JSX dosyalarını tarayıp class isimlerini çıkarır
  *
@@ -16,11 +12,7 @@ export function scanFile(filePath: string) {
   return extractClasses(content);
 }
 
-export function scanDirectory(
-  dirPath: string,
-  extensions: string[] = DEFAULT_EXTENSIONS,
-  ignoreDirs: string[] = DEFAULT_IGNORE_DIRS
-): Set<string> {
+export function scanDirectory(dirPath: string, extensions: string[] = DEFAULT_EXTENSIONS, ignoreDirs: string[] = DEFAULT_IGNORE_DIRS): Set<string> {
   const allClasses = new Set<string>();
 
   function walk(dir: string) {
@@ -35,9 +27,9 @@ export function scanDirectory(
         if (!ignoreDirs.includes(file)) {
           walk(filePath);
         }
-      } else if (extensions.some((ext) => file.endsWith(ext))) {
+      } else if (extensions.some(ext => file.endsWith(ext))) {
         const classes = scanFile(filePath);
-        classes.forEach((cls) => allClasses.add(cls));
+        classes.forEach(cls => allClasses.add(cls));
       }
     }
   }
@@ -63,7 +55,7 @@ export function extractClasses(content: string): Set<string> {
   // Regex: class="..." veya className="..." veya className={'...'}
   const patterns = [
     /class(?:Name)?=["']([^"']+)["']/g, // class="..." veya className="..."
-    /class(?:Name)?=\{['"]([^'"]+)['"]\}/g // className={'...'}
+    /class(?:Name)?=\{['"]([^'"]+)['"]\}/g, // className={'...'}
   ];
 
   for (const pattern of patterns) {
@@ -72,7 +64,7 @@ export function extractClasses(content: string): Set<string> {
       const classString = match[1];
       // Boşluklara göre ayır ve her birini ekle
       const classNames = classString.split(/\s+/).filter(Boolean);
-      classNames.forEach((cls) => classes.add(cls));
+      classNames.forEach(cls => classes.add(cls));
     }
   }
 
@@ -86,11 +78,7 @@ export function extractClasses(content: string): Set<string> {
  * @param cssExtensions - CSS dosya uzantıları
  * @returns Bulunan CSS dosya yolları
  */
-export function findCSSFiles(
-  dirPath: string,
-  cssExtensions: string[] = DEFAULT_CSS_EXTENSIONS,
-  ignoreDirs: string[] = DEFAULT_IGNORE_DIRS
-): string[] {
+export function findCSSFiles(dirPath: string, cssExtensions: string[] = DEFAULT_CSS_EXTENSIONS, ignoreDirs: string[] = DEFAULT_IGNORE_DIRS): string[] {
   const cssFiles: string[] = [];
 
   function walk(dir: string) {
@@ -108,7 +96,7 @@ export function findCSSFiles(
         }
       } else if (file.isFile()) {
         // CSS uzantılarını kontrol et
-        if (cssExtensions.some((ext) => file.name.endsWith(ext))) {
+        if (cssExtensions.some(ext => file.name.endsWith(ext))) {
           cssFiles.push(filePath);
         }
       }

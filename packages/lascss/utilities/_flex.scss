@@ -2,35 +2,15 @@
 @use "../core/functions" as func;
 @use "../variables" as var;
 
-@include mix.generate-utility(
-  "justify-content",
-  "justify",
-  var.$justify-content-values
-);
-@include mix.generate-utility(
-  "justify-items",
-  "justify-items",
-  var.$justify-items-values
-);
-@include mix.generate-utility(
-  "justify-self",
-  "justify-self",
-  var.$justify-self-values
-);
+@include mix.generate-utility("justify-content", "justify", var.$justify-content-values);
+@include mix.generate-utility("justify-items", "justify-items", var.$justify-items-values);
+@include mix.generate-utility("justify-self", "justify-self", var.$justify-self-values);
 
-@include mix.generate-utility(
-  "align-content",
-  "content",
-  var.$align-content-values
-);
+@include mix.generate-utility("align-content", "content", var.$align-content-values);
 @include mix.generate-utility("align-items", "items", var.$align-items-values);
 @include mix.generate-utility("align-self", "self", var.$align-self-values);
 
-@include mix.generate-utility(
-  "flex-direction",
-  "flex",
-  var.$flex-direction-values
-);
+@include mix.generate-utility("flex-direction", "flex", var.$flex-direction-values);
 @include mix.generate-utility("flex-wrap", "flex", var.$flex-wrap-values);
 
 @include mix.generate-utility("flex", "flex", var.$flex-values);
@@ -38,16 +18,10 @@
 @include mix.generate-utility("flex", "flex", var.$fractions);
 
 @include mix.generate-utility("flex-grow", "grow", var.$flex-values-sizing);
-@include mix.generate-utility(
-  "flex-shrink",
-  "flex-shrink",
-  var.$flex-values-sizing
-);
+@include mix.generate-utility("flex-shrink", "shrink", var.$flex-values-sizing);
 
 @include mix.generate-utility("order", "order", var.$order-values);
 @include mix.generate-negative-utilities("order", "order", var.$order-values);
-
-@include mix.generate-utility("order", "order", var.$order-values);
 
 @include mix.generate-utility("flex-basis", "basis", var.$flex-basis);
 @include mix.generate-utility("flex-basis", "basis", var.$sizing);

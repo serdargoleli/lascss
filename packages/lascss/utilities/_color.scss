@@ -5,7 +5,9 @@
 @each $name, $value in var.$colors {
   $scale: ();
   @if $name == "white" or $name == "black" or $name == "transparent" {
-    $scale: ("": $value);
+    $scale: (
+      "": $value,
+    );
   } @else {
     $scale: func.generate-color-scale($value);
   }

@@ -8,12 +8,15 @@
   $width-values: ();
 
   @each $width-key, $width-val in var.$border-width {
-    $width-values: map.merge($width-values, (
-            $width-key: (
-                    #{$side-prop}-width: if($width-val == 0, 0, $width-val),
-                    #{$side-prop}-style: if($width-val == 0, none, solid)
-            )
-    ));
+    $width-values: map.merge(
+      $width-values,
+      (
+        $width-key: (
+            #{$side-prop}-width: if($width-val == 0, 0, $width-val),
+            #{$side-prop}-style: if($width-val == 0, none, solid),
+          ),
+      )
+    );
   }
   @include mix.generate-multi-utility(null, $side-key, $width-values);
 }

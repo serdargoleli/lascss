@@ -36,7 +36,7 @@ const ARBITRARY_PROPERTY_MAP: Record<string, string> = {
   "min-w": "min-width",
   "min-h": "min-height",
   "max-w": "max-width",
-  "max-h": "max-height"
+  "max-h": "max-height",
 };
 
 export function generateArbitrary(className: string): string | null {
@@ -55,15 +55,13 @@ export function generateArbitrary(className: string): string | null {
   return `${cssProperty}: ${sanitizedValue}`;
 }
 
-export function parseArbitraryValue(
-  className: string
-): { prefix: string; value: string } | null {
+export function parseArbitraryValue(className: string): { prefix: string; value: string } | null {
   const match = className.match(/^([a-z-]+)\[(.+)\]$/);
   if (!match) return null;
 
   return {
     prefix: match[1],
-    value: match[2]
+    value: match[2],
   };
 }
 

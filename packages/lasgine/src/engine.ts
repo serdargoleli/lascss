@@ -6,11 +6,7 @@ import { parserCSS } from "./core/parser";
 import { loadConfig } from "./core/config";
 import { generateCSSContent } from "./core/writer";
 import { extractApplyClasses } from "./core/apply";
-import {
-  DEFAULT_CSS_EXTENSIONS,
-  DEFAULT_EXTENSIONS,
-  DEFAULT_IGNORE_DIRS
-} from "./constants";
+import { DEFAULT_CSS_EXTENSIONS, DEFAULT_EXTENSIONS, DEFAULT_IGNORE_DIRS } from "./constants";
 import { purgeUnusedCss } from "./core/purge";
 
 export interface LasEngineOptions {
@@ -62,19 +58,9 @@ export class LasEngine {
 
   constructor(options: LasEngineOptions = {}) {
     this.usedClasses = new Set();
-    this.cssExtensions = Array.from(
-      new Set([...DEFAULT_CSS_EXTENSIONS, ...(options.cssExtensions || [])])
-    );
-    this.extensions = Array.from(
-      new Set([
-        ...DEFAULT_EXTENSIONS,
-        ...this.cssExtensions,
-        ...(options.extensions || [])
-      ])
-    );
-    this.ignoreDirs = Array.from(
-      new Set([...DEFAULT_IGNORE_DIRS, ...(options.ignoreDirs || [])])
-    );
+    this.cssExtensions = Array.from(new Set([...DEFAULT_CSS_EXTENSIONS, ...(options.cssExtensions || [])]));
+    this.extensions = Array.from(new Set([...DEFAULT_EXTENSIONS, ...this.cssExtensions, ...(options.extensions || [])]));
+    this.ignoreDirs = Array.from(new Set([...DEFAULT_IGNORE_DIRS, ...(options.ignoreDirs || [])]));
     this.baseCSS = readBaseCSS();
     // Başlangıç verilerini yükle
     this.cssContent = readUtilityCSS();
@@ -88,19 +74,15 @@ export class LasEngine {
    * Belirtilen dizinleri tarar ve başlangıç CSS'ini üretir.
    */
   public init(scanDirs: string[]) {
-    scanDirs.forEach((dir) => {
+    scanDirs.forEach(dir => {
       if (fs.existsSync(dir)) {
         // Class tarama
-        const foundClasses = scanDirectory(
-          dir,
-          this.extensions,
-          this.ignoreDirs
-        );
-        foundClasses.forEach((cls) => this.usedClasses.add(cls));
+        const foundClasses = scanDirectory(dir, this.extensions, this.ignoreDirs);
+        foundClasses.forEach(cls => this.usedClasses.add(cls));
 
         // CSS dosyalarını bul ve @apply işle
         const cssFiles = findCSSFiles(dir, this.cssExtensions, this.ignoreDirs);
-        cssFiles.forEach((file) => {
+        cssFiles.forEach(file => {
           this.watchedCSSFiles.add(file);
           const result = extractApplyClasses(file, this.cssMap, this.config);
           const processedCSS = result.toString();
@@ -115,10 +97,10 @@ export class LasEngine {
    */
   public updateFile(filePath: string): boolean {
     // Sadece desteklenen uzantıları tara
-    if (!this.extensions.some((ext) => filePath.endsWith(ext))) return false;
+    if (!this.extensions.some(ext => filePath.endsWith(ext))) return false;
 
     // CSS dosyaları için özel işlem
-    if (this.cssExtensions.some((ext) => filePath.endsWith(ext))) {
+    if (this.cssExtensions.some(ext => filePath.endsWith(ext))) {
       this.watchedCSSFiles.add(filePath);
       const result = extractApplyClasses(filePath, this.cssMap, this.config);
       const processedCSS = result.toString();
@@ -130,7 +112,7 @@ export class LasEngine {
     const newClasses = scanFile(filePath);
     let addedCount = 0;
 
-    newClasses.forEach((cls) => {
+    newClasses.forEach(cls => {
       if (!this.usedClasses.has(cls)) {
         this.usedClasses.add(cls);
         addedCount++;
@@ -138,9 +120,7 @@ export class LasEngine {
     });
 
     if (addedCount > 0) {
-      console.log(
-        `⚡ ${addedCount} yeni class eklendi: ${path.basename(filePath)}`
-      );
+      console.log(`⚡ ${addedCount} yeni class eklendi: ${path.basename(filePath)}`);
       return true;
     }
 
@@ -151,13 +131,9 @@ export class LasEngine {
    * Güncel CSS içeriğini döner (hızlı, sync). Dev/HMR için kullan.
    */
   public getCSS(): string {
-    const generated = generateCSSContent(
-      this.usedClasses,
-      this.cssMap,
-      this.config
-    );
+    const generated = generateCSSContent(this.usedClasses, this.cssMap, this.config);
     let processedCSS = "";
-    this.processedCSSFiles.forEach((css) => {
+    this.processedCSSFiles.forEach(css => {
       processedCSS += css + "\n";
     });
     // Kullanıcı CSS'inden kullanılmayan class'ları temizle (base ve JIT üretilenlere dokunma)
@@ -183,10 +159,7 @@ export class LasEngine {
    */
   public getCssFileInfo(css: string) {
     const bytes = Buffer.byteLength(css, "utf8");
-    const result =
-      bytes >= 1024 * 1024
-        ? `${(bytes / (1024 * 1024)).toFixed(2)} MB`
-        : `${(bytes / 1024).toFixed(2)} kB`;
+    const result = bytes >= 1024 * 1024 ? `${(bytes / (1024 * 1024)).toFixed(2)} MB` : `${(bytes / 1024).toFixed(2)} kB`;
     return result;
   }
 

@@ -33,7 +33,7 @@ export default function lascss(options: LasEngineOptions): Plugin {
 
   function scanProject(root: string) {
     const dirsToScan = options.scanDirs || ["src"];
-    const scanDirs = dirsToScan.map((dir) => path.resolve(root, dir));
+    const scanDirs = dirsToScan.map(dir => path.resolve(root, dir));
     engine.init(scanDirs);
   }
 
@@ -59,7 +59,7 @@ export default function lascss(options: LasEngineOptions): Plugin {
         const moduleSideEffects = config?.command !== "build";
         return {
           id: resolvedVirtualModuleId,
-          moduleSideEffects
+          moduleSideEffects,
         };
       }
     },
@@ -113,9 +113,9 @@ export default function lascss(options: LasEngineOptions): Plugin {
           tag: "style",
           attrs: { "data-lascss": "" },
           children: css,
-          injectTo: "head"
-        }
+          injectTo: "head",
+        },
       ];
-    }
+    },
   };
 }

@@ -7,7 +7,7 @@ export default defineConfig({
   plugins: [
     react(),
     lascss({
-      scanDirs: ["src"]
-    }) as PluginOption
-  ]
+      scanDirs: ["src"],
+    }) as PluginOption,
+  ],
 });

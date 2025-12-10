@@ -18,4 +18,3 @@ $height-values: func.merge-maps(var.$height-special-values, $merge-size-values);
 @include mix.generate-utility(max-height, max-h, $height-values);
 
 @include mix.generate-multi-utility((width, height), size, $merge-size-values);
-

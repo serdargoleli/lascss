@@ -124,9 +124,7 @@ Format [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) standardına day
 <h2 class="text-shadow-blue-500">Mavi metin gölgesi</h2>
 
 <!-- Temel Renkler -->
-<div class="bg-white text-black border-transparent">
-  Beyaz arka plan, siyah metin
-</div>
+<div class="bg-white text-black border-transparent">Beyaz arka plan, siyah metin</div>
 ```
 
 ### ⚠️ Önemli Notlar

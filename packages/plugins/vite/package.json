@@ -1,37 +1,37 @@
 {
-    "name": "@las/vite",
-    "version": "1.0.0",
-    "description": "LASCSS JIT Vite plugin",
-    "type": "module",
-    "main": "dist/index.js",
-    "module": "dist/index.esm.js",
-    "types": "dist/index.d.ts",
-    "exports": {
-        ".": {
-            "types": "./dist/index.d.ts",
-            "import": "./dist/index.esm.js",
-            "require": "./dist/index.js"
-        }
-    },
-    "files": [
-        "dist"
-    ],
-    "scripts": {
-        "build": "tsc -p tsconfig.json",
-        "clean": "rimraf dist",
-        "dev": "tsc -w -p tsconfig.json"
-    },
-    "peerDependencies": {
-        "vite": "^6.0.0 || ^7.0.0"
-    },
-    "dependencies": {
-        "@las/lasgine": "workspace:*"
-    },
+  "name": "@las/vite",
+  "version": "1.0.0",
+  "description": "LASCSS JIT Vite plugin",
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.esm.js",
+      "require": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "clean": "rimraf dist",
+    "dev": "tsc -w -p tsconfig.json"
+  },
+  "peerDependencies": {
+    "vite": "^6.0.0 || ^7.0.0"
+  },
+  "dependencies": {
+    "@las/lasgine": "workspace:*"
+  },
   "devDependencies": {
     "@types/node": "^24.10.1",
     "rimraf": "^6.1.2",
     "vite": "^7.2.4",
     "typescript": "^5.7.2"
   },
-    "sideEffects": false
+  "sideEffects": false
 }

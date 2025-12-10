@@ -1,66 +1,65 @@
 $padding-directions: (
-        "": padding,
-        "x": padding-inline,
-        "y": padding-block,
-        "t": padding-top,
-        "r": padding-right,
-        "b": padding-bottom,
-        "l": padding-left,
-        "s": padding-inline-start,
-        "e": padding-inline-end
+  "": padding,
+  "x": padding-inline,
+  "y": padding-block,
+  "t": padding-top,
+  "r": padding-right,
+  "b": padding-bottom,
+  "l": padding-left,
+  "s": padding-inline-start,
+  "e": padding-inline-end,
 ) !default;
 
-
 $margin-directions: (
-        "": margin,
-        "x": margin-inline,
-        "y": margin-block,
-        "t": margin-top,
-        "r": margin-right,
-        "b": margin-bottom,
-        "l": margin-left,
-        "s": margin-inline-start,
-        "e": margin-inline-end
+  "": margin,
+  "x": margin-inline,
+  "y": margin-block,
+  "t": margin-top,
+  "r": margin-right,
+  "b": margin-bottom,
+  "l": margin-left,
+  "s": margin-inline-start,
+  "e": margin-inline-end,
 ) !default;
 
 $gap-directions: (
-        "": gap,
-        "x": column-gap,
-        "y": row-gap
+  "": gap,
+  "x": column-gap,
+  "y": row-gap,
 ) !default;
 
 $inset-directions: (
-        "inset": inset,
-        "x": inset-inline,
-        "y": inset-block,
-        "top": top,
-        "right": right,
-        "bottom": bottom,
-        "left": left,
-        "start": inset-inline-start,
-        "end": inset-inline-end
+  "inset": inset,
+  "x": inset-inline,
+  "y": inset-block,
+  "top": top,
+  "right": right,
+  "bottom": bottom,
+  "left": left,
+  "start": inset-inline-start,
+  "end": inset-inline-end,
 ) !default;
 
 $scroll-margin-directions: (
-        "": scroll-margin,
-        "t": scroll-margin-top,
-        "r": scroll-margin-right,
-        "b": scroll-margin-bottom,
-        "l": scroll-margin-left,
-        "x": scroll-margin-inline,
-        "y": scroll-margin-block,
-        "s": scroll-margin-inline-start,
-        "e": scroll-margin-inline-end
+  "": scroll-margin,
+  "t": scroll-margin-top,
+  "r": scroll-margin-right,
+  "b": scroll-margin-bottom,
+  "l": scroll-margin-left,
+  "x": scroll-margin-inline,
+  "y": scroll-margin-block,
+  "s": scroll-margin-inline-start,
+  "e": scroll-margin-inline-end,
 );
 
 $scroll-padding-directions: (
-        "": scroll-padding,
-        "t": scroll-padding-top,
-        "r": scroll-padding-right,
-        "b": scroll-padding-bottom,
-        "l": scroll-padding-left,
-        "x": scroll-padding-inline,
-        "y": scroll-padding-block,
-        "s": scroll-padding-inline-start,
-        "e": scroll-padding-inline-end
+  "": scroll-padding,
+  "t": scroll-padding-top,
+  "r": scroll-padding-right,
+  "b": scroll-padding-bottom,
+  "l": scroll-padding-left,
+  "x": scroll-padding-inline,
+  "y": scroll-padding-block,
+  "s": scroll-padding-inline-start,
+  "e": scroll-padding-inline-end,
 );

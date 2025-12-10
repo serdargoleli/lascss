@@ -3,7 +3,7 @@ import postcss, { AtRule, Rule } from "postcss";
 function extractClasses(selector: string): string[] {
   const matches = selector.match(/\.([A-Za-z0-9_-]+)/g);
   if (!matches) return [];
-  return matches.map((m) => m.slice(1));
+  return matches.map(m => m.slice(1));
 }
 
 function resolveSelectors(rule: Rule): string[] {
@@ -19,8 +19,8 @@ function resolveSelectors(rule: Rule): string[] {
   const parentSelectors = resolveSelectors(parent as Rule);
   const resolved: string[] = [];
 
-  parentSelectors.forEach((pSel) => {
-    current.forEach((sel) => {
+  parentSelectors.forEach(pSel => {
+    current.forEach(sel => {
       if (sel.includes("&")) {
         resolved.push(sel.replace(/&/g, pSel));
       } else {
@@ -38,23 +38,20 @@ function resolveSelectors(rule: Rule): string[] {
  * - Virgülle ayrılmış selector'larda sadece kullanılanları bırakır.
  * - Boş kalan rule'ları ve @media/@supports gibi at-rule'ları siler.
  */
-export function purgeUnusedCss(
-  css: string,
-  usedClasses: Set<string>
-): string {
+export function purgeUnusedCss(css: string, usedClasses: Set<string>): string {
   const root = postcss.parse(css);
 
   root.walkRules((rule: Rule) => {
     const selectors = resolveSelectors(rule);
     const keptSelectors: string[] = [];
 
-    selectors.forEach((sel) => {
+    selectors.forEach(sel => {
       const classes = extractClasses(sel);
       if (classes.length === 0) {
         keptSelectors.push(sel); // global/tag/id selector
         return;
       }
-      const keep = classes.some((cls) => usedClasses.has(cls));
+      const keep = classes.some(cls => usedClasses.has(cls));
       if (keep) keptSelectors.push(sel);
     });
 
@@ -69,7 +66,7 @@ export function purgeUnusedCss(
     }
 
     // Rule içinde hiç declaration kalmadıysa (yalnızca yorum/at-rule) sil
-    const hasDecl = rule.nodes?.some((n) => n.type === "decl");
+    const hasDecl = rule.nodes?.some(n => n.type === "decl");
     if (!hasDecl) {
       rule.remove();
     }

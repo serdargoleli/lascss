@@ -4,9 +4,7 @@ function App() {
 
   return (
     <div className="p-3">
-      <div className="bg-green-500 text-center text-white  mb-3 p-4 rounded-lg">
-        denem
-      </div>
+      <div className="bg-green-500 text-center text-white  mb-3 p-4 rounded-lg">denem</div>
       <button className="btn-primary" onClick={() => setDeneme(deneme + 1)}>
         LAS primary Button
       </button>

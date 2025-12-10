@@ -10,15 +10,12 @@ export const colorPropertyMap: Record<string, string> = {
   fill: "fill",
   stroke: "stroke",
   shadow: "--las-shadow-color", // CSS variable for shadow
-  "text-shadow": "--las-text-shadow-color" // CSS variable for text-shadow
+  "text-shadow": "--las-text-shadow-color", // CSS variable for text-shadow
 };
 const SHADOW_PROPERTIES = new Set(["shadow", "text-shadow"]);
 const ALLOWED_SHADES = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950];
 
-export function generateColor(
-  className: string,
-  config: IConfigProps
-): string | null {
+export function generateColor(className: string, config: IConfigProps): string | null {
   let opacity: number | null = null;
 
   // Opacity kontrolü (bg-red-500/10)
@@ -173,7 +170,7 @@ function hexToRgb(hex: string) {
     ? {
         r: parseInt(result[1], 16), //hex (16’lık) stringi onluk sayıya çevirir. ff -> 255
         g: parseInt(result[2], 16),
-        b: parseInt(result[3], 16)
+        b: parseInt(result[3], 16),
       }
     : null;
 }
@@ -206,11 +203,7 @@ function calculateColor(hex: string, shade: number): string {
   }
 }
 
-function mixColors(
-  color1: string,
-  colorTransition: string,
-  weight: number
-): string {
+function mixColors(color1: string, colorTransition: string, weight: number): string {
   const c1 = hexToRgb(color1);
   const c2 = hexToRgb(colorTransition);
   if (!c1 || !c2) return color1;

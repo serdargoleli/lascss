@@ -1,93 +1,92 @@
 @use "../core/functions" as func;
 $grid: (
-        none: none,
-        subgrid: subgrid,
-        1: repeat(1, minmax(0, 1fr)),
-        2: repeat(2, minmax(0, 1fr)),
-        3: repeat(3, minmax(0, 1fr)),
-        4: repeat(4, minmax(0, 1fr)),
-        5: repeat(5, minmax(0, 1fr)),
-        6: repeat(6, minmax(0, 1fr)),
-        7: repeat(7, minmax(0, 1fr)),
-        8: repeat(8, minmax(0, 1fr)),
-        9: repeat(9, minmax(0, 1fr)),
-        10: repeat(10, minmax(0, 1fr)),
-        11: repeat(11, minmax(0, 1fr)),
-        12: repeat(12, minmax(0, 1fr))
+  none: none,
+  subgrid: subgrid,
+  1: repeat(1, minmax(0, 1fr)),
+  2: repeat(2, minmax(0, 1fr)),
+  3: repeat(3, minmax(0, 1fr)),
+  4: repeat(4, minmax(0, 1fr)),
+  5: repeat(5, minmax(0, 1fr)),
+  6: repeat(6, minmax(0, 1fr)),
+  7: repeat(7, minmax(0, 1fr)),
+  8: repeat(8, minmax(0, 1fr)),
+  9: repeat(9, minmax(0, 1fr)),
+  10: repeat(10, minmax(0, 1fr)),
+  11: repeat(11, minmax(0, 1fr)),
+  12: repeat(12, minmax(0, 1fr)),
 ) !default;
 
 $grid-numbers: (
-        auto: auto,
-        1: 1,
-        2: 2,
-        3: 3,
-        4: 4,
-        5: 5,
-        6: 6,
-        7: 7,
-        8: 8,
-        9: 9,
-        10: 10,
-        11: 11,
-        12: 12
+  auto: auto,
+  1: 1,
+  2: 2,
+  3: 3,
+  4: 4,
+  5: 5,
+  6: 6,
+  7: 7,
+  8: 8,
+  9: 9,
+  10: 10,
+  11: 11,
+  12: 12,
 ) !default;
 
 $generate-span: func.generate-grid-span($grid-numbers);
 
 $grid-flow: (
-        row: row,
-        col: column,
-        dense: dense,
-        'row-dense': row dense,
-        'col-dense': column dense
+  row: row,
+  col: column,
+  dense: dense,
+  "row-dense": row dense,
+  "col-dense": column dense,
 ) !default;
 
 $grid-auto: (
-        auto: auto,
-        min: min-content,
-        max: max-content,
-        fr: minmax(0, 1fr)
+  auto: auto,
+  min: min-content,
+  max: max-content,
+  fr: minmax(0, 1fr),
 ) !default;
 
-
 $place-items-values: (
-        "start": start,
-        "end": end,
-        "end-safe": safe end,
-        "center": center,
-        "center-safe": safe center,
-        "baseline": baseline,
-        "stretch": stretch
+  "start": start,
+  "end": end,
+  "end-safe": safe end,
+  "center": center,
+  "center-safe": safe center,
+  "baseline": baseline,
+  "stretch": stretch,
 );
 $place-self-values: (
-        "auto": auto,
-        "start": start,
-        "end": end,
-        "end-safe": safe end,
-        "center": center,
-        "center-safe": safe center,
-        "stretch": stretch
+  "auto": auto,
+  "start": start,
+  "end": end,
+  "end-safe": safe end,
+  "center": center,
+  "center-safe": safe center,
+  "stretch": stretch,
 );
 
 $flex-direction-values: (
-        "row": row,
-        "row-reverse": row-reverse,
-        "col": column,
-        "col-reverse": column-reverse
+  "row": row,
+  "row-reverse": row-reverse,
+  "col": column,
+  "col-reverse": column-reverse,
 );
 
 $columns-sizes: (
-        "3xs": 16rem,
-        "2xs": 18rem,
-        "xs": 20rem,
-        "sm": 24rem,
-        "md": 28rem,
-        "lg": 32rem,
-        "xl": 36rem,
-        "2xl": 42rem,
-        "3xl": 48rem,
-        "4xl": 56rem,
-        "5xl": 64rem,
-        "6xl": 72rem,
-        "7xl": 80rem
+  "3xs": 16rem,
+  "2xs": 18rem,
+  "xs": 20rem,
+  "sm": 24rem,
+  "md": 28rem,
+  "lg": 32rem,
+  "xl": 36rem,
+  "2xl": 42rem,
+  "3xl": 48rem,
+  "4xl": 56rem,
+  "5xl": 64rem,
+  "6xl": 72rem,
+  "7xl": 80rem,
 );

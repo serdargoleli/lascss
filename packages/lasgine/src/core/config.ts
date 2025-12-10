@@ -26,8 +26,7 @@ export function loadConfig(): IConfigProps {
   // --las-color-red: ...
   // --las-config-color-bg: true
   // --las-opacity-50: 0.5
-  const regex =
-    /--las-(breakpoint|variant|color|config-color|single-color|opacity)-([a-z0-9-]+):\s*([^;]+);/g;
+  const regex = /--las-(breakpoint|variant|color|config-color|single-color|opacity)-([a-z0-9-]+):\s*([^;]+);/g;
 
   let match;
   while ((match = regex.exec(cssContent)) !== null) {

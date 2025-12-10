@@ -28,6 +28,3 @@
 @include mix.generate-utility(overflow-wrap, wrap, var.$overflow-wrap-values);
 @include mix.generate-utility(hyphens, hyphens, var.$hyphens-values);
 @include mix.generate-utility(content, content, var.$content-values);
-
-
-

@@ -13,4 +13,3 @@
 @include mix.generate-utility(user-select, select, var.$user-select-values);
 @include mix.generate-utility(will-change, will-change, var.$will-change-values);
 @include mix.generate-utility(--las-scroll-snap-strictness, snap, var.$scroll-snap-strictness-values);
-

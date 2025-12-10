@@ -3,5 +3,4 @@
 
 @each $filter-name, $values in var.$filter {
   @include mix.generate-utility("filter", $filter-name, $values);
-
 }

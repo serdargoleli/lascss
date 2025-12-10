@@ -4,7 +4,6 @@
 @use "sass:math";
 @use "sass:color";
 
-
 @function str-replace($string, $search, $replace: "") {
   $string: convert-string($string);
   $index: string.index($string, $search);
@@ -13,7 +12,6 @@
   }
   @return $string;
 }
-
 
 // 1.5 gibi durumları escape eder m-1\.4 gibi
 @function escape-dots($str) {
@@ -26,9 +24,9 @@
 
 //convert eder
 @function convert-string($value) {
-  @if meta.type-of($value)=='number' {
+  @if meta.type-of($value) == "number" {
     @return #{$value};
-  } @else if meta.type-of($value)=='string' {
+  } @else if meta.type-of($value) == "string" {
     @return $value;
   } @else {
     @error 'Input #{$value} is no number or string';
@@ -50,14 +48,18 @@
   @return $str;
 }
 
-
 @function generate-grid-span($numbers) {
   $span: (
-          full: math.div(1, -1)
+    full: math.div(1, -1),
   );
   @each $key, $value in $numbers {
     @if $key != auto {
-      $span: map.merge($span, ($key: span #{$value} / span #{$value}));
+      $span: map.merge(
+        $span,
+        (
+          $key: span #{$value} / span #{$value},
+        )
+      );
     }
   }
   @return $span;
@@ -82,7 +84,12 @@
   @each $level in $levels {
     $diff: $level - 500;
     $percent: math.div($diff, 500) * 50%;
-    $colors: map.merge($colors, ($level: color.scale($base-color, $lightness: $percent)));
+    $colors: map.merge(
+      $colors,
+      (
+        $level: color.scale($base-color, $lightness: $percent),
+      )
+    );
   }
 
   @return $colors;

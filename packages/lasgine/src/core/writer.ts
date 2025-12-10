@@ -3,11 +3,7 @@ import path from "path";
 import fs from "fs";
 
 // output css string üretir
-export function generateCSSContent(
-  usedClasses: Set<string>,
-  cssMap: Map<string, string>,
-  config: any
-): string {
+export function generateCSSContent(usedClasses: Set<string>, cssMap: Map<string, string>, config: any): string {
   let css = "/* LAS JIT - Auto-generated CSS */\n\n";
 
   // Breakpoint sırasını config'den al
@@ -18,7 +14,7 @@ export function generateCSSContent(
     return getSortOrder(a, screenKeys) - getSortOrder(b, screenKeys);
   });
 
-  sortedClasses.forEach((cls) => {
+  sortedClasses.forEach(cls => {
     const generated = generateCss(cls, cssMap, config);
     if (generated) {
       css += generated + "\n";
@@ -29,12 +25,7 @@ export function generateCSSContent(
 }
 
 // output css yazar
-export function writeCSS(
-  usedClasses: Set<string>,
-  cssMap: Map<string, string>,
-  config: any,
-  outputPath: string
-) {
+export function writeCSS(usedClasses: Set<string>, cssMap: Map<string, string>, config: any, outputPath: string) {
   const css = generateCSSContent(usedClasses, cssMap, config);
 
   const outputDir = path.dirname(outputPath);

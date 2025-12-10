@@ -16,9 +16,7 @@ export function startWatcher(options: IWatcherProps) {
   const engine = new LasEngine(options.extensions);
 
   // İzlenecek dizinleri hazırla
-  const watchPaths = options.scanDirs.map((dir) =>
-    path.resolve(process.cwd(), dir)
-  );
+  const watchPaths = options.scanDirs.map(dir => path.resolve(process.cwd(), dir));
 
   // İlk taramayı yap
   engine.init(watchPaths);
@@ -37,14 +35,14 @@ export function startWatcher(options: IWatcherProps) {
       "**/dist/**",
       "**/output/**",
       "**/.git/**",
-      "**/public/**"
+      "**/public/**",
     ],
     persistent: true,
     ignoreInitial: true,
     awaitWriteFinish: {
       stabilityThreshold: 100,
-      pollInterval: 50
-    }
+      pollInterval: 50,
+    },
   });
 
   const handleUpdate = (filePath: string) => {
@@ -56,7 +54,7 @@ export function startWatcher(options: IWatcherProps) {
   };
 
   watcher.on("change", handleUpdate);
-  watcher.on("add", (filePath) => {
+  watcher.on("add", filePath => {
     console.log(`\n➕ Yeni dosya: ${path.relative(process.cwd(), filePath)}`);
     handleUpdate(filePath);
   });

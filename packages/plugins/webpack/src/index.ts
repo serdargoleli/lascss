@@ -75,25 +75,22 @@ export default class lascss {
   apply(compiler: Compiler) {
     this.isProduction = compiler.options.mode === "production";
 
-    const context =
-      compiler.options.context || compiler.context || process.cwd();
+    const context = compiler.options.context || compiler.context || process.cwd();
     const dirsToScan = this.options.scanDirs || ["src"];
-    this.scanDirs = dirsToScan.map((dir) => path.resolve(context, dir));
+    this.scanDirs = dirsToScan.map(dir => path.resolve(context, dir));
 
     this.vmPath = path.resolve(context, VIRTUAL_ID_PATH);
 
     //#region  Sanal modül oluşturma ve çözümleme
     // Virtual module her iki modda da oluştur (import "las.css" hatası olmasın)
     this.vm = new VirtualModulesPlugin({
-      [this.vmPath]: ""
+      [this.vmPath]: "",
     });
 
     this.vm.apply(compiler);
 
     // las.css isteğini yakalayıp virtual module pathi ile değiştir
-    new webpack.NormalModuleReplacementPlugin(/^las\.css$/, this.vmPath).apply(
-      compiler
-    );
+    new webpack.NormalModuleReplacementPlugin(/^las\.css$/, this.vmPath).apply(compiler);
     //#endregion
 
     //#region  Build sırasında projeyi tarayıp CSS üretilsin
@@ -103,23 +100,17 @@ export default class lascss {
     //#endregion
 
     //#region Watch sırasında projeyi tarayıp CSS üretilsin
-    compiler.hooks.watchRun.tap(PLUGIN_NAME, (comp) => {
+    compiler.hooks.watchRun.tap(PLUGIN_NAME, comp => {
       if (!this.initialized) {
         this.scanProject();
       }
 
       let hasChanged = false;
       const changedFiles = comp.modifiedFiles as Set<string> | undefined;
-      const removedFiles = (comp as any).removedFiles as
-        | Set<string>
-        | undefined;
+      const removedFiles = (comp as any).removedFiles as Set<string> | undefined;
 
       // Silme varsa veya değişiklik listesi gelmediyse tam tarama yap
-      if (
-        (removedFiles && removedFiles.size > 0) ||
-        !changedFiles ||
-        changedFiles.size === 0
-      ) {
+      if ((removedFiles && removedFiles.size > 0) || !changedFiles || changedFiles.size === 0) {
         this.scanProject(true);
         return;
       }
@@ -143,7 +134,7 @@ export default class lascss {
 
     //#region Dosya yazma biçimi
 
-    compiler.hooks.thisCompilation.tap(PLUGIN_NAME, (compilation) => {
+    compiler.hooks.thisCompilation.tap(PLUGIN_NAME, compilation => {
       this.addWatchDependencies(compilation);
       //sadece build aşamasında outputPath'e göre inline veya external olarka eklmesini sağlar
 
@@ -160,15 +151,13 @@ export default class lascss {
 \x1b[96m│\x1b[0m   📦 Output Size: \x1b[93m${sizeLabel}\x1b[0m                                    \x1b[96m│\x1b[0m
 \x1b[96m│\x1b[0m                                                              \x1b[96m│\x1b[0m
 \x1b[96m└──────────────────────────────────────────────────────────────┘\x1b[0m
-`
+`,
         );
       }
 
       // Output belirtilmişse ve production ise external CSS dosyası oluştur
       if (this.isProduction && this.options.output) {
-        const fileName = this.options.output.startsWith("/")
-          ? path.basename(this.options.output)
-          : this.options.output;
+        const fileName = this.options.output.startsWith("/") ? path.basename(this.options.output) : this.options.output;
 
         compilation.emitAsset(fileName, new sources.RawSource(css));
 
@@ -177,20 +166,11 @@ export default class lascss {
         // ayrı dosyalar oluyordu bu yüzden prod aşamasında style link eklemiyordu
         // burada projenin içindeki pluginden bul ve onun üzeirnden yazalım dedik
         //özet: Kendi içindekini veya node_modules'dakini boşver, Webpack'in elinde halihazırda çalışan CANLI örneği bul ve onu kullan
-        const htmlPluginInstance = compiler.options.plugins.find(
-          (plugin) =>
-            plugin &&
-            plugin.constructor &&
-            plugin.constructor.name === "HtmlWebpackPlugin"
-        );
+        const htmlPluginInstance = compiler.options.plugins.find(plugin => plugin && plugin.constructor && plugin.constructor.name === "HtmlWebpackPlugin");
 
-        const HtmlWebpackPluginClass = htmlPluginInstance
-          ? htmlPluginInstance.constructor
-          : null;
+        const HtmlWebpackPluginClass = htmlPluginInstance ? htmlPluginInstance.constructor : null;
 
-        const hasHtmlPlugin =
-          HtmlWebpackPluginClass &&
-          typeof (HtmlWebpackPluginClass as any).getHooks === "function";
+        const hasHtmlPlugin = HtmlWebpackPluginClass && typeof (HtmlWebpackPluginClass as any).getHooks === "function";
 
         if (hasHtmlPlugin) {
           const hook = (HtmlWebpackPluginClass as any).getHooks(compilation);
@@ -200,11 +180,11 @@ export default class lascss {
               voidTag: true,
               attributes: {
                 rel: "stylesheet",
-                href: fileName
+                href: fileName,
               },
               meta: {
-                plugin: PLUGIN_NAME
-              }
+                plugin: PLUGIN_NAME,
+              },
             });
             return data;
           });
@@ -217,11 +197,11 @@ export default class lascss {
 
   private addWatchDependencies(compilation: Compilation) {
     // Değişikliklerden haberdar olmak için dizinleri ve css dosyalarını watch listesine ekle
-    this.scanDirs.forEach((dir) => {
+    this.scanDirs.forEach(dir => {
       // import edilmezse bile izle
       compilation.contextDependencies.add(dir);
     });
-    this.engine.getWatchedCSSFiles().forEach((file) => {
+    this.engine.getWatchedCSSFiles().forEach(file => {
       compilation.fileDependencies.add(file);
     });
   }
