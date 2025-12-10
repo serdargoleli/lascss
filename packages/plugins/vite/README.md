@@ -1,19 +1,16 @@
 # @las/vite
 
-LAS CSS + LAS Engine için Vite plugin'i. Projeyi tarar, sadece kullandığın utility class'ların CSS'ini üretir ve dev modunda sanal modül üzerinden, build'de HTML'e inline yazar.
+Vite plugin for LAS CSS + LAS Engine. Scans your project, generates only the CSS you use, serves it as a virtual module in dev, and inlines it into HTML on build.
 
-## Kurulum
-
+## Install
 ```bash
 npm install -D lascss @las/vite
 pnpm add -D lascss @las/vite
 yarn add -D lascss @las/vite
 ```
 
-## Kullanım
-
+## Usage
 `vite.config.ts`:
-
 ```ts
 import { defineConfig } from "vite";
 import lascss from "@las/vite";
@@ -21,30 +18,26 @@ import lascss from "@las/vite";
 export default defineConfig({
   plugins: [
     lascss({
-      scanDirs: ["src"], // varsayılan: ["src"]
-      extensions: [".tsx", ".jsx"], // varsayılanlarla birleşir
-      ignoreDirs: ["dist"], // varsayılanlarla birleşir
+      scanDirs: ["src"],            // default: ["src"]
+      extensions: [".tsx", ".jsx"], // merged with defaults
+      ignoreDirs: ["dist"],         // merged with defaults
     }),
   ],
 });
 ```
 
-Uygulama girişi:
-
+App entry:
 ```ts
-import "virtual:las.css"; // dev'de sanal modül, build'de inline stil
+import "virtual:las.css"; // virtual module in dev, inlined style on build
 ```
 
-## Nasıl Çalışır?
+## How It Works
+- LAS Engine scans `scanDirs` and CSS/SCSS files, then JIT-generates CSS for used classes.
+- Dev: `virtual:las.css` is served by Vite’s dev server.
+- Build: CSS is minified and inlined into `index.html` head (no extra asset).
 
-- LAS Engine, `scanDirs` altındaki dosyaları ve CSS/SCSS'leri tarar.
-- Kullanılan class'lara göre JIT CSS üretir.
-- Dev'de: `virtual:las.css` modülüyle CSS'i Vite dev server'a verir.
-- Build'de: CSS minify edilir ve `index.html` head içine inline yazılır (ayrı dosya oluşturmaz).
-
-## Opsiyonlar (LasEngineOptions)
-
-- `scanDirs`: Tarama dizinleri. Varsayılan: `["src"]`.
-- `extensions`: İçerik uzantıları (html, js, ts, vue, svelte vb. ile birleşir).
-- `cssExtensions`: CSS/SCSS uzantıları (varsayılanlarla birleşir).
-- `ignoreDirs`: Yoksayılacak klasörler (varsayılanlarla birleşir).
+## Options (LasEngineOptions)
+- `scanDirs`: Directories to scan. Default: `["src"]`.
+- `extensions`: Content extensions (merged with html/js/ts/vue/svelte defaults).
+- `cssExtensions`: CSS/SCSS extensions (merged with defaults).
+- `ignoreDirs`: Directories to ignore (merged with defaults).

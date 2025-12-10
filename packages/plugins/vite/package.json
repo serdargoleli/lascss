@@ -11,7 +11,7 @@
   "bugs": {
     "url": "https://github.com/serdargoleli/lascss/issues"
   },
-  "homepage": "https://github.com/serdargoleli/lascss#readme",
+  "homepage": "https://github.com/serdargoleli/lascss/tree/main/packages/plugins/vite#readme",
   "keywords": [
     "vite",
     "plugin",
@@ -32,11 +32,14 @@
     }
   },
   "files": [
-    "dist"
+    "dist",
+    "README.md",
+    "LICENSE"
   ],
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "clean": "rimraf dist",
+    "postbuild": "cp README.md dist/README.md && cp ../../../LICENSE dist/LICENSE",
     "dev": "tsc -w -p tsconfig.json"
   },
   "peerDependencies": {

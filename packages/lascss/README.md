@@ -1,10 +1,10 @@
 # LAS CSS
 
-Utility-first, SCSS tabanlı tasarım sistemi. Base, meta ve utility katmanlarını birleştirir; JIT üretim için LAS Engine ile çalışır.
+Utility-first, SCSS-powered design system. Ships base, meta, and utility layers and pairs with LAS Engine for JIT CSS generation.
 
-## Hızlı Başlangıç
+## Quick Start
 
-- Kurulum:
+- Install:
 
 ```bash
 npm install lascss
@@ -12,16 +12,28 @@ pnpm add lascss
 yarn add lascss
 ```
 
-- Paketler: `dist/base.min.css`, `dist/meta.min.css`, `dist/utility.min.css`
-- Kullanım (tam paket):
+- Files: `dist/base.min.css`, `dist/meta.min.css`, `dist/utility.min.css`
+- Full bundle:
 
-## Nasıl Çalışır?
+```css
+@import "lascss/dist/style.min.css";
+```
 
-- Base: Reset + temel tipografi ve grid ayarları.
-- Meta: Breakpoint, variant, renk ve opacity değişkenlerini CSS custom properties olarak hazırlar.
-- Utility: Hazır class setleri. LAS Engine, bu dosyayı okuyup kullandığın class'lara göre CSS üretir.
+- Layered import:
 
-## JIT (LAS Engine) ile Kullanım
+```css
+@import "lascss/dist/base.min.css";
+@import "lascss/dist/meta.min.css";
+@import "lascss/dist/utility.min.css";
+```
 
-- LAS Engine varsayılan utility'leri ve meta değişkenlerini bu paketten okur.
-- `@las/vite` veya `@las/webpack` plugin'leriyle birlikte kullanarak sadece kullandığın class'ların CSS'ini üretip projeye enjekte edebilirsin.
+## How It Works
+
+- Base: Reset plus core typography and grid.
+- Meta: CSS custom properties for breakpoints, variants, colors, and opacities.
+- Utility: Prebuilt utility classes. LAS Engine reads this package and emits only the classes your project uses.
+
+## Use with the JIT Engine
+
+- LAS Engine consumes base/meta/utility from this package.
+- With `@las/vite` or `@las/webpack`, only the CSS for actually used classes is injected—lean output for better performance and SEO.

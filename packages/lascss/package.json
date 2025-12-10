@@ -11,7 +11,7 @@
   "bugs": {
     "url": "https://github.com/serdargoleli/lascss/issues"
   },
-  "homepage": "https://github.com/serdargoleli/lascss#readme",
+  "homepage": "https://github.com/serdargoleli/lascss/tree/main/packages/lascss#readme",
   "keywords": [
     "css",
     "scss",
@@ -36,6 +36,7 @@
     "build:meta": "sass meta.scss dist/meta.min.css --style=compressed --no-source-map",
     "build:utility": "sass utility.scss dist/utility.min.css --style=compressed --no-source-map",
     "build": "pnpm run clean && pnpm run build:base && pnpm run build:meta && pnpm run build:utility",
+    "postbuild": "cp README.md dist/README.md && cp ../../LICENSE dist/LICENSE",
     "dev": "sass --watch main.scss dist/style.min.css --style=compressed"
   },
   "exports": {

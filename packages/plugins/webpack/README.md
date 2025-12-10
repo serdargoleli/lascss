@@ -1,56 +1,49 @@
 # @las/webpack
 
-LAS CSS + LAS Engine için Webpack plugin'i. Projeyi tarar, kullandığın utility class'ları JIT üretir ve dev modunda sanal modül üzerinden, prod'da ise inline veya harici CSS olarak sunar.
+Webpack plugin for LAS CSS + LAS Engine. Scans your project, JIT-generates only the utility classes you use, serves a virtual module in dev, and outputs inline or external CSS in production.
 
-## Kurulum
-
+## Install
 ```bash
 npm install -D lascss @las/webpack
 pnpm add -D lascss @las/webpack
 yarn add -D lascss @las/webpack
 ```
 
-## Kullanım
-
+## Usage
 `webpack.config.js`:
-
 ```js
-//commonjs
+// CommonJS
 const lascss = require("@las/webpack").default;
 // ESM
 import lascss from "@las/webpack";
 
 module.exports = {
-  // ...
   plugins: [
     new lascss({
-      scanDirs: ["src"], // varsayılan: ["src"]
-      extensions: [".tsx", ".jsx"], // varsayılanlarla birleşir
-      ignoreDirs: ["dist"], // varsayılanlarla birleşir
-      // output: "assets/las.css",  // prod'da ayrı dosya olarak yaz ve HtmlWebpackPlugin'e ekle
+      scanDirs: ["src"],           // default: ["src"]
+      extensions: [".tsx", ".jsx"],// merged with defaults
+      ignoreDirs: ["dist"],        // merged with defaults
+      // output: "assets/las.css", // write a file in prod and link via HtmlWebpackPlugin
     }),
   ],
 };
 ```
 
-Uygulama girişi:
-
+App entry:
 ```js
-import "las.css"; // plugin sanal modülü gerçek CSS ile değiştirir
+import "las.css"; // plugin swaps the virtual module with generated CSS
 ```
 
-## Nasıl Çalışır?
-
-- LAS Engine, `scanDirs` altındaki dosyaları ve CSS/SCSS'leri tarar; kullanılan class'lara göre CSS üretir.
-- Dev: CSS `las.css` sanal modülüne yazılır, HMR ile güncellenir.
+## How It Works
+- LAS Engine scans `scanDirs` and CSS/SCSS files, then builds CSS for used classes.
+- Dev: CSS is written to the `las.css` virtual module with HMR updates.
 - Prod:
-  - `output` verilmezse CSS inline tutulur (style-loader senaryosu yoksa sanal modül boş geçilebilir).
-  - `output` verilirse derleme çıktısına dosya olarak ekler; HtmlWebpackPlugin varsa `link rel="stylesheet"` otomatik eklenir.
+  - Without `output`: CSS stays inline (virtual module can be empty if you don’t use style-loader).
+  - With `output`: CSS is emitted as a file; if HtmlWebpackPlugin is present, a `link rel="stylesheet"` is injected automatically.
 
-## Opsiyonlar (LasEngineOptions)
-
-- `scanDirs`: Tarama dizinleri. Varsayılan: `["src"]`.
-- `extensions`: İçerik uzantıları (html, js, ts, vue, svelte vb. ile birleşir).
-- `cssExtensions`: CSS/SCSS uzantıları (varsayılanlarla birleşir).
-- `ignoreDirs`: Yoksayılacak klasörler (varsayılanlarla birleşir).
-- `output`: Prod'da oluşturulacak CSS dosyasının yolu (örn. `css/las.css`).
+## Options (LasEngineOptions)
+- `scanDirs`: Directories to scan. Default: `["src"]`.
+- `extensions`: Content extensions (merged with html/js/ts/vue/svelte defaults).
+- `cssExtensions`: CSS/SCSS extensions (merged with defaults).
+- `ignoreDirs`: Directories to ignore (merged with defaults).
+- `output`: CSS file path for production (e.g., `css/las.css`).

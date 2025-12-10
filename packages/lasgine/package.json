@@ -11,7 +11,7 @@
   "bugs": {
     "url": "https://github.com/serdargoleli/lascss/issues"
   },
-  "homepage": "https://github.com/serdargoleli/lascss#readme",
+  "homepage": "https://github.com/serdargoleli/lascss/tree/main/packages/lasgine#readme",
   "keywords": [
     "jit",
     "css",
@@ -40,6 +40,7 @@
   "scripts": {
     "dev": "ts-node src/index.ts",
     "build": "tsup src/index.ts --format esm,cjs --dts --platform node --target node18",
+    "postbuild": "cp README.md dist/README.md && cp ../../LICENSE dist/LICENSE",
     "watch": "ts-node-dev src/index.ts"
   },
   "devDependencies": {

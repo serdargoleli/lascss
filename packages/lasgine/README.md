@@ -1,48 +1,42 @@
 # LAS Engine (@las/lasgine)
 
-LAS CSS için JIT motoru. Projedeki dosyaları tarar, kullandığın utility class'ları tespit eder ve sadece ihtiyaç duyulan CSS'i üretir.
+JIT engine for LAS CSS. Scans your project, detects used utility classes, and outputs only the CSS you need.
 
-## Hızlı Başlangıç
-
+## Quick Start
 ```bash
 npm install -D @las/lasgine lascss
 pnpm add -D @las/lasgine lascss
 yarn add -D @las/lasgine lascss
 ```
-
 ```ts
 import fs from "fs";
 import { LasEngine } from "@las/lasgine";
 
 const engine = new LasEngine({
-  scanDirs: ["src"],
-  // extensions, cssExtensions, ignoreDirs varsayılanlarla birleşir
+  scanDirs: ["src"], // extensions/cssExtensions/ignoreDirs merge with defaults
 });
 
-engine.init(["./src"]); // ilk tarama
-const css = engine.getCSS(); // base + JIT + kullanıcı CSS (purge sonrası)
+engine.init(["./src"]); // initial scan
+const css = engine.getCSS(); // base + JIT + user CSS (purged)
 fs.writeFileSync("public/las.css", css);
 ```
 
-## Nasıl Çalışır?
+## How It Works
+- Reads base/meta/utility CSS from the `lascss` package.
+- Extracts breakpoints, variants, colors, and opacities from meta custom properties.
+- Scans `scanDirs`, generates CSS for the classes you actually use.
+- `updateFile(path)` incrementally processes changed files; `getCSS()` always returns up-to-date output.
 
-- `lascss` paketinden base/meta/utility CSS'ini okur.
-- Meta katmanındaki custom property'lerden breakpoint, variant, renk, opacity bilgilerini çıkarır.
-- Kodunu tarar (`scanDirs`) ve kullandığın class isimlerine göre CSS üretir.
-- `updateFile(path)` ile değişen dosyaları hızlıca işler; `getCSS()` her çağrıda güncel çıktıyı döner.
+## API & Options
+- `scanDirs`: Directories to scan. Default: `["src"]`.
+- `extensions`: Content extensions. Default: `.html,.js,.jsx,.ts,.tsx,.vue,.svelte` (+ yours).
+- `cssExtensions`: CSS/SCSS extensions for `@apply` and purge. Default: `.css,.scss,.sass,.less,.pcss,.styl,.stylus`.
+- `ignoreDirs`: Directories to ignore. Default: `node_modules, dist, .git, build, .next, .nuxt, coverage`.
+- `getCSS()`: Combined base + JIT + user CSS (after unused purge).
+- `getCssFileInfo(css)`: Size label (kB/MB).
+- `getWatchedCSSFiles()`: CSS files watched for apply/purge.
+- `reset()`: Clears internal state and caches.
 
-## API ve Opsiyonlar
-
-- `scanDirs`: Tarama dizinleri. Varsayılan: `["src"]`.
-- `extensions`: İçerik taraması için uzantılar. Varsayılan: `.html,.js,.jsx,.ts,.tsx,.vue,.svelte` (+ verdiklerin).
-- `cssExtensions`: `@apply` ve purge için CSS/SCSS uzantıları. Varsayılan: `.css,.scss,.sass,.less,.pcss,.styl,.stylus`.
-- `ignoreDirs`: Yoksayılacak klasörler. Varsayılan: `node_modules, dist, .git, build, .next, .nuxt, coverage`.
-- `getCSS()`: Base + JIT + kullanıcı CSS (unused purge sonrası) birleşik string.
-- `getCssFileInfo(css)`: Boyut bilgisi (kB/MB).
-- `getWatchedCSSFiles()`: İzlenen CSS dosyalarının listesi (watch entegrasyonu için).
-- `reset()`: Dahili state'i temizler (tarama ve cache).
-
-## Notlar
-
-- `lascss` paketi mutlaka kurulu olmalı; base/meta/utility dosyaları oradan okunur.
-- İstersen `writeFileSync` ile çıktıyı diske sen yazabilir veya bundler plugin'leri (`@las/vite`, `@las/webpack`) ile otomatik enjekte edebilirsin.
+## Notes
+- The `lascss` package must be installed; base/meta/utility assets are read from it.
+- You can write the output yourself or let the bundler plugins (`@las/vite`, `@las/webpack`) inject it automatically.
