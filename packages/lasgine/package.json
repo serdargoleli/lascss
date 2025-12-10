@@ -53,5 +53,8 @@
   "dependencies": {
     "lascss": "workspace:*",
     "postcss": "^8.5.6"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
