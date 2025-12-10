@@ -9,8 +9,8 @@
   "packageManager": "pnpm@10.24.0",
   "scripts": {
     "dev": "turbo run dev --parallel",
-    "dev:webpack": "turbo run dev --filter=@las/webpack --filter=las-webpack-example --parallel",
-    "build:webpack": "turbo run build --filter=@las/webpack --filter=las-webpack-example --parallel",
+    "dev:webpack": "turbo run dev --filter=las-webpack --filter=las-webpack-example --parallel",
+    "build:webpack": "turbo run build --filter=las-webpack --filter=las-webpack-example --parallel",
     "build": "turbo run build",
     "clean": "turbo run clean",
     "clean-all": "pnpm -r exec rm -rf node_modules .turbo dist",

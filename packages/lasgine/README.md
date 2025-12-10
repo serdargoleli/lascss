@@ -1,16 +1,16 @@
-# LAS Engine (@las/lasgine)
+# LAS Engine (lasgine)
 
 JIT engine for LAS CSS. Scans your project, detects used utility classes, and outputs only the CSS you need.
 
 ## Quick Start
 ```bash
-npm install -D @las/lasgine lascss
-pnpm add -D @las/lasgine lascss
-yarn add -D @las/lasgine lascss
+npm install -D lasgine lascss
+pnpm add -D lasgine lascss
+yarn add -D lasgine lascss
 ```
 ```ts
 import fs from "fs";
-import { LasEngine } from "@las/lasgine";
+import { LasEngine } from "lasgine";
 
 const engine = new LasEngine({
   scanDirs: ["src"], // extensions/cssExtensions/ignoreDirs merge with defaults
@@ -39,4 +39,4 @@ fs.writeFileSync("public/las.css", css);
 
 ## Notes
 - The `lascss` package must be installed; base/meta/utility assets are read from it.
-- You can write the output yourself or let the bundler plugins (`@las/vite`, `@las/webpack`) inject it automatically.
+- You can write the output yourself or let the bundler plugins (`las-vite`, `las-webpack`) inject it automatically.

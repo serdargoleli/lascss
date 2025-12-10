@@ -1,5 +1,5 @@
 import type { Plugin, ResolvedConfig, HmrContext } from "vite";
-import { LasEngine, LasEngineOptions } from "@las/lasgine";
+import { LasEngine, LasEngineOptions } from "lasgine";
 import * as path from "path";
 
 /**

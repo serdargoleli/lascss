@@ -1,19 +1,19 @@
-# @las/vite
+# las-vite
 
 Vite plugin for LAS CSS + LAS Engine. Scans your project, generates only the CSS you use, serves it as a virtual module in dev, and inlines it into HTML on build.
 
 ## Install
 ```bash
-npm install -D lascss @las/vite
-pnpm add -D lascss @las/vite
-yarn add -D lascss @las/vite
+npm install -D lascss las-vite
+pnpm add -D lascss las-vite
+yarn add -D lascss las-vite
 ```
 
 ## Usage
 `vite.config.ts`:
 ```ts
 import { defineConfig } from "vite";
-import lascss from "@las/vite";
+import lascss from "las-vite";
 
 export default defineConfig({
   plugins: [

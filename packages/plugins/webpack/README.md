@@ -1,21 +1,21 @@
-# @las/webpack
+# las-webpack
 
 Webpack plugin for LAS CSS + LAS Engine. Scans your project, JIT-generates only the utility classes you use, serves a virtual module in dev, and outputs inline or external CSS in production.
 
 ## Install
 ```bash
-npm install -D lascss @las/webpack
-pnpm add -D lascss @las/webpack
-yarn add -D lascss @las/webpack
+npm install -D lascss las-webpack
+pnpm add -D lascss las-webpack
+yarn add -D lascss las-webpack
 ```
 
 ## Usage
 `webpack.config.js`:
 ```js
 // CommonJS
-const lascss = require("@las/webpack").default;
+const lascss = require("las-webpack").default;
 // ESM
-import lascss from "@las/webpack";
+import lascss from "las-webpack";
 
 module.exports = {
   plugins: [

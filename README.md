@@ -4,21 +4,21 @@ Monorepo for the LAS CSS ecosystem: utility-first SCSS framework, JIT engine, an
 
 ## Packages
 - `lascss`: Utility-first SCSS framework with base/meta/utility layers.
-- `@las/lasgine`: JIT engine that scans your project and emits only the CSS you use.
-- `@las/vite`: Vite plugin; virtual module in dev, inlines CSS on build.
-- `@las/webpack`: Webpack plugin; virtual module in dev, inline or external CSS in prod.
+- `lasgine`: JIT engine that scans your project and emits only the CSS you use.
+- `las-vite`: Vite plugin; virtual module in dev, inlines CSS on build.
+- `las-webpack`: Webpack plugin; virtual module in dev, inline or external CSS in prod.
 
 ## Quick Install
 ```bash
-npm install lascss @las/lasgine
-pnpm add lascss @las/lasgine
-yarn add lascss @las/lasgine
+npm install lascss lasgine
+pnpm add lascss lasgine
+yarn add lascss lasgine
 ```
 
 ### Vite
 ```ts
 import { defineConfig } from "vite";
-import lascss from "@las/vite";
+import lascss from "las-vite";
 
 export default defineConfig({
   plugins: [lascss({ scanDirs: ["src"] })],
@@ -28,7 +28,7 @@ Add to your app: `import "virtual:las.css";`
 
 ### Webpack
 ```js
-const LascssPlugin = require("@las/webpack").default;
+const LascssPlugin = require("las-webpack").default;
 
 module.exports = {
   plugins: [new LascssPlugin({ scanDirs: ["src"] })],

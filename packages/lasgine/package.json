@@ -1,5 +1,5 @@
 {
-  "name": "@las/lasgine",
+  "name": "lasgine",
   "version": "1.0.0",
   "description": "LAS Engine — JIT class generator that compiles LAS CSS utilities on demand.",
   "author": "Serdar Göleli",

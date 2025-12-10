@@ -1,5 +1,5 @@
 {
-  "name": "@las/vite",
+  "name": "las-vite",
   "version": "1.0.0",
   "description": "Vite plugin that wires LAS CSS and LAS Engine for instant utility generation during dev and build.",
   "author": "Serdar Göleli",
@@ -46,7 +46,7 @@
     "vite": "^6.0.0 || ^7.0.0"
   },
   "dependencies": {
-    "@las/lasgine": "workspace:*"
+    "lasgine": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^24.10.1",

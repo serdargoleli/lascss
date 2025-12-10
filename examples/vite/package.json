@@ -17,7 +17,7 @@
     "@vitejs/plugin-react": "^4.3.4",
     "typescript": "^5.7.2",
     "vite": "^7.2.4",
-    "@las/vite": "workspace:*",
+    "las-vite": "workspace:*",
     "lascss": "workspace:*"
   }
 }

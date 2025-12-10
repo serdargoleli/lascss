@@ -13,11 +13,6 @@ yarn add lascss
 ```
 
 - Files: `dist/base.min.css`, `dist/meta.min.css`, `dist/utility.min.css`
-- Full bundle:
-
-```css
-@import "lascss/dist/style.min.css";
-```
 
 - Layered import:
 
@@ -36,4 +31,4 @@ yarn add lascss
 ## Use with the JIT Engine
 
 - LAS Engine consumes base/meta/utility from this package.
-- With `@las/vite` or `@las/webpack`, only the CSS for actually used classes is injected—lean output for better performance and SEO.
+- With `las-vite` or `las-webpack`, only the CSS for actually used classes is injected—lean output for better performance and SEO.

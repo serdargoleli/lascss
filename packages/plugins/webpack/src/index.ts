@@ -3,7 +3,7 @@ import fs from "fs";
 import webpack, { sources } from "webpack";
 import VirtualModulesPlugin from "webpack-virtual-modules";
 import type { Compiler, Compilation } from "webpack";
-import { LasEngine, LasEngineOptions } from "@las/lasgine";
+import { LasEngine, LasEngineOptions } from "lasgine";
 
 const PLUGIN_NAME = "lascss";
 const VIRTUAL_ID_PATH = "node_modules/.virtual/las.css";
