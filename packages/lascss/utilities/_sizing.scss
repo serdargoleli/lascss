@@ -1,0 +1,20 @@
+@use "sass:map";
+@use "../mixins" as mix;
+@use "../variables" as var;
+@use "../core/functions" as func;
+
+$merge-size-values: func.merge-maps(var.$sizing, var.$fractions, var.$size-shared-values);
+$width-values: func.merge-maps(var.$width-special-values, var.$container-sizes, $merge-size-values);
+$height-values: func.merge-maps(var.$height-special-values, $merge-size-values);
+
+// --- Width utilities ---
+@include mix.generate-utility(width, w, $width-values);
+@include mix.generate-utility(min-width, min-w, $width-values);
+@include mix.generate-utility(max-width, max-w, $width-values);
+
+// --- Height utilities ---
+@include mix.generate-utility(height, h, $height-values);
+@include mix.generate-utility(min-height, min-h, $height-values);
+@include mix.generate-utility(max-height, max-h, $height-values);
+
+@include mix.generate-multi-utility((width, height), size, $merge-size-values);

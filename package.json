@@ -1,71 +1,33 @@
 {
-  "name": "las-css",
-  "version": "1.0.9",
-  "description": "LAS CSS, Lightweight, modern, utility-first CSS framework built with SCSS for fast, responsive, and maintainable web design. Ideal for building responsive layouts without JavaScript.",
-  "main": "dist/style.min.css",
-  "style": "dist/style.min.css",
-  "types": "index.d.ts",
-  "exports": {
-    ".": {
-      "types": "./index.d.ts",
-      "import": "./dist/style.min.css",
-      "require": "./dist/style.min.css",
-      "default": "./dist/style.min.css"
-    },
-    "./style.css": "./dist/style.min.css",
-    "./style.min.css": "./dist/style.min.css",
-    "./dist/*": "./dist/*",
-    "./package.json": "./package.json"
-  },
-  "files": [
-    "dist",
-    "index.d.ts",
-    "README.md",
-    "LICENSE"
-  ],
-  "type": "commonjs",
-  "sideEffects": [
-    "**/*.css",
-    "**/*.scss"
-  ],
-  "scripts": {
-    "build": "npm run clean && npm run build:minify && npm run copy:assets",
-    "build:minify": "sass src/main.scss dist/style.min.css --style compressed --no-source-map",
-    "copy:assets": "cp README.md dist/ && cp LICENSE dist/",
-    "clean": "rm -rf dist && mkdir -p dist",
-    "watch": "sass --watch src/main.scss dist/style.min.css --style compressed",
-    "dev": "npm run watch"
-  },
-  "keywords": [
-    "css",
-    "scss",
-    "utility-first",
-    "responsive",
-    "modern-css-framework",
-    "web-design",
-    "frontend-framework",
-    "lightweight-css",
-    "modular-css",
-    "maintainable-css",
-    "flexbox",
-    "grid",
-    "las-css"
-  ],
-  "author": "Serdar GOLELI",
-  "license": "MIT",
-  "devDependencies": {
-    "sass": "^1.94.0"
-  },
-  "homepage": "https://github.com/serdargoleli/las-ui#readme",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/serdargoleli/las-ui.git"
-  },
-  "bugs": {
-    "url": "https://github.com/serdargoleli/las-ui/issues"
-  },
+  "name": "lascss-repo",
+  "private": true,
+  "description": "LAS CSS Monorepo",
   "engines": {
-    "node": ">=16.0.0",
-    "npm": ">=8.0.0"
+    "node": ">=18",
+    "pnpm": ">=9"
+  },
+  "packageManager": "pnpm@10.24.0",
+  "scripts": {
+    "dev": "turbo run dev --parallel",
+    "dev:webpack": "turbo run dev --filter=@las/webpack --filter=las-webpack-example --parallel",
+    "build:webpack": "turbo run build --filter=@las/webpack --filter=las-webpack-example --parallel",
+    "build": "turbo run build",
+    "clean": "turbo run clean",
+    "clean-all": "pnpm -r exec rm -rf node_modules .turbo dist",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md,scss}\"",
+    "release": "lerna publish",
+    "version": "lerna version"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^8.48.0",
+    "@typescript-eslint/parser": "^8.48.0",
+    "eslint": "^9.39.1",
+    "eslint-config-prettier": "^10.1.8",
+    "lerna": "^9.0.3",
+    "prettier": "^3.7.1",
+    "rimraf": "^6.1.2",
+    "ts-node": "^10.9.2",
+    "turbo": "^2.6.1",
+    "typescript": "^5.7.2"
   }
 }

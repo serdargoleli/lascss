@@ -1,0 +1,100 @@
+@use "sass:string";
+@use "sass:meta";
+@use "sass:map";
+@use "sass:math";
+@use "sass:color";
+
+@function str-replace($string, $search, $replace: "") {
+  $string: convert-string($string);
+  $index: string.index($string, $search);
+  @if $index {
+    @return string.slice($string, 1, $index - 1) + $replace + str-replace(string.slice($string, $index + string.length($search)), $search, $replace);
+  }
+  @return $string;
+}
+
+// 1.5 gibi durumları escape eder m-1\.4 gibi
+@function escape-dots($str) {
+  @return str-replace($str, ".", "\\.");
+}
+
+@function escape-slash($str) {
+  @return str-replace($str, "/", "\\/");
+}
+
+//convert eder
+@function convert-string($value) {
+  @if meta.type-of($value) == "number" {
+    @return #{$value};
+  } @else if meta.type-of($value) == "string" {
+    @return $value;
+  } @else {
+    @error 'Input #{$value} is no number or string';
+  }
+}
+
+// sayı ile başlayan 3xl 2xl gibi class isimlerini escape eder
+@function escape-start-number($str) {
+  $str: escape-dots($str);
+  $str: escape-slash($str);
+  $first: string.slice($str, 1, 1);
+  $rest: string.slice($str, 2);
+
+  // Eğer ilk karakter sayıysa, CSS escape (\3 + karakter)
+  @if string.index("0123456789", $first) {
+    @return "\\3#{$first} #{$rest}";
+  }
+
+  @return $str;
+}
+
+@function generate-grid-span($numbers) {
+  $span: (
+    full: math.div(1, -1),
+  );
+  @each $key, $value in $numbers {
+    @if $key != auto {
+      $span: map.merge(
+        $span,
+        (
+          $key: span #{$value} / span #{$value},
+        )
+      );
+    }
+  }
+  @return $span;
+}
+
+@function merge-maps($maps...) {
+  $result: ();
+
+  @each $map in $maps {
+    @if meta.type-of($map) == "map" {
+      $result: map.merge($result, $map);
+    }
+  }
+
+  @return $result;
+}
+
+@function generate-color-scale($base-color) {
+  $levels: 50 100 200 300 400 500 600 700 800 900 950;
+  $colors: ();
+
+  @each $level in $levels {
+    $diff: $level - 500;
+    $percent: math.div($diff, 500) * 50%;
+    $colors: map.merge(
+      $colors,
+      (
+        $level: color.scale($base-color, $lightness: $percent),
+      )
+    );
+  }
+
+  @return $colors;
+}
+
+@function to-rgb($value) {
+  @return color.channel($value, "red", $space: rgb) color.channel($value, "green", $space: rgb) color.channel($value, "blue", $space: rgb);
+}

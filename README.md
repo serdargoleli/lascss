@@ -1,118 +1,56 @@
-# las-css
+# LAS CSS Monorepo
 
-**las-css**, TailwindCSS tarzında çalışan, tamamen SCSS altyapısıyla dinamik olarak utility sınıfları üreten hafif, esnek ve genişletilebilir bir CSS utility framework’tür.
+Monorepo for the LAS CSS ecosystem: utility-first SCSS framework, JIT engine, and Vite/Webpack plugins.
 
-Kendi tasarım sistemini oluşturmak isteyenler için minimal, hızlı ve özelleştirilebilir bir yapı sunar.
+## Packages
+- `lascss`: Utility-first SCSS framework with base/meta/utility layers.
+- `@las/lasgine`: JIT engine that scans your project and emits only the CSS you use.
+- `@las/vite`: Vite plugin; virtual module in dev, inlines CSS on build.
+- `@las/webpack`: Webpack plugin; virtual module in dev, inline or external CSS in prod.
 
----
-
-## 🚀 Özellikler
-
-- ⚡ **Hafif ve hızlı:** Sadece ihtiyaç duyulan utility sınıfları üretilir.
-- 🎨 **SCSS ile tam kontrol:** Tüm utility’ler map ve fonksiyonlarla yönetilir.
-- 🧩 **Modüler yapı:** Border, spacing, color scale, typography vb. modüller halinde gelir.
-- 🛠️ **Extend edilebilir:** Kendi utility’lerini veya scale’lerini kolayca ekleyebilirsin.
-- 🎯 **Utility-first tasarım:** HTML üzerinde hızlı prototip ve final ürün geliştirme.
-
----
-
-## 📥 Kurulum
-
+## Quick Install
 ```bash
-npm install las-css
+npm install lascss @las/lasgine
+pnpm add lascss @las/lasgine
+yarn add lascss @las/lasgine
 ```
 
-Veya pnpm için:
+### Vite
+```ts
+import { defineConfig } from "vite";
+import lascss from "@las/vite";
 
+export default defineConfig({
+  plugins: [lascss({ scanDirs: ["src"] })],
+});
+```
+Add to your app: `import "virtual:las.css";`
+
+### Webpack
+```js
+const LascssPlugin = require("@las/webpack").default;
+
+module.exports = {
+  plugins: [new LascssPlugin({ scanDirs: ["src"] })],
+};
+```
+Add to your app: `import "las.css";`
+
+## Development
 ```bash
-pnpm add las-css
+pnpm install
+pnpm dev          # turbo runs dev in parallel
+pnpm build        # all packages
 ```
 
----
+Per package:
+- `packages/lascss`: `pnpm run build` (base/meta/utility CSS) + `postbuild` copies README/License.
+- `packages/lasgine`: `pnpm run build` (tsup) + `postbuild`.
+- `packages/plugins/vite`: `pnpm run build` (tsc) + `postbuild`.
+- `packages/plugins/webpack`: `pnpm run build` (tsup) + `postbuild`.
 
-## 🔧 Kullanım
+## Examples
+- `examples/webpack`: Webpack integration example. Add a Vite example and link it here if needed.
 
-### 1. React / Vite / Webpack (Önerilen)
-
-Projenizin ana giriş dosyasına (örneğin `main.jsx`, `App.tsx` veya `index.js`) import edin:
-
-```javascript
-import "las-css";
-```
-
-> **Not:** Paket otomatik olarak minified CSS dosyasını (`style.min.css`) yükler.
-
-### 2. CDN (Tarayıcı)
-
-Paketi indirmeden doğrudan HTML içinde kullanmak için:
-
-```html
-<link href="https://cdn.jsdelivr.net/npm/las-css@latest/dist/style.min.css" rel="stylesheet">
-```
-
----
-
-## 💡 İpucu: IntelliSense (Otomatik Tamamlama)
-
-VS Code kullanıyorsanız, sınıfları otomatik tamamlamak için **"IntelliSense for CSS class names in HTML"** eklentisini kurmanızı öneririz.
-
-Kurulumdan sonra `.vscode/settings.json` dosyanıza şunu ekleyin:
-
-```json
-{
-  "html-css-class-completion.includeGlobPattern": "**/*.{css,html,jsx,tsx}",
-  "html-css-class-completion.enableEmmetSupport": true
-}
-```
-
----
-
-## 🏗️ Örnek Utility’ler
-
-### Grid
-```html
-<div class="grid grid-cols-3 gap-4">...</div>
-```
-
-### Border
-```html
-<div class="border border-solid border-primary-500">...</div>
-```
-
-### Scale (Transform)
-```html
-<div class="scale-105 hover:scale-110">...</div>
-```
-
-### Color scale (500 → base value)
-```html
-<div class="text-primary-500 bg-gray-100">...</div>
-```
-
----
-
-## ⚙️ Geliştirme
-
-Repo’yu klonladıktan sonra:
-
-```bash
-npm install
-npm run build
-```
-
-SCSS kaynakları `src/` klasöründe, çıkış dosyaları `dist/` altındadır.
-
----
-
-## 🧪 Yol Haritası
-
-- [ ] Responsive prefix sistemi (sm:, md:, lg:)  
-- [ ] Variant sistemleri (hover:, focus:, disabled:)  
-- [ ] Plugin architecture  
-- [ ] Typography utilities  
-- [ ] Animasyon utilities  
-
----
-
-## 📝 Lisans
+## License
 MIT

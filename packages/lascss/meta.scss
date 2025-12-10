@@ -1,0 +1,32 @@
+@use "variables/breakpoint" as bp;
+@use "variables/variant" as variant;
+@use "variables/color" as color;
+@use "variables/opacity" as opacity;
+
+:root {
+  /* Breakpoints */
+  @each $name, $value in bp.$breakpoints {
+    --las-breakpoint-#{$name}: #{$value};
+  }
+
+  /* Variants */
+  @each $name, $value in variant.$variants {
+    --las-variant-#{$name}: #{$value};
+  }
+
+  @each $name, $value in color.$colors {
+    --las-color-#{$name}: #{$value};
+  }
+
+  @each $name, $value in color.$enable-color-utilities {
+    --las-config-color-#{$name}: #{$value};
+  }
+
+  @each $name, $value in color.$single-colors {
+    --las-single-color-#{$name}: #{$value};
+  }
+
+  @each $name, $value in opacity.$opacity-scale {
+    --las-opacity-#{$name}: #{$value};
+  }
+}

@@ -1,0 +1,3 @@
+.container {
+  @apply w-[1200px] mx-auto;
+}

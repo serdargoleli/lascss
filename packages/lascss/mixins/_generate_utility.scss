@@ -1,0 +1,88 @@
+@use "sass:meta";
+@use "sass:string";
+@use "../variables" as var;
+@use "../mixins/responsive" as *;
+@use "../core/functions" as func;
+
+// CSS kurallarını oluşturur (tek veya çoklu property)
+@mixin _generate-rules($property-or-list, $value) {
+  // Eğer value bir map ise (font-size: 1rem, line-height: 1.5 gibi)
+  @if meta.type-of($value) == "map" {
+    @each $prop, $val in $value {
+      #{$prop}: $val;
+    }
+  }
+  // Eğer property bir liste ise (width, height)
+  @else if meta.type-of($property-or-list) == "list" {
+    @each $property in $property-or-list {
+      #{$property}: $value;
+    }
+  } @else {
+    // Tek property -> direkt kural oluştur
+    #{$property-or-list}: $value;
+  }
+}
+
+// Class adını oluşturur
+@function _build-class-name($key, $class-prefix) {
+  $key-str: if(meta.type-of($key) == "number", "#{$key}", $key);
+
+  // Boş key -> sadece prefix
+  @if $key == "" {
+    @return if($class-prefix == null, "", $class-prefix);
+  }
+  // Negatif değer (örn: "-1") -> -order-1
+  @else if string.slice($key-str, 1, 1) == "-" and $class-prefix != null {
+    @return "-#{$class-prefix}-#{string.slice($key-str, 2)}";
+  }
+  // Normal durum -> order-1, m-4 vs.
+  @else {
+    @return if($class-prefix == null, $key, "#{$class-prefix}-#{$key}");
+  }
+}
+
+// Variant ve responsive class'ları oluşturur
+@mixin _generate-classes($cls, $property-or-list, $value, $responsive-prefix: null) {
+  $base-cls: if($responsive-prefix != null, "#{$responsive-prefix}\\:#{$cls}", $cls);
+
+  // Base class
+  .#{$base-cls} {
+    @include _generate-rules($property-or-list, $value);
+  }
+}
+
+// Ana utility generator (hem single hem multi property için)
+@mixin _generate-utility-scope($property-or-list, $class-prefix, $values, $responsive-prefix: null) {
+  @each $key, $value in $values {
+    $cls-name: _build-class-name($key, $class-prefix);
+    $cls: func.escape-start-number($cls-name);
+    @include _generate-classes($cls, $property-or-list, $value, $responsive-prefix);
+  }
+}
+
+// Public API: Tek property için utility oluşturur
+@mixin generate-utility($property, $class-prefix, $values) {
+  @include _generate-utility-scope($property, $class-prefix, $values);
+}
+
+// Public API: Negatif değerler için utility oluşturur
+@mixin generate-negative-utilities($property, $class-prefix, $values) {
+  @each $key, $value in $values {
+    @if meta.type-of($value) == "number" and $value > 0 {
+      $neg-key: "-#{$key}";
+      $neg-value: $value * -1;
+      @include generate-utility(
+        $property,
+        $class-prefix,
+        (
+          $neg-key: $neg-value,
+        )
+      );
+    }
+  }
+}
+
+// Public API: Çoklu property için utility oluşturur (width + height = size)
+@mixin generate-multi-utility($properties, $class-prefix, $values) {
+  @include _generate-utility-scope($properties, $class-prefix, $values);
+}

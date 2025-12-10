@@ -1,0 +1,57 @@
+{
+  "name": "@las/lasgine",
+  "version": "1.0.0",
+  "description": "LAS Engine — JIT class generator that compiles LAS CSS utilities on demand.",
+  "author": "Serdar Göleli",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/serdargoleli/lascss.git"
+  },
+  "bugs": {
+    "url": "https://github.com/serdargoleli/lascss/issues"
+  },
+  "homepage": "https://github.com/serdargoleli/lascss/tree/main/packages/lasgine#readme",
+  "keywords": [
+    "jit",
+    "css",
+    "utility",
+    "compiler",
+    "postcss",
+    "scss"
+  ],
+  "private": false,
+  "type": "commonjs",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "dev": "ts-node src/index.ts",
+    "build": "tsup src/index.ts --format esm,cjs --dts --platform node --target node18",
+    "postbuild": "cp README.md dist/README.md && cp ../../LICENSE dist/LICENSE",
+    "watch": "ts-node-dev src/index.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.1",
+    "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.7.2"
+  },
+  "dependencies": {
+    "lascss": "workspace:*",
+    "postcss": "^8.5.6"
+  }
+}

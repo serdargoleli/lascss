@@ -1,0 +1,70 @@
+{
+  "name": "@las/webpack",
+  "version": "1.0.0",
+  "description": "Webpack plugin that integrates LAS CSS with LAS Engine to emit utilities on the fly.",
+  "author": "Serdar Göleli",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/serdargoleli/lascss.git"
+  },
+  "bugs": {
+    "url": "https://github.com/serdargoleli/lascss/issues"
+  },
+  "homepage": "https://github.com/serdargoleli/lascss/tree/main/packages/plugins/webpack#readme",
+  "keywords": [
+    "webpack",
+    "plugin",
+    "css",
+    "jit",
+    "lascss",
+    "bundler"
+  ],
+  "type": "module",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "clean": "rimraf dist",
+    "build": "tsup",
+    "postbuild": "cp README.md dist/README.md && cp ../../../LICENSE dist/LICENSE",
+    "dev": "tsup --watch"
+  },
+  "dependencies": {
+    "@las/lasgine": "workspace:*",
+    "webpack-virtual-modules": "^0.6.2"
+  },
+  "peerDependencies": {
+    "webpack": "^5.0.0",
+    "html-webpack-plugin": "^5.0.0"
+  },
+  "peerDependenciesMeta": {
+    "html-webpack-plugin": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@types/html-webpack-plugin": "^3.2.9",
+    "@types/node": "^20.0.0",
+    "@types/webpack": "^5.28.5",
+    "html-webpack-plugin": "^5.6.5",
+    "nodemon": "^3.1.11",
+    "rimraf": "^6.1.2",
+    "ts-node": "^10.9.2",
+    "tsup": "^8.5.1",
+    "typescript": "^5.7.2"
+  },
+  "sideEffects": false
+}

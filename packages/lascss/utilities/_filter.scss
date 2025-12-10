@@ -1,0 +1,6 @@
+@use "../mixins" as mix;
+@use "../variables" as var;
+
+@each $filter-name, $values in var.$filter {
+  @include mix.generate-utility("filter", $filter-name, $values);
+}

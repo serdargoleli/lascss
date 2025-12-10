@@ -1,0 +1,20 @@
+@use "../core/functions" as func;
+@use "../mixins/color" as mix;
+@use "../variables/color";
+
+:root {
+  --las-shadow-color: rgb(0 0 0 / 0.1);
+  --las-text-shadow-color: rgb(0 0 0 / 0.1);
+
+  @each $name, $value in color.$colors {
+    $scale: ();
+    @if $name == "white" or $name == "black" or $name == "transparent" {
+      $scale: (
+        "": $value,
+      );
+    } @else {
+      $scale: func.generate-color-scale($value);
+    }
+    @include mix.generate-color-vars($scale, $name);
+  }
+}

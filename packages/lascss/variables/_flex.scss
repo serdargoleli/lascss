@@ -1,0 +1,130 @@
+$justify-content-values: (
+  "start": flex-start,
+  "end": flex-end,
+  "end-safe": safe flex-end,
+  "center": center,
+  "center-safe": safe center,
+  "between": space-between,
+  "around": space-around,
+  "evenly": space-evenly,
+  "stretch": stretch,
+  "normal": normal,
+);
+
+$justify-items-values: (
+  "start": start,
+  "end": end,
+  "center": center,
+  "stretch": stretch,
+  "normal": normal,
+);
+
+$justify-self-values: (
+  "auto": auto,
+  "start": start,
+  "center": center,
+  "end": end,
+  "stretch": stretch,
+  "normal": normal,
+  "center-safe": safe center,
+  "end-safe": safe end,
+);
+
+$align-content-values: (
+  "normal": normal,
+  "center": center,
+  "start": flex-start,
+  "end": flex-end,
+  "between": space-between,
+  "around": space-around,
+  "evenly": space-evenly,
+  "baseline": baseline,
+  "stretch": stretch,
+);
+
+$align-items-values: (
+  "start": flex-start,
+  "end": flex-end,
+  "end-safe": safe flex-end,
+  "center": center,
+  "center-safe": safe center,
+  "baseline": baseline,
+  "baseline-last": last baseline,
+  "stretch": stretch,
+);
+
+$align-self-values: (
+  "auto": auto,
+  "start": flex-start,
+  "end": flex-end,
+  "end-safe": safe flex-end,
+  "center": center,
+  "center-safe": safe center,
+  "stretch": stretch,
+  "baseline": baseline,
+  "baseline-last": last baseline,
+);
+
+$place-content-values: (
+  "center": center,
+  "center-safe": safe center,
+  "start": start,
+  "end": end,
+  "end-safe": safe end,
+  "between": space-between,
+  "around": space-around,
+  "evenly": space-evenly,
+  "baseline": baseline,
+  "stretch": stretch,
+);
+
+$flex-wrap-values: (
+  "nowrap": nowrap,
+  "wrap": wrap,
+  "wrap-reverse": wrap-reverse,
+);
+
+$flex-values: (
+  "auto": auto,
+  "initial": 0 auto,
+  "none": none,
+);
+
+$flex-values-sizing: (
+  "": 1,
+  0: 0,
+) !default;
+
+$order-values: (
+  "first": -9999,
+  "last": 9999,
+  "none": 0,
+  0: 0,
+  1: 1,
+  2: 2,
+  3: 3,
+  4: 4,
+  5: 5,
+  6: 6,
+  7: 7,
+  8: 8,
+  9: 9,
+) !default;
+
+$flex-basis: (
+  "3xs": 16rem,
+  "2xs": 18rem,
+  "xs": 20rem,
+  "sm": 24rem,
+  "md": 28rem,
+  "lg": 32rem,
+  "xl": 36rem,
+  "2xl": 42rem,
+  "3xl": 48rem,
+  "4xl": 56rem,
+  "5xl": 64rem,
+  "6xl": 72rem,
+  "7xl": 80rem,
+  auto: auto,
+  full: 100%,
+);

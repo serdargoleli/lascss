@@ -1,0 +1,56 @@
+{
+  "name": "lascss",
+  "version": "1.0.0",
+  "description": "LAS CSS — utility-first, SCSS-powered design system with prebuilt base, meta, and utility layers.",
+  "author": "Serdar Göleli",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/serdargoleli/lascss.git"
+  },
+  "bugs": {
+    "url": "https://github.com/serdargoleli/lascss/issues"
+  },
+  "homepage": "https://github.com/serdargoleli/lascss/tree/main/packages/lascss#readme",
+  "keywords": [
+    "css",
+    "scss",
+    "utility-first",
+    "design-system",
+    "framework",
+    "responsive"
+  ],
+  "private": false,
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "sideEffects": [
+    "**/*.css",
+    "**/*.scss"
+  ],
+  "scripts": {
+    "clean": "rimraf dist && mkdir -p dist",
+    "build:base": "sass base.scss dist/base.min.css --style=compressed --no-source-map",
+    "build:meta": "sass meta.scss dist/meta.min.css --style=compressed --no-source-map",
+    "build:utility": "sass utility.scss dist/utility.min.css --style=compressed --no-source-map",
+    "build": "pnpm run clean && pnpm run build:base && pnpm run build:meta && pnpm run build:utility",
+    "postbuild": "cp README.md dist/README.md && cp ../../LICENSE dist/LICENSE",
+    "dev": "sass --watch main.scss dist/style.min.css --style=compressed"
+  },
+  "exports": {
+    ".": "./dist/style.min.css",
+    "./style.css": "./dist/style.min.css",
+    "./style.min.css": "./dist/style.min.css",
+    "./base": "./dist/base.min.css",
+    "./meta": "./dist/meta.min.css",
+    "./utility": "./dist/utility.min.css",
+    "./dist/*": "./dist/*",
+    "./package.json": "./package.json"
+  },
+  "devDependencies": {
+    "sass": "^1.72.0",
+    "rimraf": "^5.0.0"
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "name": "@las/vite",
+  "version": "1.0.0",
+  "description": "Vite plugin that wires LAS CSS and LAS Engine for instant utility generation during dev and build.",
+  "author": "Serdar Göleli",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/serdargoleli/lascss.git"
+  },
+  "bugs": {
+    "url": "https://github.com/serdargoleli/lascss/issues"
+  },
+  "homepage": "https://github.com/serdargoleli/lascss/tree/main/packages/plugins/vite#readme",
+  "keywords": [
+    "vite",
+    "plugin",
+    "css",
+    "jit",
+    "lascss",
+    "dev-server"
+  ],
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.esm.js",
+      "require": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "clean": "rimraf dist",
+    "postbuild": "cp README.md dist/README.md && cp ../../../LICENSE dist/LICENSE",
+    "dev": "tsc -w -p tsconfig.json"
+  },
+  "peerDependencies": {
+    "vite": "^6.0.0 || ^7.0.0"
+  },
+  "dependencies": {
+    "@las/lasgine": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.1",
+    "rimraf": "^6.1.2",
+    "vite": "^7.2.4",
+    "typescript": "^5.7.2"
+  },
+  "sideEffects": false
+}
