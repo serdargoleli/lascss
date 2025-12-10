@@ -1,6 +1,6 @@
 {
   "name": "lasgine",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "LAS Engine — JIT class generator that compiles LAS CSS utilities on demand.",
   "author": "Serdar Göleli",
   "license": "MIT",
@@ -51,7 +51,7 @@
     "typescript": "^5.7.2"
   },
   "dependencies": {
-    "lascss": "workspace:*",
+    "lascss": "^1.0.1",
     "postcss": "^8.5.6"
   },
   "publishConfig": {

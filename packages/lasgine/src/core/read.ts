@@ -1,14 +1,15 @@
 import fs from "fs";
 import path from "path";
+import { createRequire } from "module";
+
+// Use project root as anchor to create a require function that works in ESM/CJS without import.meta
+const require = createRequire(path.join(process.cwd(), "package.json"));
 const red = "\x1b[31m";
 const reset = "\x1b[0m";
 
 function resolveLascssFile(relative: string) {
   try {
-    // Node ortamında lascss paketinin kökünü bul
-    // require burada CJS build için doğal olarak mevcut olacak,
-    // ESM build'de ise bundler uygun şekilde dönüştürecek.
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    // ESM/CJS ortam fark etmeksizin lascss paket kökünü bul
     const pkgPath = require.resolve("lascss/package.json");
     const pkgDir = path.dirname(pkgPath);
     return path.join(pkgDir, relative);

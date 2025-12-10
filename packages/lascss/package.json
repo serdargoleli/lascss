@@ -1,6 +1,6 @@
 {
   "name": "lascss",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "LAS CSS — utility-first, SCSS-powered design system with prebuilt base, meta, and utility layers.",
   "author": "Serdar Göleli",
   "license": "MIT",

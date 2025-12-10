@@ -1,6 +1,28 @@
-import type { Plugin, ResolvedConfig, HmrContext } from "vite";
+import type { ResolvedConfig, HmrContext, ViteDevServer } from "vite";
 import { LasEngine, LasEngineOptions } from "lasgine";
 import * as path from "path";
+
+type LasVitePlugin = {
+  name: string;
+  enforce?: "pre" | "post";
+  configResolved?(config: ResolvedConfig): void;
+  buildStart?(): void;
+  resolveId?(id: string): { id: string; moduleSideEffects: boolean } | void;
+  load?(id: string): string | undefined;
+  configureServer?(server: ViteDevServer): void;
+  handleHotUpdate?(ctx: HmrContext): HmrContext["modules"] | undefined;
+  transformIndexHtml?(
+    html: string,
+  ):
+    | string
+    | void
+    | {
+        tag: string;
+        attrs?: Record<string, string>;
+        children?: string;
+        injectTo?: "head" | "body" | "head-prepend" | "body-prepend";
+      }[];
+};
 
 /**
  * @name lascss
@@ -24,7 +46,7 @@ import * as path from "path";
  *   ignoreDirs: ["node_modules", "dist", ".git"], // varsayılanlarla birleşir
  * })
  */
-export default function lascss(options: LasEngineOptions): Plugin {
+export default function lascss(options: LasEngineOptions= {}): LasVitePlugin {
   const virtualModuleId = "virtual:las.css";
   const resolvedVirtualModuleId = "\0" + virtualModuleId;
 
@@ -37,7 +59,7 @@ export default function lascss(options: LasEngineOptions): Plugin {
     engine.init(scanDirs);
   }
 
-  return {
+  const plugin: LasVitePlugin = {
     name: "las-vite",
     enforce: "pre",
 
@@ -99,11 +121,7 @@ export default function lascss(options: LasEngineOptions): Plugin {
       if (config?.command !== "build") return html;
 
       // Basit CSS Minifikasyonu: Gereksiz boşlukları ve yeni satırları sil
-      const css = engine
-        .getCSS()
-        .replace(/\s+/g, " ")
-        .replace(/\s*([{}:;,])\s*/g, "$1")
-        .trim();
+      const css = engine.getCSS()
 
       const kb = (css.length / 1024).toFixed(2);
       console.log(`\n✨ LasCSS Generated: ${kb} kB (inlined)`);
@@ -118,4 +136,6 @@ export default function lascss(options: LasEngineOptions): Plugin {
       ];
     },
   };
+
+  return plugin;
 }

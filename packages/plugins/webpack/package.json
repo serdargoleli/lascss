@@ -1,6 +1,6 @@
 {
   "name": "las-webpack",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Webpack plugin that integrates LAS CSS with LAS Engine to emit utilities on the fly.",
   "author": "Serdar Göleli",
   "license": "MIT",
@@ -43,7 +43,7 @@
     "dev": "tsup --watch"
   },
   "dependencies": {
-    "lasgine": "workspace:*",
+    "lasgine": "^1.0.1",
     "webpack-virtual-modules": "^0.6.2"
   },
   "peerDependencies": {
