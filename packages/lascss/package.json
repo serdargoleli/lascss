@@ -1,9 +1,25 @@
 {
   "name": "lascss",
   "version": "1.0.0",
-  "description": "LAS CSS – Utility-first, SCSS-powered modern CSS framework.",
+  "description": "LAS CSS — utility-first, SCSS-powered design system with prebuilt base, meta, and utility layers.",
   "author": "Serdar Göleli",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/serdargoleli/lascss.git"
+  },
+  "bugs": {
+    "url": "https://github.com/serdargoleli/lascss/issues"
+  },
+  "homepage": "https://github.com/serdargoleli/lascss#readme",
+  "keywords": [
+    "css",
+    "scss",
+    "utility-first",
+    "design-system",
+    "framework",
+    "responsive"
+  ],
   "private": false,
   "files": [
     "dist",

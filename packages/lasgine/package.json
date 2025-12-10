@@ -1,7 +1,25 @@
 {
   "name": "@las/lasgine",
   "version": "1.0.0",
-  "description": "LAS Engine – JIT class generator for LAS CSS",
+  "description": "LAS Engine — JIT class generator that compiles LAS CSS utilities on demand.",
+  "author": "Serdar Göleli",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/serdargoleli/lascss.git"
+  },
+  "bugs": {
+    "url": "https://github.com/serdargoleli/lascss/issues"
+  },
+  "homepage": "https://github.com/serdargoleli/lascss#readme",
+  "keywords": [
+    "jit",
+    "css",
+    "utility",
+    "compiler",
+    "postcss",
+    "scss"
+  ],
   "private": false,
   "type": "commonjs",
   "main": "dist/index.js",

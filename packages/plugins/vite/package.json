@@ -1,7 +1,25 @@
 {
   "name": "@las/vite",
   "version": "1.0.0",
-  "description": "LASCSS JIT Vite plugin",
+  "description": "Vite plugin that wires LAS CSS and LAS Engine for instant utility generation during dev and build.",
+  "author": "Serdar Göleli",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/serdargoleli/lascss.git"
+  },
+  "bugs": {
+    "url": "https://github.com/serdargoleli/lascss/issues"
+  },
+  "homepage": "https://github.com/serdargoleli/lascss#readme",
+  "keywords": [
+    "vite",
+    "plugin",
+    "css",
+    "jit",
+    "lascss",
+    "dev-server"
+  ],
   "type": "module",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",

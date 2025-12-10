@@ -1,7 +1,25 @@
 {
   "name": "@las/webpack",
   "version": "1.0.0",
-  "description": "LASCSS JIT Webpack plugin",
+  "description": "Webpack plugin that integrates LAS CSS with LAS Engine to emit utilities on the fly.",
+  "author": "Serdar Göleli",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/serdargoleli/lascss.git"
+  },
+  "bugs": {
+    "url": "https://github.com/serdargoleli/lascss/issues"
+  },
+  "homepage": "https://github.com/serdargoleli/lascss#readme",
+  "keywords": [
+    "webpack",
+    "plugin",
+    "css",
+    "jit",
+    "lascss",
+    "bundler"
+  ],
   "type": "module",
   "main": "dist/index.cjs",
   "module": "dist/index.js",
