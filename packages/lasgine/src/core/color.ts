@@ -34,7 +34,14 @@ export function generateColor(className: string, config: IConfigProps): string |
   //en az 2 parçalı olmalı bg-red-500 veya bg-white gibi
   if (parts.length < 2) return null;
 
-  const prefix = parts[0];
+  // text-shadow gibi iki parçalı prefix'leri destekle (ilk parça "text" diye kırılmasın)
+  let prefixPartsCount = 1;
+  const twoPartPrefix = parts.length >= 2 ? `${parts[0]}-${parts[1]}` : "";
+  if (twoPartPrefix && config.colorPrefix[twoPartPrefix] && colorPropertyMap[twoPartPrefix]) {
+    prefixPartsCount = 2;
+  }
+
+  const prefix = parts.slice(0, prefixPartsCount).join("-");
 
   //gelen prefix sassta tanımlı değil veya false ise veya colorPropertyMap'te yoksa (rastgele prefix girdiyse null dön)
   if (!config.colorPrefix[prefix] || !colorPropertyMap[prefix]) {
@@ -46,11 +53,12 @@ export function generateColor(className: string, config: IConfigProps): string |
   //#region Single Colors
   // 1. Single Colors Kontrolü (bg-white, text-black vb.)
   // Bu renkler shade almaz ve direkt kullanılır.
-  const singleColorName = parts[1];
+  const restParts = parts.slice(prefixPartsCount);
+  const singleColorName = restParts[0];
   // Eğer config.singleColors içinde varsa
   if (config.singleColors && config.singleColors[singleColorName]) {
     // Shade kontrolü: Eğer bg-white-500 yazıldıysa, bu single color mantığına uymaz.
-    if (parts.length == 2) {
+    if (restParts.length == 1) {
       const hexColor = config.singleColors[singleColorName];
 
       // shadow veya text-shadow ise burada class değil değişken tanımlanır ve rgb olarak tanımlar
@@ -85,13 +93,13 @@ export function generateColor(className: string, config: IConfigProps): string |
 
   //#region Palette Colors
   // 2. Palette Colors (bg-red-500 vb.)
-  let colorName = parts[1];
+  let colorName = restParts[0];
   let shade = 500;
   let hasShade = false;
 
   // Eğer 3 parça varsa (bg-red-500)
-  if (parts.length >= 3) {
-    const lastPart = parts[parts.length - 1];
+  if (restParts.length >= 2) {
+    const lastPart = restParts[restParts.length - 1];
     // Son parça sayı mı?
     if (isDigitsOnly(lastPart)) {
       const parsedShade = parseInt(lastPart);
@@ -101,7 +109,7 @@ export function generateColor(className: string, config: IConfigProps): string |
         hasShade = true;
         // Renk adı aradaki her şey olabilir (örn: light-blue)
         //parts 1 prefix sonuncu shade hariç tümünü al
-        colorName = parts.slice(1, -1).join("-");
+        colorName = restParts.slice(0, -1).join("-");
       } else {
         return null;
       }
